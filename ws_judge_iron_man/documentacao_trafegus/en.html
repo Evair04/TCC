@@ -1,0 +1,3438 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+    <title>WebService Trafegus Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        .grupo-top-box > td {
+            border-top: 1px solid white;
+        }
+        .grupo-middle-box > td:nth-child(1), .grupo-top-box > td:nth-child(1), .grupo-bottom-box > td:nth-child(1) {
+            border-left: 1px solid white;
+        }
+        .grupo-middle-box > td:nth-child(4), .grupo-top-box > td:nth-child(4), .grupo-bottom-box > td:nth-child(4) {
+            border-right: 1px solid white;
+        }
+        .grupo-bottom-box > td {
+            border-bottom: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li><a href="#intro">Intro</a></li>
+                <li><a href="#GETtransportador">Search Carrier [GET]</a></li>
+                <li><a href="#GETembarcador">Search Shipper [GET]</a></li>
+                <li><a href="#GETmotorista">Search Driver [GET]</a></li>
+                <li><a href="#GETajudante">Search Assistant [GET]</a></li>
+                <li><a href="#GETveiculo">Search Vehicle[GET]</a></li>
+                <li><a href="#GETpgr">Search PGR [GET]</a></li>
+                <li><a href="#GETviagem">Search Shipment [GET]</a></li>
+                <li><a href="#GETviagemNotaFiscal">Search Invoices [GET]</a></
+
+                <li><a href="#GETPosicaoVeiculo">Search Vehicle Position [GET]</a></li>
+                <li><a href="#GETPosicaoTerminal">Search Terminal Position [GET]</a></li>
+                <li><a href="#GETUposPosicaoVeiculo">Search Last Vehicle Position [GET]</a></li>
+                <li><a href="#GETUposPosicaoTerminal">Search Last Terminal Position [GET]</a></li>
+                <li><a href="#GETVersoesTecnologia">Search Telematics Versions [GET]</a></li>
+                <li><a href="#GETBuscarRota">Search Route [GET]</a></li>
+                <li><a href="#GETBuscarEventos">Search Events [GET]</a></li>
+                <li><a href="#GETBuscarNaoConformidade">Search Non-Conformity [GET]</a></li>
+                <li><a href="#GETeras">Search Tracking Stations [GET]</a></li>
+                <li><a href="#GETpesq">Search Research [GET]</a></li>
+                <li><a href="#GETlogistico">Search Logistics Data [GET]</a></li>
+                <li><a href="#GETpesqCad">Search Research TrafegusCad[GET]</a></li>
+                <li><a href="#GETbaixaLocal">Search Place Status [GET]</a></li>
+
+                <li><a href="#GETchecklist">Search Checklist [GET]</a></li>
+
+                <li><a href="#GETsistemaRegistro">Search System Records [GET]</a></li>
+
+                <li><a href="#POSTviagem">Send Shipment [POST]</a></li>
+                <li><a href="#POSTtransportador">Send Carrier [POST]</a></li>
+                <li><a href="#POSTembarcador">Send Shipper [POST]</a></li>
+                <li><a href="#POSTmotorista">Send Driver [POST]</a></li>
+                <li><a href="#POSTajudante"> Send Assistant [POST]</a></li>
+                <li><a href="#POSTveiculo">Send Vehicle [POST]</a></li>
+                <li><a href="#POSTEnviarEventos">Send Events [POST]</a></li>
+                <li><a href="#POSTEnviarRota">Send Route [POST]</a></li>
+                <li><a href="#POSTEnviarPGR">Send PGR [POST]</a></li>
+                <li><a href="#POSTEnviarPesquisa">Send Research [POST]</a></li>
+                <li><a href="#POSTEnviarPesquisaCad">Send Research TrafegusCAD[POST]</a></li>
+
+                <li><a href="#PUTviagem">Update Shipment [PUT]</a></li>
+                <li><a href="#PUTstatusviagem">Update Shipment Status [PUT]</a></li>
+                <li><a href="#PUTnotafiscal">Update Invoices [PUT]</a></li>
+
+                <li><a href="#PUTtransportador">Update Carrier [PUT]</a></li>
+                <li><a href="#PUTembarcador">Update Shipper [PUT]</a></li>
+                <li><a href="#PUTmotorista">Update Driver [PUT]</a></li>
+                <li><a href="#PUTajudante"> Update Assistant [PUT]</a></li>
+                <li><a href="#PUTveiculo">Update Vehicle [PUT]</a></li>
+
+
+                <li><a href="#paramTLOC"> Location Type Parameters</a></li>
+                <li><a href="#paramTPAR"> Break Type Parameters</a></li>
+                <li><a href="#paramTVEI"> Vehicle Type Parameters</a></li>
+                <li><a href="#paramFPES"> Research Provider Parameters</a></li>
+                <li><a href="#paramPSTS"> Research Status Parameters</a></li>
+                <li><a href="#paramTOBJ"> Search Object Type Parameters</a></li>
+                <li><a href="#paramTTRA"> Shipment Transportation Type Parameters</a></li>
+
+
+
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Intro -->
+    <section id="intro" class="wrapper style1">
+        <div class="inner">
+            <h2>WebService Trafegus Documentation</h2>
+            [v.2.44.4766]
+            <p>
+            <p>General Trafegus Webservice Guidelines:</p>
+            <ul>
+                <li>Trafegus system has a webservice integration that works based on the REST architecture, and your methods for sending and receiving data are available via GET, POST e PUT (Respectively to Search, Send or Update data).</li>
+                <li>All submissions and returns of this webservice will be done in JSON format.</li>
+                <li>To perform communication tests with this webservice applications like <a target="_blank" href="https://www.getpostman.com/"><i>POSTMAN</i></a> can be used.</li>
+                <li>All methods have Basic Authentication, HTTP protocol for accessing information. It is included in the HTTP request header as follows: Authorization: Basic {base64 credentials in user: password}</li>
+                <textarea rows="10" cols="50" readonly>
+Example:
+$request->setHeaders(array(
+          'content-type' => 'application/json',
+          'authorization' => 'Basic '. base64_encode("user:password")
+        ));
+                        </textarea>
+                <li>In the methods presented in this manual where arrays "[]" are used, several objects can be sent in the same request, as shown below:
+                    <textarea rows="10" cols="50" readonly>
+"veiculos":[ -- multiple vehicles can be sent within this array.
+    {
+        "placa":"GBK2100",
+        "nro_liberacao":111,
+        "escolta":"S"
+    },
+    {
+        "placa":"DPE1444",
+        "nro_liberacao":222,
+        "escolta":"N"
+    }
+]
+                            </textarea></li>
+            </ul>
+            <b>POST for insertion:</b><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/viagem</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/transportador</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/embarcador</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/motorista</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/veiculo</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/pgr</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/ajudante</code><br>
+            <br>
+            <b>PUT for update:</b><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/viagem/IdViagem</code><br>
+
+            <code>http://customer.ip.address:port/ws_rest/public/api/transportador/IdTransportador</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/embarcador/IdEmbarcador</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/motorista/IdMotorista</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/veiculo/IdVeiculo</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/ajudante/IdAjudante</code><br>
+            <code>http://customer.ip.address:port/ws_rest/public/api/pgr/IdPGR</code><br>
+            <br>
+
+            <b>Note I:</b> Before making any communication, please contact the Insurer or Trafegus Systems that can provide for you the environment IP, username and password.
+            <br><br>
+            <b>Note II:</b> The Trafegus Webservice service runs in a CentOS 6 (or higher) environment with the Apache HTTP server, so to be able to connect to it, the HTTP service must be Online and the CentOS server must have an Internet connection, it is also necessary to have the PHP tool version 5 (or higher) installed on the CentOS server.
+            <br><br>
+            <b>Note III:</b> The layout of the insertion (POST) and update (PUT) methods will be the same.
+            <br><br>
+            <b>Note IV:</b> All query methods (GET), if not entered <i> id </i>, will need to enter a id for the query to be based on and fetch the next 100 records.
+            <br><br>
+            <b>Note V:</b> When sending several objects for registration, if it is not possible to register any of them, the whole process will not be reversed, keeping in base those that were successfully registered and returning error to the one that failed and stopping the process.
+            <br>
+            Example: If 6 carriers are sent and the 3rd failed, the first 2 will not be reversed, return error message to the 3rd and will stop the process, not trying to register the 4th, 5th and 6th.
+
+            <hr>
+        </div>
+    </section>
+
+    <section id="GETtransportador" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Carrier</h2>
+                <p>Return carrier(s) information</p>
+
+                <span>To consult a specific carrier, add the ID(CPF)/CNPJ at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/transportador/123456</code></p>
+                <span>To query a carrier package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+				<p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/transportador?UltCodigo=123456</code></p>
+
+                <p><b>Note:</b> When requested only one carrier the "transportador" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+{
+    "transportador": [{
+                "codigo": 10,
+        "documento_transportador": "42088421000166",
+        "nome": "CONTATTO",
+        "razao_social": "CONTATTO",
+        "ie_rg": null,
+        "logradouro": null,
+        "cep": null,
+        "numero": null,
+        "complemento": null,
+        "bairro": null,
+        "cidade": null,
+        "sigla_estado": null,
+        "pais": null,
+        "documento_matriz": null,
+        "velocidade_media": null,
+        "tempo_total_parado": 0,
+        "tempo_tolerancia_atraso": null,
+        "senha": null,
+        "roteiriza_automatico_sm": 1,
+        "Tempo_check_list_fixo": null,
+        "Tempo_check_list_agregado": null,
+        "Tempo_check_list_terceiro": null,
+        "pgr_padrao": null,
+        "estacao_gr_padrao": 1,
+        "associa_motorista_sm": 0,
+        "associa_veiculo_sm": 0
+    }]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETembarcador" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Shipper</h2>
+                <p>Return Shipper(s) Information</p>
+
+                <span>To consult a specific Shipper, add the CNPJ at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/embarcador/123456</code></p>
+                <span>To query a Shipper package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/embarcador?UltCodigo=123456</code></p>
+                <p><b>Note:</b> When requested only one Shipper the "embarcador" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+{
+    "embarcador": [
+        {
+                        "codigo": 10,
+            "cnpj_embarcador": "47362387000190",
+            "nome": "WS A1 EMBA",
+            "razao_social": "WS REST",
+            "ie": "WS REST",
+            "logradouro": "WS REST",
+            "cep": "WS REST",
+            "numero": "1212",
+            "complemento": "WS REST",
+            "bairro": "WS REST",
+            "DocumentoMatriz":  null,
+            "velocidade_media": "55",
+            "tempo_total_parado": "120",
+            "tempo_tolerancia_atraso": "123",
+            "senha": "2222",
+            "roteiriza_automatico_sm": 1,
+            "pgr_padrao": "23",
+            "estacao_gr_padrao": null,
+            "associa_motorista_sm": 0,
+            "associa_veiculo_sm": 0
+        }
+    ]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETmotorista" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Driver</h2>
+                <p>Return Driver(s) Information</p>
+
+                <span>To consult a specific driver, add the ID(CPF) at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/motorista/123456</code></p>
+                <span>To query a driver package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/motorista?UltCodigo=123456</code></p>
+                <p><b>Note:</b> When requested only one driver the "motorista" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+{
+    "motorista": [{
+                "codigo": 10,
+        "cpf_motorista": "69371875569",
+        "nome": "WS REST",
+        "rg": "20121033950",
+        "logradouro": "WS REST",
+        "cep": "89817000",
+        "numero": "44",
+        "complemento": "WS REST",
+        "bairro": "WS REST",
+        "cidade": "CHAPECO",
+        "sigla_estado": "SC",
+        "pais": "Brasisl",
+        "nro_cnh": "A",
+        "categoria_cnh": null,
+        "validade_cnh": null,
+        "senha": null,
+        "vigilante": null,
+        "nro_cnv": null,
+        "validade_cnv": null,
+        "transportador": [
+            {
+                "documento_transportador": "10884397000185",
+                "vinculo_contratual": 2
+            }
+        ]
+    }]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETajudante" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Assistant</h2>
+                <p>Return Assistant(s) Information</p>
+
+                <span>To consult a specific assistant, add the ID(CPF) at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/ajudante/123456</code></p>
+                <span>To query a assistant package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/ajudante?UltCodigo=123456</code></p>
+
+                <p><b>Note:</b> When requested only one assistant the "ajudante" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+{
+    "ajudante": [{
+                "codigo": 10,
+        "cpf_ajudante": "46887166720",
+        "nome": "WS REST",
+        "rg": "851.668.108-48",
+        "logradouro": "WS REST",
+        "cep": "89817000",
+        "numero": "34",
+        "complemento": "WS REST",
+        "bairro": "WS REST",
+        "cidade": "xaxim",
+        "sigla_estado": "SC",
+        "pais": "Brasil"
+    }]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETveiculo" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Vehicle</h2>
+                <p>Return Vehicle(s) Information</p>
+
+                <span>To consult a specific vehicle, add the ID(PLACA) at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/veiculo/ABC0001</code></p>
+                <span>To query a vehicle package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/veiculo?UltCodigo=123456</code></p>
+
+                <p><b>Note:</b> When requested only one vehicle the "veiculo" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+ {
+    "veiculo": [{
+        "codigo": 9,
+        "placa": "ONX0001",
+        "frota": "123",
+        "renavam": "00093084754",
+        "chassi": "SKFAIS90DIF904884",
+        "tipo_veiculo": 2,
+        "documento_proprietario": "54735256000176",
+        "senha_proprietario": "1234",
+        "senha_coacao": "1234",
+        "modelo": "CARGO 2218",
+        "marca": "FORD 011",
+        "ano_fabricacao": "2015",
+        "ano_modelo": "2015",
+        "cor": "NAO SEI",
+        "tamanho": "12.00",
+        "cidade_emplacamento": "MIRASSOL",
+        "sigla_estado": "AR",
+        "pais": "ARGENTINA",
+        "telefone": "(9 )3322-1122",
+        "antt": "1234567",
+        "rntc": "11561",
+        "crlv": "123123213213",
+        "observacao_veiculo": "TESTE",
+        "terminais": [
+            {
+                "numero": "1988942",
+                "tecnologia": 6608
+            },{
+                "numero": "TRI0003",
+                "tecnologia": 1
+            }
+        ],
+        "transportadores": [
+            {
+                "documento_transportador": "29872062000175",
+                "vinculo_contratual": 1
+            }
+        ]
+    }]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETpgr" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search PGR</h2>
+                <p>Returns PGR(s) Information</p>
+
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:red">YES</td><td>Id (id) of the last PGR.</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Vehicle Carrier CNPJ.</td></tr>
+                </table>
+
+                <span>To consult a specific PGR, add the id at the url:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/pgr/123456</code></p>
+                <span>To query a PGR package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/pgr?UltCodigo=123456&Documento=010329231</code></p>
+
+                <p><b>Note:</b> When requested only one PGR the "pgr" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="10" cols="50" readonly>
+{
+    "pgr": [{
+        "codigo": 123456,
+        "descricao": "PGR COM TODOS OS CONTROLES - TEMPOS EM 2 MINUTOS",
+        "data_cadastro": "2013-04-05 15:07:12",
+        "grau_risco": 0,
+        "valor_minimo": 0,
+        "valor_maximo_especifico": 0,
+        "valor_total": 0
+    }]
+}</textarea>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="GETviagem" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Shipment</h2>
+                <p>Returns Shipment(s) Information</p>
+
+                <span>To consult a specific shipment, add the shipment id at the URL:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem/123456</code></p>
+                <span>To query a shipment package add the last recived id in UltCodigo (each request fetches 100 records with the next data from the given id):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem?UltCodigo=123456</code></p>
+                <span>To consult the shipments completed on a date add the desired day value in the "DataFinalizacao" parameter:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem?DataFinalizacao=10/09/2018</code></p>
+                <span>To query shipments started between a date period, you must enter the values in the parameters DataInicioI (search start date) and DataInicioF (search end date)</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem?DataInicioI=09/10/2018&DataInicioF=10/10/2018</code></p>
+                <span>To query shipments Started on a Date, you must enter the values in the Parameters DataEfetivacao</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem?DataEfetivacao=09/10/2018</code></p>
+                <span>To query shipments Completed on a Date, you must enter the values in the parameters DataFinalizacaoI (search start date) and DataFinalizacaoF (search end date)</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagem?DataFinalizacaoI=09/10/2018&DataFinalizacaoF=10/10/2018</code></p>
+                <p><b>Note:</b> When requested only one shipment the "viagem" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Return</b></p>
+                <textarea rows="20" cols="100" readonly>
+{
+    "viagens": [
+        {
+            "cnpj_gr": null,
+            "viag_codigo_externo": "00011",
+            "operacao": "TRANSFERENCIA",
+            "codigoSM": 12942,
+            "viagemId": 12942,
+            "documento_transportador": "54735256000176",
+            "cnpj_emba": null,
+            "viag_data_cadastro": "2018-07-03 14:48:25",
+            "veiculos": [
+                {
+                    "placa": "ONX0001",
+                    "nro_liberacao": null,
+                    "escolta": null
+                }
+            ],
+            "motoristas": [
+                {
+                    "cpf_moto": "786135853-45",
+                    "nro_liberacao": null,
+                    "contatos": [
+                        {
+                            "email": null,
+                            "fone": "TESTE",
+                            "radio": null
+                        },
+                        {
+                            "email": null,
+                            "fone": "01",
+                            "radio": null
+                        }
+                    ]
+                }
+            ],
+            "ajudantes": [],
+            "terminais": [
+                {
+                    "term_numero_terminal": "ONX0001",
+                    "term_vtec_codigo": 6
+                }
+            ],
+            "viag_ttra_codigo": 1,
+            "tope_descricao": "AGRANEL",
+            "viag_pgpg_codigo": null,
+            "viag_carregado": "S",
+            "viag_numero_manifesto": null,
+            "viag_valor_merc_especifica": "0.00",
+            "viag_valor_merc_nao_especifica": "18895142.00",
+            "viag_valor_carga": "18895142.00",
+            "viag_valor_ddr": "0.00",
+            "viag_peso_total": "0.00",
+            "viag_distancia": "585.29",
+            "viag_previsao_inicio": null,
+            "viag_previsao_fim": null,
+            "viag_codigo_pai": null,
+            "temperatura": [],
+            "viag_descricao_carga": null,
+            "viag_observacao": null,
+            "viag_justificativa_liberacao": "LIBERADO",
+            "distancia_restante": 559,
+            "percentual_viagem": 40,
+            "viag_data_inicio": "2018-10-11 09:36:03",
+            "viag_data_fim": "2018-10-11 09:36:03",
+            "previsao_fim_recalculada":  "2018-08-20 14:24:29",
+            "valor_frete": [
+                {
+                    "viag_codigo": 9510,
+                    "viag_numero_manifesto": null,
+                    "viag_data_cadastro": "2018-09-04 15:06:37",
+                    "viag_data_fim": "2018-10-11 09:36:03",
+                    "viag_data_inicio": "2018-10-11 09:36:03",
+                    "transportador": "TRANS TESTE",
+                    "embarcador": null,
+                    "descorigem": "CHAPECO",
+                    "descdestino": "PRF - XANXERE/SC",
+                    "descproprietario": "PROPRIETARIO",
+                    "veic_placa": "ONX0001",
+                    "viag_previsao_inicio": null,
+                    "viag_previsao_fim": null,
+                    "valor_frete_fechado": "1.00",
+                    "valor_frete_km": "2.00",
+                    "quantidade_ponto_fiscais": 1,
+                    "valor_pedagio": "3.00",
+                    "quantidade_motoristas": 2,
+                    "valor_motora_adicional": "5.00",
+                    "valor_ajudante": "4.00",
+                    "valor_posto_fiscal_hora_adicional": "6.00",
+                    "valor_hora_adicional": "7.00",
+                    "valor_km_adicional": "8.00",
+                    "valor_frete": null,
+                    "valor_frete_ajustado": null,
+                    "justificativa": null,
+                    "tempo_previsto": null,
+                    "tempo_real": " 00:00:00",
+                    "rota_distancia": "37.99",
+                    "rota_codigo": 3901,
+                    "rota_descricao": "RT - 01",
+                    "rota_identificador": "ID - RT - 01",
+                    "viag_distancia_realizada": " 00.00",
+                    "tipo_veiculo": "CAVALO"
+                }
+            ],
+            "origem": {
+                "vloc_descricao": "SHOPPING PATIO CHAPECO",
+                "logradouro": null,
+                "cep": null,
+                "numero": null,
+                "complemento": null,
+                "bairro": null,
+                "cida_descricao_ibge": null,
+                "sigla_estado": null,
+                "pais": null,
+                "refe_latitude": "-27.0707338178",
+                "refe_longitude": "-52.6269900798",
+                "refe_raio": "0.00000",
+                "refe_km": null,
+                "refe_bandeira": null,
+                "previsao_chegada": null,
+                "previsao_inicio_espera": null,
+                "previsao_fim_espera\t": null,
+                "previsao_inicio_carregamento": null,
+                "previsao_fim_carregamento": null,
+                "previsao_inicio_descarregamento": null,
+                "previsao_fim_descarregamento": null,
+                "previsao_saida": null,
+                "chegada_local":  "2018-08-20 11:24:29",
+                "saida_local":  "2018-08-20 14:24:29",
+                "local_baixa":  "CENTRO CHAPECO",
+                "latitude_baixa": "-27.0707338178",
+                "longitude_baixa":  "-52.6269900798",
+
+                "conhecimentos": [
+                    {
+                        "vlco_numero": "numerocone1",
+                        "vlco_valor": "18895891.00",
+                        "vlco_cpf_cnpj": "518912606-42",
+                        "notas_fiscais": [
+                            {
+                                "vnfi_numero": "nf2",
+                                "vnfi_pedido": null,
+                                "vnfi_valor": "874.00",
+                                "vnfi_data_fat": null,
+                                "vnfi_observacao": null,
+                                "produtos": []
+                            },
+                            {
+                                "vnfi_numero": "nf1",
+                                "vnfi_pedido": null,
+                                "vnfi_valor": "18895017.00",
+                                "vnfi_data_fat": null,
+                                "vnfi_observacao": null,
+                                "produtos": [
+                                    {
+                                        "vpro_descricao": "SYNTHA 6",
+                                        "vpro_tipo": "COMIDA",
+                                        "vpro_quantidade": 1,
+                                        "vpro_valor": "45.00"
+                                    },
+                                    {
+                                        "vpro_descricao": "TELEVISORES",
+                                        "vpro_tipo": "ELETRONICOS",
+                                        "vpro_quantidade": 12,
+                                        "vpro_valor": "1574581.00"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "destino": {
+                "descricao": "FLORIANOPOLIS-SC",
+                "logradouro": null,
+                "cep": null,
+                "numero": null,
+                "complemento": null,
+                "bairro": null,
+                "cidade": null,
+                "sigla_estado": null,
+                "pais": null,
+                "refe_latitude": "-27.5963000000",
+                "refe_longitude": "-48.5491000000",
+                "refe_raio": null,
+                "refe_km": null,
+                "refe_bandeira": null,
+                "contatos": null,
+                "previsao_chegada": null,
+                "previsao_inicio_espera": null,
+                "previsao_fim_espera": null,
+                "previsao_inicio_carregamento": null,
+                "previsao_fim_carregamento": null,
+                "previsao_inicio_descarregamento": null,
+                "previsao_fim_descarregamento": null,
+                "previsao_saida": null,
+                "chegada_local":  "2018-08-20 11:24:29",
+                "saida_local":  "2018-08-20 14:24:29",
+                "local_baixa":  "CENTRO CHAPECO",
+                "latitude_baixa": "-27.0707338178",
+                "longitude_baixa":  "-52.6269900798",
+                "conhecimentos": [
+                    {
+                        "vlco_numero": "conhe3",
+                        "vlco_valor": "1.00",
+                        "vlco_cpf_cnpj": "",
+                        "notas_fiscais": []
+                    },
+                    {
+                        "vlco_numero": "DONEHDES",
+                        "vlco_valor": "123.00",
+                        "vlco_cpf_cnpj": "",
+                        "notas_fiscais": []
+                    }
+                ]
+            },
+            "locais": [
+                {
+                    "sequencia_parada": 2,
+                    "tipo_parada": "ENTREGA",
+                    "vloc_descricao": "P. LIGEIRINHO - PONTE SERRADA/SC",
+                    "logradouro": null,
+                    "cep": null,
+                    "numero": null,
+                    "complemento": null,
+                    "bairro": null,
+                    "cida_descricao_ibge": null,
+                    "sigla_estado": null,
+                    "pais": null,
+                    "refe_latitude": "-26.8555555556",
+                    "refe_longitude": "-52.0316666667",
+                    "refe_raio": null,
+                    "refe_km": null,
+                    "refe_bandeira": null,
+                    "previsao_chegada": null,
+                    "previsao_inicio_espera": null,
+                    "previsao_fim_espera\t": null,
+                    "previsao_inicio_carregamento": null,
+                    "previsao_fim_carregamento": null,
+                    "previsao_inicio_descarregamento": null,
+                    "previsao_fim_descarregamento": null,
+                    "previsao_saida": null,
+                    "chegada_local":  "2018-08-20 11:24:29",
+                    "saida_local":  "2018-08-20 14:24:29",
+                    "local_baixa":  "CENTRO CHAPECO",
+                    "latitude_baixa": "-27.0707338178",
+                    "longitude_baixa":  "-52.6269900798",
+                    "conhecimentos": [
+                        {
+                            "vlco_numero": "conhe2",
+                            "vlco_valor": "1.00",
+                            "vlco_cpf_cnpj": "54735256000176",
+                            "notas_fiscais": [
+                                {
+                                    "vnfi_numero": "nf23",
+                                    "vnfi_pedido": "pedido",
+                                    "vnfi_valor": "1.00",
+                                    "vnfi_data_fat": "2018-07-03 00:00:00",
+                                    "vnfi_observacao": "OBSERVAÇÃO",
+                                    "produtos": [
+                                        {
+                                            "vpro_descricao": "SYNTHA 6",
+                                            "vpro_tipo": "SUPLEMENTP",
+                                            "vpro_quantidade": 1,
+                                            "vpro_valor": "1.00"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "roteirizar": "S",
+            "descricaoRota": "CHAPE FLORIPA"
+        }
+    ]
+}
+                        </textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETviagemNotaFiscal" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Invoices</h2>
+                <p>Returns Invoices Information</p>
+
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>Viagem</td><td style="color:red">YES</td><td>Shipment ID.</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Company Document ID (CPF/CNPJ) associated to the shipment.</td></tr>
+                </table>
+
+                <span>To consult a specific invoice, add the invoice id at the URL:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/viagemnotafiscal/123</code></p>
+                <p><b>Note:</b> When requested only one invoice the "notasFiscais" key return will be just an object, not an array.</p>
+
+                <p><b>JSON Returns</b></p>
+                <textarea rows="20" cols="100" readonly>
+{
+    "notasFiscais": [
+        {
+            "codigo_nota": 1017,
+            "numero_nota": "nf1",
+            "valor_nota": "18895017.00",
+            "pedido_nota": "321",
+            "data_cadastro": "23/05/2019 18:57:58",
+            "data_faturamento": "17/05/2019 18:55:11",
+            "data_baixa": null,
+            "data_devolucao": null,
+            "numero_conhecimento": "numerocone1",
+            "valor_conhecimento": "18895891.00",
+            "local_conhecimento": "DESTINO TESTE",
+            "tipo_local_conhecimento": "DESTINO"
+        },
+        {
+            "codigo_nota": 1016,
+            "numero_nota": "nf2",
+            "valor_nota": "874.00",
+            "pedido_nota": "455",
+            "data_cadastro": "23/05/2019 18:57:58",
+            "data_faturamento": "17/05/2019 18:55:11",
+            "data_baixa": null,
+            "data_devolucao": null,
+            "numero_conhecimento": "numerocone1",
+            "valor_conhecimento": "18895891.00",
+            "local_conhecimento": "DESTINO TESTE",
+            "tipo_local_conhecimento": "DESTINO"
+        }
+    ]
+}
+                        </textarea>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="POSTviagem" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Shipment</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/viagem</code></p>
+
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th> <th>Level</th><th>Type</th> <th>Required</th><th width="250px">Description</th>
+                <tr><td>viag_codigo_externo</td><td>0</td><td>Integer</td><td>NO</td><td>Customer Shipment ID</td></tr>
+                <tr><td>viag_ttra_codigo</td><td>0</td><td>Integer</td><td>YES</td><td>Transport Type (Check Constants In Documentation)</td></tr>
+                <tr><td>viag_carregado</td><td>0</td><td>String(1)</td><td>NO</td><td>Loaded Vehicle (Y/N)</td></tr>
+                <tr><td>documento_transportador</td><td>0</td><td>String(30)</td><td><b>YES</b></td><td>Cargo Carrier Document ID (CPF/CNPJ)</td></tr>
+                <tr><td>cnpj_emba</td><td>0</td><td>String(30)</td><td>NO</td><td>Cargo Shipper's CNPJ</td></tr>
+                <tr><td>viag_numero_manifesto</td><td>0</td><td>String(100)</td><td>NO</td><td>Packing List Number</td></tr>
+                <tr><td>viag_valor_merc_especifica</td><td>0</td><td>Float</td><td>NO</td><td>Specific Commodity Value</td></tr>
+                <tr><td>viag_valor_merc_nao_especifica</td><td>0</td><td>Float</td><td>NO</td><td>Non-specific Commodity Value</td></tr>
+                <tr><td>viag_previsao_inicio</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Start Forecast Date/Time </td></tr>
+                <tr><td>viag_previsao_fim</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>End Forecast Date/Time</td></tr>
+                <tr><td>viag_valor_carga</td><td>0</td><td>Float</td><td>NO</td><td>Total Value of Charge</td></tr>
+                <tr><td>viag_valor_ddr</td><td>0</td><td>Float</td><td>NO</td><td>DDR Value</td></tr>
+                <tr><td>viag_peso_total</td><td>0</td><td>Float</td><td>NO</td><td>Total Weight of Cargo</td></tr>
+                <tr><td>viag_distancia</td><td>0</td><td>Float</td><td>NO</td><td>Shipment Distance in KM</td></tr>
+                <tr><td>viag_codigo_pai</td><td>0</td><td>Integer</td><td>NO</td><td>"Parent Shipment" Code</td></tr>
+                <tr><td>viag_descricao_carga</td><td>0</td><td>String(500)</td><td>NO</td><td>Cargo Description</td></tr>
+                <tr><td>viag_observacao</td><td>0</td><td>String(500)</td><td>NO</td><td>Shipment Observation</td></tr>
+                <tr><td>viag_justificativa_liberacao</td><td>0</td><td>String(500)</td><td>NO</td><td>Shipment Release Justification</td></tr>
+                <tr><td>veiculos</td><td>0</td><td>list (array)</td><td><b>YES</b></td><td>Vehicle Information, Can Associate Several In This Array</td></tr>
+                <tr><td>placa</td><td>1</td><td>String(10)</td><td><b>YES</b></td><td>Shipment Vehicles Plate</td></tr>
+                <tr><td>nro_liberacao</td><td>1</td><td>Integer</td><td>NO</td><td>Vehicle Release Number</td></tr>
+                <tr><td>escolta</td><td>1</td><td>String(1)</td><td>NO</td><td>Escorting Vehicle (Y / N)</td></tr>
+                <tr><td>quantidade_embarcada</td><td>0</td><td>Integer</td><td>NO</td><td>Amount Shipped to Vehicle</td></tr>
+                <tr><td>motoristas</td><td>1</td><td>list (array)</td><td>NO</td><td>Driver Information, Can Associate Several In This Array</td></tr>
+                <tr><td>cpf_moto</td><td>1</td><td>String(20)</td><td>NO</td><td>Shipment Driver ID(CPF)</td></tr>
+                <tr><td>nro_liberacao</td><td>1</td><td>Integer</td><td>NO</td><td>Driver Release Number</td></tr>
+                <tr><td>contatos</td><td>1</td><td>List (array)</td><td>NO</td><td>Driver contacts, can associate several in this array</td>
+                <tr><td>email</td><td>1</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>1</td><td>String(30)</td><td>NO</td><td>Contact Phone</td>
+                <tr><td>radio</td><td>1</td><td>String(50)</td><td>NO</td><td>Contact Radio</td>
+                <tr><td>ajudantes</td><td>0</td><td>List (Array)</td><td>NO</td><td>Assistants, Can Associate Several In This Array</td></tr>
+                <tr><td>cpf_ajudante</td><td>1</td><td>String(20)</td><td>NO</td><td>Assistant ID(CPF)</td></tr>
+                <tr><td>nro_liberacao</td><td>1</td><td>Integer</td><td>NO</td><td>Release Number</td></tr>
+                <tr><td>contatos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Assistant Contacts, Can Associate Several In This Array</td></tr>
+                <tr><td>email</td><td>1</td><td>String(100)</td><td>NO</td><td>Contact Email</tr>
+                <tr><td>fone1</td><td>1</td><td>String(30)</td><td>NO</td><td>Contact Phone</td></tr>
+                <tr><td>radio</td><td>1</td><td>String(50)</td><td>NO</td><td>Contact Radio</td></tr>
+                <tr><td>terminais</td><td>0</td><td>List (Array)</td><td>NO</td><td>Shipment Terminals, Can Associate Several In This Array</td></tr>
+                <tr><td>term_numero_terminal</td><td>1</td><td>String(30)</td><td>NO</td><td>Terminal Number</td></tr>
+                <tr><td>tecn_tecnologia</td><td>1</td><td>String(50)</td><td>NO</td><td>Telematic</td></tr>
+                <tr><td>tope_descricao</td><td>1</td><td>String(50)</td><td>NO</td><td>Operation Type</td></tr>
+
+                <tr><td>tipos_produtos</td><td>0</td><td>List (Array)</td><td>NO</td><td>Shipment Product Types, Can Associate Several In This Array</td></tr>
+                <tr><td>produto</td><td>1</td><td>String(50)</td><td>NO</td><td>Product Type</td></tr>
+                <tr><td>valor</td><td>1</td><td>Float</td><td>NO</td><td>Shipment Product Value</td></tr>
+
+                <tr><td>viag_pgpg_codigo</td><td>1</td><td>Integer</td><td>YES</td><td>PGR for Shipment Control</td></tr>
+                <tr><td>temperatura</td><td>1</td><td>object</td><td>NO</td><td>Temperature Control</td></tr>
+                <tr><td>descricao</td><td>1</td><td>String(100)</td><td>NO</td><td>Temperature Description</td></tr>
+                <tr><td>de</td><td>1</td><td>Integer</td><td>NO</td><td>Initial Temperature Range</td></tr>
+                <tr><td>ate</td><td>1</td><td>Integer</td><td>NO</td><td>Final Temperature Range</td></tr>
+                <tr><td>sensores</td><td>1</td><td>Integer</td><td>NO</td><td>Enter 0 to Apply to All Sensors</td></tr>
+                <tr><td>sensor_01</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 1 (Y / N)</td></tr>
+                <tr><td>sensor_02</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 2 (Y / N)</td></tr>
+                <tr><td>sensor_03</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 3 (Y / N)</td></tr>
+                <tr><td>sensor_04</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 4 (Y / N)</td></tr>
+                <tr><td>sensor_05</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 5 (Y / N)</td></tr>
+                <tr><td>sensor_06</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 6 (Y / N)</td></tr>
+                <tr><td>sensor_07</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 7 (Y / N)</td></tr>
+                <tr><td>sensor_08</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 8 (Y / N)</td></tr>
+                <tr><td>sensor_09</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 9 (Y / N)</td></tr>
+                <tr><td>sensor_10</td><td>1</td><td>String(1)</td><td>NO</td><td>Applies Sensor Range 10 (Y / N)</td></tr>
+                <tr><td>rota_codigo</td><td>0</td><td>Integer</td><td><b>YES</b></td><td>Route Code</td></tr>
+                <tr><td>coordenadas</td><td>0</td><td>String</td><td><b>YES</b></td><td>Route Encrypted Polyline in Google Maps Format</td></tr>
+                <tr><td>rota_descricao</td><td>0</td><td>String</td><td><b>YES</b></td><td>Route Description</td></tr>
+                <tr><td>origem</td><td>0</td><td>object</td><td><b>YES</b></td><td>Shipment Origin Information</td></tr>
+                <tr><td>vloc_descricao</td><td>1</td><td>String(200)</td><td><b>YES</b></td><td>Description of Origin Place</td></tr>
+                <tr><td>logradouro</td><td>1</td><td>String(200)</td><td>NO</td><td>Origin Street</td></tr>
+                <tr><td>complemento</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Street Complement</td></tr>
+                <tr><td>cep</td><td>1</td><td>String(8)</td><td>NO</td><td>Street's ZIP(CEP) Code (Use as an aid not to duplicate)</td></tr>
+                <tr><td>numero</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Street Number</td></tr>
+                <tr><td>bairro</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Neighborhood</td></tr>
+                <tr><td>cida_descricao_ibge</td><td>1</td><td>String(100)</td><td>NO</td><td>City of Origin or IBGE Code (of city)</td></tr>
+                <tr><td>sigla_estado</td><td>1</td><td>String(2)</td><td>NO</td><td>Acronym UF (State of the City)</td></tr>
+                <tr><td>pais</td><td>1</td><td>String(50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>refe_latitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Latitude</td></tr>
+                <tr><td>refe_longitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Longitude</td></tr>
+                <tr><td>refe_raio</td><td>1</td><td>Float</td><td>NO</td><td>Origin Radius</td></tr>
+                <tr><td>refe_km</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Place in KM of highway</td></tr>
+                <tr><td>refe_bandeira</td><td>1</td><td>String(50)</td><td>NO</td><td>Origin Place Flag</td></tr>
+                <tr><td>associar_transportador</td><td>1</td><td>String(1)</td><td>NO</td><td>Associate as Carrier Origin (Y / N)</td></tr>
+                <tr><td>contatos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Origin Place Contacts</td></tr>
+                <tr><td>email</td><td>2</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>2</td><td>String(30)</td><td>NO</td><td>Contact Phone</td></tr>
+                <tr><td>radio</td><td>2</td><td>String(50)</td><td>NO</td><td>Contact Radio</td></tr>
+                <tr><td>viag_data_consolidacao</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Shipment Consolidation Date</td></tr>
+                <tr><td>previsao_chegada</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Expected Arrival at Origin</td></tr>
+                <tr><td>previsao_inicio_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting Start Forecast</td></tr>
+                <tr><td>previsao_fim_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting End Forecast</td></tr>
+                <tr><td>previsao_inicio_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge Start Forecast</td></tr>
+                <tr><td>previsao_fim_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge End Forecast</td></tr>
+                <tr><td>previsao_inicio_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging Start Forecast</td></tr>
+                <tr><td>previsao_fim_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging End Forecast</td></tr>
+                <tr><td>previsao_saida</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Exit Origin Forecast</td></tr>
+                <tr><td>conhecimentos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Shipment Bill of Lading Information</td></tr>
+                <tr><td>vlco_numero</td><td>2</td><td>String(50)</td><td><b>YES</b></td><td>Bill of Lading Number</td></tr>
+                <tr><td>vlco_cpf_cnpj</td><td>2</td><td>String(30)</td><td>NO</td><td>Bill of Lading Customer Document (CPF/CNPJ)</td></tr>
+                <tr><td>vlco_valor</td><td>2</td><td>Float</td><td><b>YES</b></td><td>Bill of Lading Value</td></tr>
+                <tr><td>notas_fiscais</td><td>2</td><td>List (Array)</td><td>NO</td><td>Bill of Lading Invoice Information</td></tr>
+                <tr><td>vnfi_numero</td><td>3</td><td>String(20)</td><td><b>YES</b></td><td>Invoice Number</td></tr>
+                <tr><td>vnfi_pedido</td><td>3</td><td>String(20)</td><td>NO</td><td>InvoiceOrder Number</td></tr>
+                <tr><td>vnfi_valor</td><td>3</td><td>Float</td><td><b>YES</b></td><td>Invoice Monetary Value</td></tr>
+                <tr><td>vnfi_data_fat</td><td>3</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Invoice Billing Date</td></tr>
+                <tr><td>vnfi_observacao</td><td>3</td><td>String(5000)</td><td>NO</td><td>Invoice Notes</td></tr>
+                <tr><td>produtos</td><td>3</td><td>List (Array)</td><td>NO</td><td>Invoice Products/Items</td></tr>
+                <tr><td>vpro_descricao</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Invoice Product Description</td></tr>
+                <tr><td>vpro_tipo</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Product Type</td></tr>
+                <tr><td>vpro_quantidade</td><td>4</td><td>Integer</td><td><b>YES</b></td><td>Product Amount</td></tr>
+                <tr><td>vpro_valor</td><td>4</td><td>Float</td><td><b>YES</b></td><td>Product Value</td></tr>
+                <tr><td>locais</td><td>0</td><td>List (Array)</td><td>NO</td><td>Shipment Locations, Can Associate Several In This Array</td></tr>
+                <tr><td>vloc_descricao</td><td>1</td><td>String(200)</td><td><b>YES</b></td><td>Origin Place Description</td></tr>
+                <tr><td>logradouro</td><td>1</td><td>String(200)</td><td>NO</td><td>Origin Street</td></tr>
+                <tr><td>complemento</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Street Complement</td></tr>
+                <tr><td>cep</td><td>1</td><td>String(8)</td><td>NO</td><td>Street's ZIP(CEP) Code (Use as an aid not to duplicate)</td></tr>
+                <tr><td>numero</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Street Number</td></tr>
+                <tr><td>bairro</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Neighborhood</td></tr>
+                <tr><td>cida_descricao_ibge</td><td>1</td><td>String(100)</td><td>NO</td><td>City of Origin or IBGE Code (of city)</td></tr>
+                <tr><td>sigla_estado</td><td>1</td><td>String(2)</td><td>NO</td><td>Acronym UF</td></tr>
+                <tr><td>pais</td><td>1</td><td>String(50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>refe_latitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Latitude</td></tr>
+                <tr><td>refe_longitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Longitude</td></tr>
+                <tr><td>refe_raio</td><td>1</td><td>Float</td><td>NO</td><td>Origin Radius</td></tr>
+                <tr><td>refe_km</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Place in KM of highway</td></tr>
+                <tr><td>refe_bandeira</td><td>1</td><td>String(50)</td><td>NO</td><td>Origin Place Flag</td></tr>
+                <tr><td>associar_transportador</td><td>1</td><td>String(1)</td><td>NO</td><td>Associate as Carrier Origin (Y / N)</td></tr>
+                <tr><td>contatos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Origin Place Contacts</td></tr>
+                <tr><td>email</td><td>2</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>2</td><td>String(30)</td><td>NO</td><td>Contact Phone</td></tr>
+                <tr><td>radio</td><td>2</td><td>String(50)</td><td>NO</td><td>Contact Radio</td></tr>
+                <tr><td>previsao_chegada</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Expected Arrival at Origin</td></tr>
+                <tr><td>previsao_inicio_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting Start Forecast</td></tr>
+                <tr><td>previsao_fim_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting End Forecast</td></tr>
+                <tr><td>previsao_inicio_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge Start Forecast</td></tr>
+                <tr><td>previsao_fim_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge End Forecast</td></tr>
+                <tr><td>previsao_inicio_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging Start Forecast</td></tr>
+                <tr><td>previsao_fim_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging End Forecast</td></tr>
+                <tr><td>previsao_saida</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Exit Origin Forecast</td></tr>
+                <tr><td>conhecimentos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Shipment Bill of Lading Information</td></tr>
+                <tr><td>vlco_numero</td><td>2</td><td>String(50)</td><td><b>YES</b></td><td>Bill of Lading Number</td></tr>
+                <tr><td>vlco_cpf_cnpj</td><td>2</td><td>String(30)</td><td>NO</td><td>Bill of Lading Customer Document</td></tr>
+                <tr><td>vlco_valor</td><td>2</td><td>Float</td><td><b>YES</b></td><td>Bill of Lading Value</td></tr>
+                <tr><td>notas_fiscais</td><td>2</td><td>List (Array)</td><td>NO</td><td>Bill of Lading Invoice Information</td></tr>
+                <tr><td>vnfi_numero</td><td>3</td><td>String(20)</td><td><b>YES</b></td><td>Invoice Number</td></tr>
+                <tr><td>vnfi_pedido</td><td>3</td><td>String(20)</td><td>NO</td><td>Client Order Number</td></tr>
+                <tr><td>vnfi_valor</td><td>3</td><td>Float</td><td><b>YES</b></td><td>Invoice Value</td></tr>
+                <tr><td>vnfi_data_fat</td><td>3</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Invoice Billing Date</td></tr>
+                <tr><td>vnfi_observacao</td><td>3</td><td>String(5000)</td><td>NO</td><td>Invoice Notes</td></tr>
+                <tr><td>produtos</td><td>3</td><td>List (Array)</td><td>NO</td><td>Invoice Products</td></tr>
+                <tr><td>vpro_descricao</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Invoice Product Description</td></tr>
+                <tr><td>vpro_tipo</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Product Type</td></tr>
+                <tr><td>vpro_quantidade</td><td>4</td><td>Integer</td><td><b>YES</b></td><td>Product Quantity</td></tr>
+                <tr><td>vpro_valor</td><td>4</td><td>Float</td><td><b>YES</b></td><td>Product Value</td></tr>
+                <tr><td>destino</td><td>0</td><td>object</td><td><b>YES</b></td><td>Shipment Destination Information</td></tr>
+                <tr><td>vloc_descricao</td><td>1</td><td>String(200)</td><td><b>YES</b></td><td>Origin Place Description</td></tr>
+                <tr><td>logradouro</td><td>1</td><td>String(200)</td><td>NO</td><td>Origin Street</td></tr>
+                <tr><td>complemento</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Street Complement</td></tr>
+                <tr><td>cep</td><td>1</td><td>String(8)</td><td>NO</td><td>Street's ZIP(CEP) Code (Use as an aid not to duplicate)</td></tr>
+                <tr><td>numero</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Street Number</td></tr>
+                <tr><td>bairro</td><td>1</td><td>String(100)</td><td>NO</td><td>Origin Neighborhood</td></tr>
+                <tr><td>cida_descricao_ibge</td><td>1</td><td>String(100)</td><td>NO</td><td>City of Origin or IBGE Code (of city)</td></tr>
+                <tr><td>sigla_estado</td><td>1</td><td>String(2)</td><td>NO</td><td>Acronym UF</td></tr>
+                <tr><td>pais</td><td>1</td><td>String(50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>refe_latitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Latitude</td></tr>
+                <tr><td>refe_longitude</td><td>1</td><td>Float</td><td>NO</td><td>Origin Longitude</td></tr>
+                <tr><td>refe_raio</td><td>1</td><td>Float</td><td>NO</td><td>Origin Radius</td></tr>
+                <tr><td>refe_km</td><td>1</td><td>String(10)</td><td>NO</td><td>Origin Place in KM of highway</td></tr>
+                <tr><td>refe_bandeira</td><td>1</td><td>String(50)</td><td>NO</td><td>Origin Place Flag</td></tr>
+                <tr><td>associar_transportador</td><td>1</td><td>String(1)</td><td>NO</td><td>Associate as Carrier Origin (Y / N)</td></tr>
+                <tr><td>contatos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Origin Place Contacts</td></tr>
+                <tr><td>email</td><td>2</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>2</td><td>String(30)</td><td>NO</td><td>Contact Phone</td></tr>
+                <tr><td>radio</td><td>2</td><td>String(50)</td><td>NO</td><td>Contact Radio</td></tr>
+                <tr><td>previsao_chegada</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Expected Arrival at Origin</td></tr>
+                <tr><td>previsao_inicio_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting Start Forecast</td></tr>
+                <tr><td>previsao_fim_espera</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Waiting End Forecast</td></tr>
+                <tr><td>previsao_inicio_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge Start Forecast</td></tr>
+                <tr><td>previsao_fim_carregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Charge End Forecast</td></tr>
+                <tr><td>previsao_inicio_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging Start Forecast</td></tr>
+                <tr><td>previsao_fim_descarregamento</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Origin Discharging End Forecast</td></tr>
+                <tr><td>previsao_saida</td><td>2</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Exit Origin Forecast</td></tr>
+                <tr><td>conhecimentos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Shipment Bill of Lading Information</td></tr>
+                <tr><td>vlco_numero</td><td>2</td><td>String(50)</td><td><b>YES</b></td><td>Bill of Lading Number</td></tr>
+                <tr><td>vlco_cpf_cnpj</td><td>2</td><td>String(30)</td><td>NO</td><td>Bill of Lading Customer Document</td></tr>
+                <tr><td>vlco_valor</td><td>2</td><td>Float</td><td><b>YES</b></td><td>Bill of Lading Value</td></tr>
+                <tr><td>notas_fiscais</td><td>2</td><td>List (Array)</td><td>NO</td><td>Bill of Lading Invoices Information</td></tr>
+                <tr><td>vnfi_numero</td><td>3</td><td>String(20)</td><td><b>YES</b></td><td>Invoice Number</td></tr>
+                <tr><td>vnfi_pedido</td><td>3</td><td>String(20)</td><td>NO</td><td>Order Number</td></tr>
+                <tr><td>vnfi_valor</td><td>3</td><td>Float</td><td><b>YES</b></td><td>Invoice Monetary Value</td></tr>
+                <tr><td>vnfi_data_fat</td><td>3</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Invoice Billing Date</td></tr>
+                <tr><td>vnfi_observacao</td><td>3</td><td>String(5000)</td><td>NO</td><td>Invoice Notes</td></tr>
+                <tr><td>produtos</td><td>3</td><td>List (Array)</td><td>NO</td><td>Invoice Products</td></tr>
+                <tr><td>vpro_descricao</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Invoice Product Description</td></tr>
+                <tr><td>vpro_tipo</td><td>4</td><td>String(50)</td><td><b>YES</b></td><td>Product Type</td></tr>
+                <tr><td>vpro_quantidade</td><td>4</td><td>Integer</td><td><b>YES</b></td><td>Product Quantity</td></tr>
+                <tr><td>vpro_valor</td><td>4</td><td>Float</td><td><b>YES</b></td><td>Product Monetary Value</td></tr>
+            </table>
+
+            <p><b>Notes:</b><br>
+                The "Level" column represents the alignment of XML / JSON tags and their sublevels.<br><br>
+                For shipments sent without automatic routing and without route, only with locations, if the geolocator does not find any location, it will be registered in the shipment with latitude/longitude zero and will return "warning" for information.<br>
+            </p>
+
+
+            <p><b>JSON submission example for Trafegus system shipments (This method allows multiple shipments to be sent).</b></p>
+            <textarea rows="20" cols="100" readonly>
+{
+    "viagem": [ -- multiple SMs can be sent within this array.
+    {
+        "viag_codigo_externo": "123",
+        "documento_transportador": "54735256000176",
+        "cnpj_gr": "53818355000100",
+        "viag_ttra_codigo": 1,
+        "veiculos": [{
+            "placa": "ONX0001"
+
+        }],
+        "motoristas": [{
+            "cpf_moto": "897701379-87"
+        }],
+        "terminais": [{
+            "term_numero_terminal": "103919",
+            "tecn_tecnologia": "SASCAR"
+        }],
+
+        "viag_previsao_inicio": "01/05/2019 20:18:02",
+        "viag_previsao_fim": "10/05/2019 20:18:02",
+        "viag_pgpg_codigo": "11",
+        "viag_valor_carga": 525100.22,
+        "rota_codigo": 123,
+        "origem": {
+            "vloc_descricao": "GUATAMBU",
+            "logradouro": "00950080713",
+            "complemento": "4323",
+            "cep": "0095008",
+            "numero": "",
+            "bairro": "TREVO",
+            "cida_descricao_ibge": "Guatambu",
+            "sigla_estado": "SC",
+            "pais": "BRASIL",
+            "refe_latitude": "-27.1373161",
+            "refe_longitude": "-52.7802818",
+            "refe_raio": "500",
+            "associar_transportador": "S"
+        },
+        "locais": [{
+            "vloc_sequencia": 2,
+            "vloc_descricao": "P. ALFA - CHAPECO/SC",
+            "tipo_parada": 3,
+            "tipo_local": 6,
+            "logradouro": "00950080713",
+            "complemento": "323",
+            "cep": "0095008",
+            "numero": "",
+            "bairro": "TREVO",
+            "cida_descricao_ibge": "4204202",
+            "sigla_estado": "SC",
+            "pais": "BRASIL",
+            "refe_latitude": "-27.1048747",
+            "refe_longitude": "-52.7802818",
+            "refe_raio": "500",
+            "associar_transportador": "S",
+         "conhecimentos": [
+                        {
+                            "vlco_numero": "conhe2",
+                            "vlco_valor": "1.00",
+                            "vlco_cpf_cnpj": "54735256000176",
+                            "notas_fiscais": [
+                                {
+                                    "vnfi_numero": "nf23",
+                                    "vnfi_pedido": "pedido",
+                                    "vnfi_valor": "1.00",
+                                    "vnfi_data_fat": "2018-07-03 00:00:00",
+                                    "vnfi_observacao": "OBSERVACAO"
+
+                                }
+                            ]
+                        }
+                    ]
+
+
+        }],
+        "destino": {
+            "vloc_descricao": "CENTRO CHAPECO",
+            "logradouro": "00950080713",
+            "complemento": "3233",
+            "cep": "0095008",
+            "numero": "45E",
+            "bairro": "CENTRO",
+            "cida_descricao_ibge": "4204202",
+            "sigla_estado": "SC",
+            "pais": "BRASIL",
+            "refe_latitude": "-27.1048758",
+            "refe_longitude": "-52.6139045",
+            "refe_raio": "500",
+            "associar_transportador": "S",
+             "conhecimentos": [
+                    {
+                        "vlco_numero": "numerocone1",
+                        "vlco_valor": "18895891.00",
+                        "vlco_cpf_cnpj": "54735256000176",
+                        "notas_fiscais": [
+                            {
+                                "vnfi_numero": "nf2",
+                                "vnfi_pedido": "455",
+                                "vnfi_valor": "874.00",
+                                "vnfi_data_fat": "2018-07-03 00:00:00",
+                                "vnfi_observacao": "TESTE"
+                            },
+                            {
+                                "vnfi_numero": "nf1",
+                                "vnfi_pedido": "321",
+                                "vnfi_valor": "18895017.00",
+                                "vnfi_data_fat": "2018-07-03 00:00:00",
+                                "vnfi_observacao": "TESTE"
+                            }
+                        ]
+                    }
+                ]
+        }
+    }]
+}
+
+                        </textarea>
+
+            <br>
+
+            <b>Fill Validation Detail:</b>
+            <ul style="List-style-type: none;">
+                <li>Only insured monitoring requests (SMs) should be submitted. Being the carrier and / or the shipper of the shipment.</li>
+                <li>Fill in transport type is not required.</li>
+                <li>At least one vehicle and one driver are required for SM..</li>
+                <li>Filling in a terminal is not required. If not informed will be used the vehicle registration. If it does not have one then an error will be returned.</li>
+                <li>Entering the transaction type information can be fixed as per the rule: TRANSFERENCIA (for interstate shipment) and DISTRIBUICAO (for shipment within the same state).</li>
+                <li>The shipment start forecast date cannot be retroactive (before the current date/time).</li>
+                <li>End forecast date cannot be less than start forecast date.</li>
+                <li>The rules (PGR) for controlling the indicators will be fulfilled at the time of inclusion of the SM according to Carrier CNPJ + Transport Type + Cargo Value.</li>
+                <li>Regarding the origin, destination and places of the shipment, the Latitudes / Longitudes or a valid address must be informed (Street, zip(CEP) id, number, neighborhood, city, uf).</li>
+                <li>Origin, destination and shipment locations will be linked to the carrier / shipper for shipment controls.</li>
+            </ul>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTtransportador" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Carrier</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/transportador</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th> <th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>documento_transportador</td><td>text (30)</td><td><b>YES</b></td><td>Carrier ID(CPF)/CNPJ</td></tr>
+                <tr><td>nome</td><td>Text (50)</td><td>YES</td><td>Carrier Name</td></tr>
+                <tr><td>razao_social</td><td>Text (100)</td><td>NO</td><td>Carrier Corporate Name</td></tr>
+                <tr><td>ie_rg</td><td>Text (20)</td><td>NO</td><td>RG (natural person) or IE (legal entity)</td></tr>
+                <tr><td>logradouro</td><td>Text (200)</td><td>NO</td><td>Description of the Street</td></tr>
+                <tr><td>cep</td><td>Text (8)</td><td>NO</td><td>Street ZIP(CEP) Code</td></tr>
+                <tr><td>numero</td><td>Text (50)</td><td>NO</td><td>Street Number</td></tr>
+                <tr><td>complemento</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>bairro</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>cidade</td><td>Text (100)</td><td>NO</td><td>City of Origin or IBGE Code (according to IBGE standard table)</td></tr>
+                <tr><td>sigla_estado</td><td>Text (2)</td><td>NO</td><td>Street State Acronym</td></tr>
+                <tr><td>pais</td><td>Text (50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>documento_matriz</td><td>Text (30)</td><td>NO</td><td>Carrier Matrix ID(CPF)/CNPJ</td></tr>
+                <tr><td>senha</td><td>Texto (20)</td><td>NO</td><td>Carrier Password</td></tr>
+                <tr><td>roteiriza_automatico_sm</td><td>Integer</td><td>NO</td><td>Uses Automatic Routing in SM (0 no, 1 yes)<td></tr>
+                <tr><td>associa_motorista_sm</td><td>Integer</td><td>NO</td><td>Automatically Associate Drivers With the SM Carrier (0 no, 1 yes). Enter "1" by default.</td></tr>
+                <tr><td>associa_veiculo_sm</td><td>Integer</td><td>NO</td><td>Automatically Associate Vehicles With SM Carrier (0 no, 1 yes). Enter "1" by default.</td></tr>
+
+                <tr><td>contatos</td><td>List (Array)</td><td>NO</td><td>Driver Contacts</td>
+                <tr><td>email</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>String(30)</td><td>NO</td><td>Contact Phone</td>
+                <tr><td>Texto</td><td>String(100)</td><td>NO</td><td>Contact Name</td>
+            </table>
+
+            <p><b>Request to send Carrier's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+    "transportador": [ -- multiple Transportes can be sent within this array.
+    {
+        "documento_transportador": "42088421000166",
+        "nome": "CONTATTO",
+        "razao_social": "CONTATTO",
+        "ie_rg": null,
+        "logradouro": null,
+        "cep": null,
+        "numero": null,
+        "complemento": null,
+        "bairro": null,
+        "cidade": null,
+        "sigla_estado": null,
+        "pais": null,
+        "documento_matriz": null,
+        "senha": null,
+        "roteiriza_automatico_sm": 1,
+        "associa_motorista_sm": 1,
+        "associa_veiculo_sm": 1
+    }]
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+{
+    "sucesso": [
+        {
+                "cod": "0",
+                "codigo_transportador": 3082044,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "success": [
+        {
+                "cod": "0",
+                "codigo_transportador": 3082044,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "error": []
+}
+
+                        </Textarea>
+            <br>
+            <p><b>Return on Error:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+ {
+    "success": [],
+        "sucesso": [],
+
+    "error": [
+        {
+            "cod": "1",
+            "valor": "cnpj",
+            "campo": "documento_transportador",
+            "mensagem": "necessario informar um documento do transportador"
+        }{
+            "cod": "2",
+            "valor": "",
+            "campo": "documento_matriz",
+            "mensagem": "matriz com cnpj nao encontrado"
+        }{
+            "cod": "3",
+            "valor": "",
+            "campo": "documento_matriz",
+            "mensagem": "matriz com cpf nao encontrado"
+        }{
+            "cod": "4",
+            "valor": "",
+            "campo": "cidade",
+            "mensagem": "cidade nao encontrada"
+        }{
+            "cod": "5",
+            "valor": "",
+            "campo": "logradouro, cep",
+            "mensagem": "logradouro ou cep obrigatorio se informado cidade, estado, pais ou bairro"
+        }{
+            "cod": "6",
+            "valor": "",
+            "campo": "estado",
+            "mensagem": "estado nao encontrado"
+        }{
+            "cod": "7",
+            "valor": "",
+            "campo": "pais",
+            "mensagem": "pais nao encontrado"
+        }{
+            "cod": "8",
+            "valor": "",
+            "campo": "pgr_padrao",
+            "mensagem": "pgr não encontrado"
+        }{
+            "cod": "9",
+            "valor": "",
+            "campo": "estacao_gr_padrao",
+            "mensagem": "estacao gr não encontrado"
+        }{
+            "cod": "10",
+            "valor": "",
+            "campo": "nome",
+            "mensagem": "necessario informar um nome"
+        }{
+            "cod": "11",
+            "valor": "",
+            "campo": "documento_transportador",
+            "mensagem": "cnpj invalido"
+        }{
+            "cod": "12",
+            "valor": "",
+            "campo": "documento_transportador",
+            "mensagem": "cnpj ja cadastrado"
+        }{
+            "cod": "13",
+            "valor": "",
+            "campo": "documento_transportador",
+            "mensagem": "cpf invalido"
+        }{
+            "cod": "14",
+            "valor": "",
+            "campo": "documento_transportador",
+            "mensagem": "cpf ja cadastrado"
+        }{
+            "cod": "15",
+            "valor": "",
+            "campo": "documento_transportador",
+            "mensagem": "Erro ao cadastrar transportador"
+        }
+    ]
+}</Textarea>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTembarcador" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Shipper</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/embarcador</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><th width="150px">Type</th><th>Required</th><th>Description</th>
+                <tr><td>cnpj_embarcador</td><td>Text (30)</td><td><b>YES</b></td><td>Shippers CNPJ</td></tr>
+                <tr><td>nome</td><td>Text (50)</td><td>YES</td><td>Shippers Name</td></tr>
+                <tr><td>razao_social</td><td>Text (100)</td><td>NO</td><td>Shippers Corporate Name</td></tr>
+                <tr><td>ie</td><td>Text (20)</td><td>NO</td><td>Shippers State Registration</td></tr>
+                <tr><td>logradouro</td><td>Text (200)</td><td>NO</td><td>Street Description</td></tr>
+                <tr><td>cep</td><td>Text (8)</td><td>NO</td><td>Street ZIP(CEP) Code</td></tr>
+                <tr><td>numero</td><td>Text (50)</td><td>NO</td><td>Street Street Number</td></tr>
+                <tr><td>complemento</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>bairro</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>cidade</td><td>Text (100)</td><td>NO</td><td>City of Origin or IBGE Code (according to IBGE standard table)</td></tr>
+                <tr><td>sigla_estado</td><td>Text (2)</td><td>NO</td><td>Street State Acronym</td></tr>
+                <tr><td>pais</td><td>Text (50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>cnpj_matriz</td><td>Text (30)</td><td>NO</td><td>Shippers Matrix ID(CPF)/CNPJ</td></tr>
+                <tr><td>roteiriza_automatico_sm</td><td>Integer</td><td>NO</td><td>Uses Automatic Routing in SM (0 no, 1 yes)<td></tr>
+                <tr><td>associa_motorista_sm</td><td>Integer</td><td>NO</td><td>Automatically Associate Drivers With the SM Carrier (0 no, 1 yes). Enter "1" by default.</td></tr>
+                <tr><td>associa_veiculo_sm</td><td>Integer</td><td>NO</td><td>Automatically Associate Vehicles With SM Carrier (0 no, 1 yes). Enter "1" by default.</td></tr>
+            </table>
+            <p><b>Request to send Shipper's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+    "embarcador": [ -- multiple shippers can be sent within this array.
+        {
+            "cnpj_embarcador": "47362387000190",
+            "nome": "WS A1 EMBA",
+            "razao_social": "WS REST",
+            "ie": "WS REST",
+            "logradouro": "WS REST",
+            "cep": "WS REST",
+            "numero": "1212",
+            "complemento": "WS REST",
+            "bairro": "WS REST",
+            "DocumentoMatriz":  null,
+            "senha": "2222",
+            "roteiriza_automatico_sm": 1,
+            "associa_motorista_sm": 1,
+            "associa_veiculo_sm": 1
+        }
+    ]
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+{
+    "sucesso": [
+        {
+                "cod": "0",
+                "codigo_embarcador": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "success": [
+        {
+                "cod": "0",
+                "codigo_embarcador": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "error": []
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Error:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+    "success": [],
+        "sucesso": [],
+    "error": [
+        {
+            "cod": "1",
+            "valor": "cnpj",
+            "campo": "cnpj_embarcador",
+            "mensagem": "necessario informar um cnpj do embarcador"
+        }{
+            "cod": "2",
+            "valor": "",
+            "campo": "cnpj_matriz",
+            "mensagem": "cnpj matriz nao encontrado"
+        }{
+            "cod": "3",
+            "valor": "",
+            "campo": "cidade",
+            "mensagem": "cidade nao encontrada"
+        }{
+            "cod": "4",
+            "valor": "",
+            "campo": "logradouro, cep",
+            "mensagem": "logradouro ou cep obrigatorio se informado cidade, estado, pais ou bairro"
+        }{
+            "cod": "5",
+            "valor": "",
+            "campo": "sigla_estado",
+            "mensagem": "estado nao encontrado"
+        }{
+            "cod": "6",
+            "valor": "",
+            "campo": "pais",
+            "mensagem": "pais nao encontrado"
+        }{
+            "cod": "7",
+            "valor": "",
+            "campo": "pgr_padrao",
+            "mensagem": "pgr não encontrado"
+        }{
+            "cod": "8",
+            "valor": "",
+            "campo": "cnpj_embarcador",
+            "mensagem": "cnpj ja cadastrado"
+        }{
+            "cod": "9",
+            "valor": "",
+            "campo": "estacao_gr_padrao",
+            "mensagem": "estacao gr nao encontrado"
+        }{
+            "cod": "10",
+            "valor": "",
+            "campo": "nome",
+            "mensagem": "necessario informar um nome"
+        }{
+            "cod": "11",
+            "valor": "",
+            "campo": "cnpj_embarcador",
+            "mensagem": "cnpj invalido"
+        }{
+            "cod": "12",
+            "valor": "",
+            "campo": "null",
+            "mensagem": "Erro ao cadastrar embarcador"
+        }
+    ]
+}</Textarea>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTmotorista" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Driver</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/motorista</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>cpf_motorista</td><td>0</td><td>Text (20)</td><td><b>YES</b></td><td>Drivers ID(CPF)</td></tr>
+                <tr><td>nome</td><td>0</td><td>Text (50)</td><td>YES</td><td>Drivers Name</td></tr>
+                <tr><td>rg</td><td>0</td><td>Text (20)</td><td>NO</td><td>Drives RG</td></tr>
+                <tr><td>logradouro</td><td>0</td><td>Text (200)</td><td>NO</td><td>Street Description</td></tr>
+                <tr><td>cep</td><td>0</td><td>Text (8)</td><td>NO</td><td>Street ZIP(CEP) Code</td></tr>
+                <tr><td>numero</td><td>0</td><td>Text (50)</td><td>NO</td><td>Street Street Number</td></tr>
+                <tr><td>complemento</td><td>0</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>bairro</td><td>0</td><td>Text (100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>cidade</td><td>0</td><td>Text (100)</td><td>NO</td><td>Hometown or IBGE id (according to IBGE standard table)</td></tr>
+                <tr><td>sigla_estado</td><td>0</td><td>Text (2)</td><td>NO</td><td>Street State Acronym</td></tr>
+                <tr><td>pais</td><td>0</td><td>Text (50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>nro_cnh</td><td>0</td><td>Text (25)</td><td>NO</td><td>Driver's CNH Number</td></tr>
+                <tr><td>categoria_cnh</td><td>0</td><td>Text (10)</td><td>NO</td><td>Driver's CNH Category</td></tr>
+                <tr><td>validade_cnh</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Driver's CNH Validity</td></tr>
+                <tr><td>senha</td><td>0</td><td>Text (15)</td><td>NO</td><td>Driver Password</td></tr>
+                <tr><td>vigilante</td><td>0</td><td>Text (1)</td><td>NO</td><td>Vigilant (Y/N)</td></tr>
+                <tr><td>nro_cnv</td><td>0</td><td>Integer</td><td>NO</td><td>Driver's CNV Number</td></tr>
+                <tr><td>validade_cnv</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>CNV Validity</td></tr>
+                <tr><td>nome_pai</td><td>0</td><td>String(100)</td><td>NO</td><td>Father's name</td>
+                <tr><td>nome_mae</td><td>0</td><td>String(100)</td><td>NO</td><td>Mother's name</td>
+                <tr><td>estado_civil</td><td>String(1)</td><td>NO</td><td>C: MARRIED <br>S: SINGLE<br>D: DIVORCED<br>V: WIDOWER</td>
+                <tr><td>moto_registro_cnh</td><td>String(12)</td><td>NO</td><td>CNH Registration Number</td>
+                <tr><td>moto_orgao_emissor_cnh</td><td>String(10)</td><td>NO</td><td>CNH Issuing Agency</td>
+                <tr><td>moto_data_primeira_habilitacao</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Date of First License</td>
+                <tr><td>moto_data_emissao</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>CNH Issue Date</td>
+
+                <tr><td>data_nasc</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Birth Date</td>
+                <tr><td>rg_emissor</td><td>0</td><td>String(10)</td><td>NO</td><td>RG Issuing Agency</td>
+                <tr><td>rg_uf</td><td>0</td><td>String(2)</td><td>NO</td><td>RG Issuing Acronym Sender</td>
+                <tr><td>naturalidade_descricao_ibge</td><td>0</td><td>String(100)</td><td>NO</td><td>Hometown or IBGE Code (according to IBGE standard table)</td>
+                <tr><td>naturalidade_uf_sigla</td><td>0</td><td>String(2)</td><td>NO</td><td>Acronym State Naturalness</td>
+
+                <tr><td>cnh_seg</td><td>0</td><td>String(11)</td><td>NO</td><td>CNH Security Number</td>
+                <tr><td>cnh_uf</td><td>0</td><td>String(2)</td><td>NO</td><td>CNH Issuing Acronym Sender</td>
+                <tr><td>transportador</td><td>0</td><td>List (Array)</td><td>NO</td><td>Array of Carriers, Being Able to Associate Several in This Array</td></tr>
+                <tr><td>documento_transportador</td><td>1</td><td>Text (30)</td><td>NO</td><td>Carriers ID(CPF)/CNPJ</td></tr>
+                <tr><td>vinculo_contratual</td><td>1</td><td>Integer</td><td>NO</td><td>Type of Carrier Link. 1=fixed; 2=Aggregate; 3=Third</td></tr>
+
+                <tr><td>contatos</td><td>1</td><td>List (Array)</td><td>NO</td><td>Driver Contacts, Can Associate Several In This Array</td>
+                <tr><td>email</td><td>1</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>1</td><td>String(30)</td><td>NO</td><td>Contact Phone</td>
+                <tr><td>Texto</td><td>1</td><td>String(100)</td><td>NO</td><td>Contact Name</td>
+            </table>
+            <p><b>Request to send Driver's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+    "motorista": [ -- multiple drivers can be sent within this array.
+    {
+        "cpf_motorista": "69371875569",
+        "nome": "WS REST",
+        "rg": "20121033950",
+        "logradouro": "WS REST",
+        "cep": "89817000",
+        "numero": "44",
+        "complemento": "WS REST",
+        "bairro": "WS REST",
+        "cidade": "CHAPECO",
+        "sigla_estado": "SC",
+        "pais": "Brasil",
+        "nro_cnh": "A",
+        "categoria_cnh": null,
+        "validade_cnh": null,
+        "senha": null,
+        "vigilante": null,
+        "nro_cnv": null,
+        "validade_cnv": null,
+        "transportador": [
+            {
+                "documento_transportador": "10884397000185",
+                "vinculo_contratual": 2
+            }
+        ]
+    }]
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+{
+    "sucesso": [
+        {
+                "cod": "0",
+                "codigo_motorista": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "success": [
+        {
+                "cod": "0",
+                "codigo_motorista": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "error": []
+}
+                        </Textarea>
+        </div>
+        </div>
+    </section>
+
+	<section id="POSTajudante" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Assistant</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/ajudante</code></p>
+            <p>The submit JSON is identical to the JSON in the Method <a href="#GETajudante" class="scrolly active">SearchAssistant</a>. (Multiple objects can be sent)</p>
+
+            <p><b>Parameters to be sent:</b></p>
+            <table>
+                <th>Parameter</th> <th>Type</th> <th>Required</th><th>Description</th>
+                <tr><td>cpf_ajudante</td><td>String(20)</td><td><b>YES</b></td><td>Assistant ID(CPF)</td></tr>
+                <tr><td>nome</td><td>String(50)</td><td>YES</td><td>Persons Name</td></tr>
+                <tr><td>rg</td><td>String(20)</td><td>NO</td><td>Assistant RG</td></tr>
+                <tr><td>logradouro</td><td>String(200)</td><td>NO</td><td>Street Description</td></tr>
+                <tr><td>cep</td><td>String(8)</td><td>NO</td><td>Street ZIP(CEP) Code</td></tr>
+                <tr><td>numero</td><td>String(50)</td><td>NO</td><td>Street Street Number</td></tr>
+                <tr><td>complemento</td><td>String(100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>bairro</td><td>String(100)</td><td>NO</td><td>Street Neighborhood Description</td></tr>
+                <tr><td>cidade</td><td>String(100)</td><td>NO</td><td>City Description or City IBGE Code</td></tr>
+                <tr><td>sigla_estado</td><td>String(2)</td><td>NO</td><td>Street State Acronym</td></tr>
+                <tr><td>pais</td><td>String(50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>nome_pai</td><td>String(100)</td><td>NO</td><td>Father's Name</td>
+                <tr><td>nome_mae</td><td>String(100)</td><td>NO</td><td>Mother's Name</td>
+                <tr><td>data_nasc</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Date of Birth</td>
+                <tr><td>rg_emissor</td><td>String(10)</td><td>NO</td><td>RG Issuing Agency</td>
+                <tr><td>estado_civil</td><td>String(1)</td><td>NO</td><td>C: MARRIED <br>S: SINGLE<br>D: DIVORCED<br>V: WIDOWER</td>
+                <tr><td>rg_uf</td><td>String(2)</td><td>NO</td><td>RG Sender State Acronym</td>
+                <tr><td>naturalidade_descricao_ibge</td><td>String(100)</td><td>NO</td><td>Hometown or IBGE Code (according to IBGE standard table)</td>
+                <tr><td>naturalidade_uf_sigla</td><td>String(2)</td><td>NO</td><td>Acronym State Naturalness</td>
+                <tr><td>contatos</td><td>List (Array)</td><td>NO</td><td>Assistant Contacts, Can Associate Several In This Array</td>
+                <tr><td>email</td><td>String(100)</td><td>NO</td><td>Contact Email</td></tr>
+                <tr><td>fone1</td><td>String(30)</td><td>NO</td><td>Contact Phone</td>
+                <tr><td>Texto</td><td>String(100)</td><td>NO</td><td>Contact name</td>
+
+            </table>
+
+            <p><b>Return on Success</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+
+{
+    "sucesso": [
+        {
+                "cod": "0",
+                "codigo_embarcador": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "success": [
+        {
+                "cod": "0",
+                "codigo_embarcador": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "error": []
+}
+                        </Textarea>
+            <p><b>Return on Error:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+    {
+    "sucesso": [],
+        "success": [],
+    "error": [
+        {
+            "cod": "1",
+            "valor": "cnpj",
+            "campo": "cnpj_embarcador",
+            "mensagem": "necessario informar um cpf"
+        }{
+            "cod": "2",
+            "valor": "cnpj",
+            "campo": "cnpj_embarcador",
+            "mensagem": "cnpj ja existente"
+        }{
+            "cod": "4",
+            "valor": "",
+            "campo": "cidade",
+            "mensagem": "cidade nao encontrada"
+        }{
+            "cod": "5",
+            "valor": "",
+            "campo": "logradouro, cep",
+            "mensagem": "logradouro ou cep obrigatorio se informado cidade, estado, pais ou bairro"
+        }{
+            "cod": "6",
+            "valor": "",
+            "campo": "sigla_estado",
+            "mensagem": "estado nao encontrado"
+        }{
+            "cod": "6",
+            "valor": "",
+            "campo": "pais",
+            "mensagem": "pais nao encontrado"
+        }{
+            "cod": "7",
+            "valor": "",
+            "campo": "pgr_padrao",
+            "mensagem": "pgr não encontrado"
+        }{
+            "cod": "8",
+            "valor": "",
+            "campo": "cnpj_embarcador",
+            "mensagem": "cnpj ja cadastrado"
+        }{
+            "cod": "9",
+            "valor": "",
+            "campo": "estacao_gr_padrao",
+            "mensagem": "estacao gr nao encontrado"
+        }{
+            "cod": "10",
+            "valor": "",
+            "campo": "nome",
+            "mensagem": "necessario informar um nome"
+        }{
+            "cod": "11",
+            "valor": "",
+            "campo": "cnpj_embarcador",
+            "mensagem": "cnpj invalido"
+        }{
+            "cod": "12",
+            "valor": "",
+            "campo": "null",
+            "mensagem": "Erro ao cadastrar embarcador"
+        }
+    ]
+}</Textarea>
+        </div>
+        </div>
+    </section>
+	
+    <section id="POSTveiculo" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Vehicle</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/veiculo</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>placa</td><td>0</td><td>Text (10)</td><td><b>YES</b></td><td>Vehicle License Plate</td></tr>
+                <tr><td>tipo_veiculo</td><td>0</td><td>inteiro</td><td>YES</td><td>Vehicle Type. 1 = Cart; 2 = Tractor unit; 3 = Truck; 4 = Motorcycle; 5 = Loader; 6 = Ride Utility;</td></tr>
+                <tr><td>frota</td><td>0</td><td>Text (10)</td><td>NO</td><td>Vehicle Fleet</td></tr>
+                <tr><td>renavam</td><td>0</td><td>Text (10)</td><td>NO</td><td>Vehicle RENAVAM</td></tr>
+                <tr><td>chassi</td><td>0</td><td>Text (50)</td><td>NO</td><td>Vehicle Chassis</td></tr>
+
+                <tr><td>estacao_gr</td><td>0</td><td>Integer</td><td>NO</td><td>Tracking Station</td></tr>
+                <tr><td>veic_pgpg_codigo</td><td>0</td><td>Integer</td><td>NO</td><td>PGR Code</td></tr>
+
+                <tr><td>documento_proprietario</td><td>0</td><td>Text (30)</td><td>NO</td><td>Vehicle Owner's ID(CPF) / CNPJ</td></tr>
+                <tr><td>documento_transportador</td><td>0</td><td>Text (30)</td><td>NO</td><td>Vehicle Carrier ID (CPF) / CNPJ</td></tr>
+                <tr><td>documento_gestor</td><td>0</td><td>Text (30)</td><td>NO</td><td>Vehicle Fleet Manager ID(CPF)</td></tr>
+                <tr><td>senha_proprietario</td><td>0</td><td>Text (20)</td><td>NO</td><td>Vehicle Owner Password</td></tr>
+                <tr><td>senha_coacao</td><td>0</td><td>Text (20)</td><td>NO</td><td>Vehicle Duress Password</td></tr>
+                <tr><td>modelo</td><td>0</td><td>Text (50)</td><td>NO</td><td>Vehicle Model</td></tr>
+                <tr><td>marca</td><td>0</td><td>Text (50)</td><td>NO</td><td>Vehicle Brand</td></tr>
+                <tr><td>cpf_motorista</td><td>0</td><td>Text (20)</td><td>NO</td><td>Vehicle Driver ID(CPF)</td></tr>
+                <tr><td>ano_fabricacao</td><td>0</td><td>Text (4)</td><td>NO</td><td>Vehicle Manufacture Year</td></tr>
+                <tr><td>ano_modelo</td><td>0</td><td>Text (4)</td><td>NO</td><td>Vehicle Model Year</td></tr>
+                <tr><td>cor</td><td>0</td><td>Text (20)</td><td>NO</td><td>Vehicle Color</td></tr>
+                <tr><td>tamanho</td><td>0</td><td>numeric</td><td>NO</td><td>Vehicle Size</td></tr>
+                <tr><td>cidade_emplacamento</td><td>0</td><td>Text (100)</td><td>NO</td><td>City Plating or IBGE Code (according to IBGE standard table)</td></tr>
+                <tr><td>sigla_estado</td><td>0</td><td>Text (2)</td><td>NO</td><td>Acronym UF (State of the City)</td></tr>
+                <tr><td>pais</td><td>0</td><td>Text (50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>telefone</td><td>0</td><td>Text (20)</td><td>NO</td><td>Vehicle Phone</td></tr>
+                <tr><td>antt</td><td>0</td><td>Text (50)</td><td>NO</td><td>Vehicle ANTT</td></tr>
+                <tr><td>rntc</td><td>0</td><td>Text (10)</td><td>NO</td><td>Vehicle RNTC</td></tr>
+                <tr><td>crlv</td><td>0</td><td>Integer</td><td>NO</td><td>Vehicle CRLV</td></tr>
+                <tr><td>capacidade_maxima</td><td>0</td><td>Integer</td><td>NO</td><td>Load Capacity</td></tr>
+
+                <tr><td>unidade_medida</td><td>0</td><td>Constant</td><td>NO</td><td>
+                    FAR = BUNDLE<br>
+                    LIT = LITER<br>
+                    QUI = KG<br>
+                    PAL = PALLET<br>
+                    MEC = CUBIC_METER<br>
+                    QUI = KILOS<br>
+                    UVO = VOLUME_UNITS</td></tr>
+                <tr><td>tipo_unidade_medida</td><td>0</td><td>Constant</td><td>NO</td><td>
+                    CAX = BOXES<br>
+                    PAL = PALLETS
+                </td></tr>
+
+                <tr><td>tipo_carroceria</td><td>0</td><td>Constant</td><td>NO</td><td>
+                    1 = AMBULANCE<br>
+                    2 = FANLIGHT<br>
+                    3 = SHIELDED<br>
+                    4 = BUGGY<br>
+                    5 = CLOSED CABIN<br>
+                    6 = OPEN CABIN<br>
+                    8 = CONVERTIBLE<br>
+                    9 = VAN<br>
+                    10 = JEEP<br>
+                    11 = TRAILER<br>
+                    12 = MOTORCYCLES<br>
+                    13 = SIDER<br>
+                </td></tr>
+                <tr><td>combustivel</td><td>0</td><td>Constant</td><td>NO</td><td>
+                    0 = GASOLINE<br>
+                    1 = ETHANOL<br>
+                    2 = DIESEL<br>
+                    3 = FLEX</td></tr>
+                <tr><td>data_emissao</td><td>0</td><td>Datetime (01/06/2015 00:00:00)</td><td>NO</td><td>Document Issue Date</td></tr>
+
+                <tr><td>observacao_veiculo</td><td>0</td><td>Text (5000)</td><td>NO</td><td>Vehicle Observation</td></tr>
+                <tr><td>terminais</td><td>0</td><td>List (Array)</td><td>NO</td><td>Vehicle Terminals</td></tr>
+                <tr><td>numero</td><td>1</td><td>Text (30)</td><td>NO</td><td>Vehicle Terminal Number</td></tr>
+                <tr><td>tecnologia</td><td>1</td><td>String(50)</td><td>NO</td><td>Telematic</td></tr>
+                <tr><td>transportadores</td><td>0</td><td>List (Array)</td><td>NO</td><td>Carrier</td></tr>
+                <tr><td>documento_transportador</td><td>1</td><td>Text (30)</td><td>NO</td><td>Carrier ID(CPF)/CNPJ</td></tr>
+                <tr><td>vinculo_contratual</td><td>1</td><td>Integer</td><td>NO</td><td>Type of Link to the Carrier. 1=fixed; 2=Aggregate; 3=Third</td></tr>
+            </table>
+            <p><b>Request to send Vehicle's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+ {
+    "veiculo": [-- multiple vehicles can be sent within this array.
+    {
+        "placa": "WS_REST",
+        "frota": "WS_REST",
+        "renavam": "WS_REST",
+        "chassi": "WS_REST",
+        "tipo_veiculo": 2,
+        "documento_proprietario": "16165647000103",
+        "documento_transportador": "29872062000175",
+        "senha_proprietario": "1234565",
+        "senha_coacao": "WS_REST",
+        "modelo": "AGRALE 13000",
+        "marca": "AGRALE",
+        "cpf_motorista": "026083528-55",
+        "ano_fabricacao": "2011",
+        "ano_modelo": "1993",
+        "cor": "1",
+        "tamanho": 0,
+        "cidade_emplacamento": "Guatambu",
+        "sigla_estado": "SP",
+        "pais": "Brasil",
+        "telefone": "99999999",
+        "antt": 1,
+        "rntc": 1,
+        "crlv": 1,
+        "observacao_veiculo": "motora",
+        "terminais": [
+            {
+                "numero": "1988942",
+                "tecnologia": 6608
+            },{
+                "numero": "TRI0003",
+                "tecnologia": 1
+            }
+        ],
+        "transportadores": [
+            {
+                "documento_transportador": "29872062000175",
+                "vinculo_contratual": 1
+            }
+        ]
+    }]
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+{
+    "sucesso": [
+        {
+                "cod": "0",
+                "codigo_veiculo": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "success": [
+        {
+                "cod": "0",
+                "codigo_veiculo": cod,
+                "mensagem": "operacao realizada com sucesso"
+        }
+    ],
+    "error": []
+}
+                        </Textarea>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTEnviarEventos" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Events</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/eventos</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>events</td><td>0</td><td>Array</td><td><b>YES</b></td><td>JSON main tag.</td></tr>
+
+                <tr><td>tipo_evento</td><td>1</td><td>Integer</td><td>YES</td><td>Fixed Code, According to The Table of Types of Events That Can Be Generated.</td></tr>
+                <tr><td>descricao</td><td>1</td><td>Text (100)</td><td>YES</td><td>Description of The Generated Event</td></tr>
+                <tr><td>placa</td><td>1</td><td>Text (10)</td><td>YES</td><td>Vehicle License Plate</td></tr>
+                <tr><td>numero_terminal</td><td>1</td><td>Text (30)</td><td>YES</td><td>Vehicle Device Number</td></tr>
+                <tr><td>tecnologia</td><td>1</td><td>Text (50)</td><td>YES</td><td>Device Telematic Description</td></tr>
+                <!--<tr><td>DataCadastro</td><td>1</td><td>Datetime (2018-10-02 11:34:29)</td><td>Sim</td><td>Register date</td></tr>-->
+                <tr><td>data_bordo</td><td>1</td><td>Datetime (2018-10-02 11:34:29)</td><td>YES</td><td>Event Date on Board</td></tr>
+                <tr><td>posicao</td><td>1</td><td>Text (200)</td><td>YES</td><td>Description of Event Location Position</td></tr>
+                <tr><td>latitude</td><td>1</td><td>Text (15)</td><td>YES</td><td>Event Local Latitude</td></tr>
+                <tr><td>longitude</td><td>1</td><td>Text (15)</td><td>YES</td><td>Event Local Longitude</td></tr>
+                <tr><td>codigo_viagem</td><td>1</td><td>Integer</td><td>YES</td><td>Shipment ID</td></tr>
+            </table>
+            <p><b>Request to send Event's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+ {
+    "eventos": [
+         {
+            "tipo_evento": 113,
+            "descricao": "INICIO DE PERNOITE.",
+            "placa": "ONX0001",
+            "numero_terminal": "ONX0001",
+            "tecnologia": "ONIXSAT",
+            "data_bordo": "2018-10-02 11:34:29",
+            "posicao": "0.600 KM DE PT. EXPRESSO CHAPECO -CHAPECO/SC",
+            "latitude": "-27.1125032348",
+            "longitude": "-52.5643014908",
+            "codigo_viagem": 9511
+        }
+    ]
+}                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+
+{
+    "sucesso": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao realizada com sucesso"
+            }
+    ],
+    "success": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao realizada com sucesso"
+            }
+    ],
+    "error": []
+}
+                        </Textarea>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTEnviarRota" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Route</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/rota</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>rotas</td><td>0</td><td>Array</td><td><b>YES</b></td><td>JSON Main Tag.</td></tr>
+                <tr><td>descricao</td><td>1</td><td>Text (500)</td><td>YES</td><td>Route Description</td></tr>
+                <tr><td>distancia</td><td>1</td><td>Real</td><td>NO</td><td>Route Distance (Required When Entered Coordinates)</td></tr>
+                <tr><td>coordenadas</td><td>1</td><td>Text</td><td>NO</td><td>Route Encrypted Polyline in Google Maps Format</td></tr>
+
+                <tr><td>pontos_rota</td><td>2</td><td>Array</td><td>YES</td><td>Route Points</td></tr>
+
+                <tr><td>descricao_local</td><td>2</td><td>Text (200)</td><td>YES</td><td>Place Description</td></tr>
+                <tr><td>tipo_local</td><td>2</td><td>Integer</td><td>YES</td><td>Stop Type (Available in Stop Type Parameters)</td></tr>
+                <tr><td>latitude</td><td>2</td><td>Text (15)</td><td>NO</td><td>Place Latitude</td></tr>
+                <tr><td>longitude</td><td>2</td><td>Text (15)</td><td>NO</td><td>Place Longitude</td></tr>
+
+                <tr><td>logradouro</td><td>2</td><td>Text (200)</td><td>NO</td><td>Place Street</td></tr>
+                <tr><td>complemento</td><td>2</td><td>Text (100)</td><td>NO</td><td>Place Street Complement</td></tr>
+                <tr><td>cep</td><td>2</td><td>Text (8)</td><td>NO</td><td>Place Street ZIP(CEP) Code</td></tr>
+                <tr><td>numero</td><td>2</td><td>Text (50)</td><td>NO</td><td>Place Number</td></tr>
+                <tr><td>bairro</td><td>2</td><td>Text (100)</td><td>NO</td><td>Place Neighborhood</td></tr>
+                <tr><td>cidade_descricao_ibge</td><td>2</td><td>Text (100)</td><td>NO</td><td>City Description or IBGE Code</td></tr>
+                <tr><td>sigla_estado</td><td>2</td><td>Text (2)</td><td>NO</td><td>Place Street State Acronym</td></tr>
+                <tr><td>pais</td><td>2</td><td>Text (50)</td><td>NO</td><td>Country</td></tr>
+                <tr><td>raio</td><td>2</td><td>real</td><td>NO</td><td>Place Radius</td></tr>
+                <tr><td>You must enter Latitude and Longitude, otherwise enter all other data for the detail of the street.</td></tr>
+            </table>
+            <p><b>Request to send Route's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+ {
+    "rotas": [
+         {
+            "descricao": "43285- ",
+            "pontos_rota": [
+                 {
+                    "descricao_local": "ORIGEM CARGA",
+                    "tipo_local": 4,
+                    "latitude": "-27.1125032348",
+                    "longitude": "-52.5643014908",
+                            "logradouro": "",
+                            "complemento": "",
+                            "cep": "0095008",
+                            "numero": "",
+                            "bairro": "TREVO",
+                            "cidade_descricao_ibge": "Guatambu",
+                            "sigla_estado": "SC",
+                            "pais": "BRASIL",
+                            "raio": "500"
+                },
+                 {
+                    "descricao_local": "TRANSPORTADORA DA COLETA",
+                    "tipo_local": 3,
+                    "latitude": "",
+                    "longitude": "",
+                            "logradouro": "AVENIDA GENERAL CARLOS CAVALCANTI",
+                            "complemento": "CASA",
+                            "cep": "0095008",
+                            "numero": "510",
+                            "bairro": "CENTRO",
+                            "cidade_descricao_ibge": "PONTA GROSSA",
+                            "sigla_estado": "PR",
+                            "pais": "BRASIL",
+                            "raio": "500"
+                },
+                {
+                    "descricao_local": "DESTINO DESCARGA",
+                    "tipo_local": 5,
+                    "latitude": "-21.5900000000",
+                    "longitude": "-42.5005555556",
+                            "logradouro": "",
+                            "complemento": "",
+                            "cep": "",
+                            "numero": "",
+                            "bairro": "TREVO",
+                            "cidade_descricao_ibge": "Guatambu",
+                            "sigla_estado": "SC",
+                            "pais": "BRASIL",
+                            "raio": "500"
+                }
+            ]
+        }
+    ]
+}               </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+
+{
+    "sucesso": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao realizada com sucesso"
+            }
+    ],
+    "success": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao realizada com sucesso"
+            }
+    ],
+    "error": []
+}
+                        </Textarea>
+        </div>
+        </div>
+    </section>
+
+
+
+    <section id="POSTEnviarPGR" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send PGR</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/pgr</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+                <tr><td>pgr</td><td>0</td><td>Array</td><td><b>YES</b></td><td>JSON Main Tag.</td></tr>
+                <tr><td>descricao</td><td>1</td><td>Text (100)</td><td>YES</td><td>PGR Description</td></tr>
+                <tr><td>pgr_padrao</td><td>1</td><td>Integer</td><td>NO</td><td>Default PGR to Use as Template for Cloning Detail and Action Settings</td></tr>
+                <tr><td>valor_minimo</td><td>1</td><td>Real</td><td>NO</td><td>PGR Minimum Value</td></tr>
+                <tr><td>valor_maximo_especifico</td><td>1</td><td>Real</td><td>NO</td><td>PGR Specific Maximum Value</td></tr>
+                <tr><td>valor_total</td><td>1</td><td>Real</td><td>NO</td><td>PGR Total Maximum Value </td></tr>
+                <tr><td>grau_risco</td><td>1</td><td>Integer</td><td>NO</td><td>1 =  Very High; 2 = High; 3 = Medium; 4 = Low; 5 = Not Relevant </td></tr>
+
+                <tr><td>versoes</td><td>2</td><td>Array</td><td>NO</td><td>Telematics Versions</td></tr>
+
+                <tr><td>codigo_versao_tecnologia</td><td>2</td><td>Integer</td><td>NO</td><td>Telematic Version According to SearchTelematicVersions [GET] Method</td></tr>
+
+                <tr><td>sublimites</td><td>2</td><td>Array</td><td>NO</td><td>Product Sublimite</td></tr>
+
+                <tr><td>tipo_produto</td><td>2</td><td>Text (50)</td><td>NO</td><td>Product Type Description</td></tr>
+                <tr><td>valor_maximo</td><td>2</td><td>Real</td><td>NO</td><td>Maximum Value of This Product Type</td></tr>
+            </table>
+            <p><b>Request to send PGR's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+ {
+    "pgr": [
+        {
+            "pgr_padrao": 804,
+            "descricao": "INICIO DE VIAGEM SEM AGENDAMENTO",
+            "grau_risco": "1",
+            "valor_minimo": "5441.00",
+            "valor_maximo_especifico": "2336.00",
+            "valor_total": "7777.00",
+            "versoes": [{
+                "codigo_versao_tecnologia":"12"
+            }],
+            "sublimites": [{
+                "tipo_produto":"CELULOSE",
+                "valor_maximo": "012.00"
+
+            }]
+        }]
+}
+                        </Textarea>
+            <br>
+            <p><b>Return on Success:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+
+
+{
+    "sucesso": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao Realizada com sucesso"
+            }
+    ],
+    "success": [
+       {
+                "cod": "0",
+                "valor": 43344,
+                "mensagem": "operacao Realizada com sucesso"
+            }
+    ],
+    "error": []
+}
+                        </Textarea>
+        </div>
+        </div>
+    </section>
+
+    <section id="POSTEnviarPesquisa" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Research</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/historico-pesquisa</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+
+                <tr><td>TipoObjeto</td><td>1</td><td>Text (2)</td><td style="color:red">YES</td><td>Search Object Type (Available in The Documentation on The Search Object Type)</td></tr>
+                <tr><td>Documento</td><td>1</td><td>Text (50)</td><td style="color:red">YES</td><td>Search Owner Carrier Document</td></tr>
+                <tr><td>Objeto</td><td>1</td><td>Text (50)</td><td style="color:red">YES</td><td>Research Object (License Plate / CPF / CNPJ)</td></tr>
+                <tr><td>Status</td><td>1</td><td>Text (2)</td><td style="color:red">YES</td><td>Research Status (Available in The Search Status Documentation)</td></tr>
+                <tr><td>TipoValidade</td><td>1</td><td>Text (2)</td><td style="color:red">YES</td><td>Research Expiration Type by Date or Shipment, Listed in "DT" or "VI"</td></tr>
+                <tr><td>FornecedorPesquisa</td><td>1</td><td>Integer</td><td style="color:red">YES</td><td>Research Provider (Available in The Documentation From The Search Provider)</td></tr>
+
+
+
+                <tr><td>NumeroLiberacao</td><td>1</td><td>Text (50)</td><td>NO</td><td>Research Number Description</td></tr>
+                <tr><td>DataValidade</td><td>1</td><td>Datetime (2018-10-02 11:34:29)</td><td>NO</td><td>Research Expiration Date</td></tr>
+
+
+            </table>
+            <p><b>Request to send Research's data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+"pesquisas":[
+    {
+        "TipoObjeto": "TR",
+        "Documento": "23412744000119",
+        "Objeto": "23412744000119",
+        "FornecedorPesquisa": "1",
+        "Status": "IN",
+        "NumeroLiberacao":"321333",
+        "DataValidade":"2018-10-02 11:34:29"
+    }
+    ]
+
+}
+                        </Textarea>
+            <br>
+
+        </div>
+        </div>
+    </section>
+    <!--------------------------PUT--------------------------->
+    <section id="PUTviagem" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Shipment</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/viagem/IdViagem</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">Send Shipment</a> method.  However, the id <i>"IdViagem"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array.</b>.</p>
+
+                <p>It is not allowed to change completed shipments, if the shipment is started will only change the Route or Places and the PGR of the shipment, if the shipment is scheduled you can change all fields of the shipment.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTstatusviagem" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Shipment Status</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/viagem/IdViagem</code></p>
+
+                <p><b>Request to Update SM's/Shipment's Status:</b></p>
+                <Textarea rows="5" cols="50" readonly>
+ {
+    "status_viagem": {
+        "id_novo_status": 1
+    }
+}
+                        </Textarea>
+                <p>The statuses allowed to change the shipment are: 1 = Effective; 2 = Canceled; 5 = Finished (any other ids will be rejected by the webservice).</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTnotafiscal" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Invoices</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/viagemnotafiscal/IdNotaFiscal</code></p>
+
+                <p><b>Invoice Status Request::</b></p>
+                <Textarea rows="5" cols="50" readonly>
+ {
+    "data_baixa": "10/05/2019 12:09:58"
+ }
+                        </Textarea>
+                <p>The date format must be the same as the example above (any other formats will be rejected by the webservice).</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTtransportador" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Carrier</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/transportador/IdTransportador</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">Send Carrier</a> method.  However, the id <i>"IdTransportador"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTembarcador" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Shipper</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/embarcador/IdEmbarcador</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">SendShipper</a> method.  However, the id <i>"IdEmbarcador"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTmotorista" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Driver</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/motorista/IdMotorista</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">SendDriver</a> method.  However, the id <i>"IdMotorista"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTajudante" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Assistant</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/ajudante/IdAjudante</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">SendAssistant</a> method.  However, the id <i>"IdAjudante"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="PUTveiculo" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Update Vehicle</h2>
+                <p><code>[PUT] http://customer.ip.address:port/ws_rest/public/api/veiculo/Placa</code></p>
+                <p>It has the same parameters as the <a href="#POSTviagem" class="scrolly active">SendVehicle</a> method.  However, the id <i>"Placa"</i> must be sent.</p>
+                <p>It is not allowed to change more than one record at a time, <b>so this information should not be sent within an array</b>.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="GETPosicaoVeiculo" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Vehicle Position</h2>
+                <p>Returns Positions information.</p>
+
+                <span>To query the positions of a specific vehicle, the following parameters must be entered in the URL:  </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>IdPosicao:</td><td style="color:red">YES</td><td>Id (id) of the last position received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Vehicle Carrier CNPJ</td></tr>
+                    <tr><td>Placa:</td><td style="color:blue">NO</td><td>Vehicle License Plate</td></tr>
+                    <tr><td>Qtde:</td><td style="color:blue">NO</td><td>Amount of record to be received (maximum 1000 if not entered maximum by default is 1000).</td></tr>
+                    <tr><td>CodViag:</td><td style="color:blue">NO</td><td>Shipment ID </td></tr>
+                    <tr><td>DataCadastroI:</td><td style="color:blue">NO</td><td>Start Date (DD / MM / YYYY format) for registration period filter. </td></tr>
+                    <tr><td>DataCadastroF:</td><td style="color:blue">NO</td><td>End Date (DD / MM / YYYY format) for registration period filter. </td></tr>
+                </table>
+
+
+                <span>Example to query data:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/ultimaPosicaoVeiculo?IdPosicao=999&Placa=ABC1234&DataCadastroI=01/05/2019&DataCadastroF=31/05/2019</code></p>
+                <span>Example to query the positions of a specific vehicle: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/posicaoVeiculo?IdPosicao=999&Placa=ABC1234</code></p>
+                <span>Example to query the positions of all vehicles:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/posicaoVeiculo?IdPosicao=999</code></p>
+
+                <span><b>NOTE</b></span>
+                <p>It's highly recommended to insert the period filter.</p>
+
+
+                <p><b>JSON Return:</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Posicao": [
+        {
+            "idPosicao": 788365,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:16:37",
+            "DataTecnologia": "2018-09-14 13:16:37",
+            "DataCadastro": "2018-09-14 13:16:59",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        },
+        {
+            "idPosicao": 788404,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:17:07",
+            "DataTecnologia": "2018-09-14 13:17:07",
+            "DataCadastro": "2018-09-14 13:17:31",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        },
+        {
+            "idPosicao": 788440,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:17:07",
+            "DataTecnologia": "2018-09-14 13:17:07",
+            "DataCadastro": "2018-09-14 13:17:53",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        }
+      ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETPosicaoTerminal" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Terminal Position</h2>
+                <p>Returns Positions information</p>
+
+                <span>Parameters to be informed in the query:  </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>IdPosicao:</td><td style="color:red">YES</td><td>Id of the last location received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Vehicle Carrier CNPJ</td></tr>
+                    <tr><td>NumeroTerminal</td><td style="color:blue">NO</td><td>Device Number</td></tr>
+                    <tr><td>Tecnologia</td><td style="color:blue">NO</td><td>Device Telematic</td></tr>
+                    <tr><td>Qtde:</td><td style="color:blue">NO</td><td>Amount of Record to Be Received (maximum 1000 if not entered maximum by default is 1000).</td></tr>
+                    <tr><td>CodViag:</td><td style="color:blue">NO</td><td>Shipment ID. </td></tr>
+                </table>
+
+
+                <span>Example for querying the positions of a specific terminal: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/posicaoVeiculo?IdPosicao=01&NumeroTerminal=ONX0001&Tecnologia=ONIXSAT</code></p>
+                <span>Example to query the positions of all terminals:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/posicaoVeiculo?IdPosicao=999</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Posicao": [
+        {
+            "idPosicao": 788365,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:16:37",
+            "DataTecnologia": "2018-09-14 13:16:37",
+            "DataCadastro": "2018-09-14 13:16:59",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        },
+        {
+            "idPosicao": 788404,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:17:07",
+            "DataTecnologia": "2018-09-14 13:17:07",
+            "DataCadastro": "2018-09-14 13:17:31",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        },
+        {
+            "idPosicao": 788440,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:17:07",
+            "DataTecnologia": "2018-09-14 13:17:07",
+            "DataCadastro": "2018-09-14 13:17:53",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        }
+      ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section id="GETUposPosicaoVeiculo" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Last Vehicle Position</h2>
+                <p>Returns Positions information</p>
+
+                <span>To query the positions of a specific vehicle, the following parameters must be entered in the URL: </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>IdPosicao:</td><td style="color:red">YES</td><td>Id (id) of The Last Position Received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Vehicle Carrier CNPJ</td></tr>
+                    <tr><td>Placa:</td><td style="color:blue">NO</td><td>Vehicle License Plate</td></tr>
+                    <tr><td>Qtde:</td><td style="color:blue">NO</td><td>Amount of Record to Be Received (maximum 1000 if not entered maximum by default is 1000).</td></tr>
+                    <tr><td>CodViag:</td><td style="color:blue">NO</td><td>Shipment ID. </td></tr>
+                </table>
+
+
+                <span>Example to query the positions of a specific vehicle: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/ultimaPosicaoVeiculo?IdPosicao=999&Placa=ABC1234</code></p>
+                <span>Example to query the positions of all vehicles:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/ultimaPosicaoVeiculo?IdPosicao=999</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Posicao": [
+        {
+            "idPosicao": 788365,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:16:37",
+            "DataTecnologia": "2018-09-14 13:16:37",
+            "DataCadastro": "2018-09-14 13:16:59",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        }
+      ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <section id="GETUposPosicaoTerminal" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Last Terminal Position</h2>
+                <p>Returns Positions information</p>
+
+                <span>Parameters to be informed in the query:  </span>
+                <table>
+                    <th>Parameter</th><th>required</th><th>Description</th>
+                    <tr><td>IdPosicao:</td><td style="color:red">YES</td><td>Id of The Last Position Received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Documento</td><td style="color:red">YES</td><td>Vehicle Carrier CNPJ</td></tr>
+                    <tr><td>NumeroTerminal</td><td style="color:blue">NO</td><td>Terminal Number That is Positioning</td></tr>
+                    <tr><td>Tecnologia</td><td style="color:blue">NO</td><td>Device Telematic</td></tr>
+                    <tr><td>Qtde:</td><td style="color:blue">NO</td><td>Amount of Record To Be Received (maximum 1000 if not entered maximum by default is 1000).</td></tr>
+                    <tr><td>CodViag:</td><td style="color:blue">NO</td><td>Shipment ID. </td></tr>
+                </table>
+
+
+                <span>Example for querying the positions of a specific terminal: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/ultimaPosicaoVeiculo?IdPosicao=01&NumeroTerminal=ONX0001&Tecnologia=ONIXSAT</code></p>
+                <span>Example to query the positions of all terminals:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/ultimaPosicaoVeiculo?IdPosicao=999</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Posicao": [
+        {
+            "idPosicao": 788365,
+            "Placa": "ONX0001",
+            "NumeroTerminal": "ONX0001",
+            "Tecnologia": "ONIXSAT",
+            "IdViagem": null,
+            "DataBordo": "2018-09-14 13:16:37",
+            "DataTecnologia": "2018-09-14 13:16:37",
+            "DataCadastro": "2018-09-14 13:16:59",
+            "Latitude": "-27.0000000000",
+            "Longitude": "-51.6484375000",
+            "DescricaoSistema": "7,452 KM DE TRADICIONAL MERC LTDA",
+            "DescricaoTecnologia": "",
+            "Ignicao": "0",
+            "Odometro": "0",
+            "Velocidade": null,
+            "RPM": "0"
+        }
+      ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="GETVersoesTecnologia" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Telematics Versions</h2>
+                <p>Returns Information about Telematics Versions</p>
+
+                <span>Parameters to Be Informed in The Query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>Tecnologia</td><td style="color:blue">NO</td><td>Telematic Description</td></tr>
+                </table>
+
+
+                <span>Example to query the versions of a specific telematic: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/versaoTecnologia?Tecnologia=ONIXSAT</code></p>
+                <span>Example for querying data from all telematic versions:</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/versaoTecnologia</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "versao_tecnologia": [
+        {
+            "codigo": 1,
+            "descricao": "ONIXSAT EQ.1 - 1.01",
+            "versao": "EQ.1 - 1.01",
+            "tecnologia": "ONIXSAT"
+        },
+        {
+            "codigo": 2,
+            "descricao": "ONIXSAT EQ.1 - 1.02",
+            "versao": "EQ.1 - 1.02",
+            "tecnologia": "ONIXSAT"
+        }
+      ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETBuscarRota" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Route</h2>
+                <p>Returns information about Consumer User Company Routes</p>
+
+                <span>Parameters to Be Informed in The Query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:blue">NO</td><td>Last Route ID Received (to fetch the ones after this id).</td></tr>
+                    <tr><td>RotaCodigo</td><td style="color:blue">NO</td><td>Route ID</td></tr>
+                    <tr><td>At least one of the mentioned parameters must be passed, if the search is batch (UltCodigo) the batch is limited to 100 records.</td></tr>
+                </table>
+
+
+                <span>Example to query the data of a specific Route: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/rota?RotaCodigo=123</code></p>
+                <span>Example to query a route batch (100 Register):</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/rota?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "rotas": [
+        {
+            "id_rota": 3952,
+            "descricao": "43285- ",
+            "distancia": "15274.66",
+            "data_cadastro": "2018-10-08 09:48:53",
+            "pontos_rota": [
+                {
+                    "sequencia": 1,
+                    "descricao_local": "ORIGEM CARGA",
+                    "tipo_local": 4,
+                    "tipo_local_descricao": "ORIGEM",
+                    "latitude": "-27.1125032348",
+                    "longitude": "-52.5643014908",
+                    "raio": "500.00000",
+                    "area": null,
+                    "area_descricao": null
+                },
+                {
+                    "sequencia": 2,
+                    "descricao_local": "TRANSPORTADORA DA COLETA",
+                    "tipo_local": 3,
+                    "tipo_local_descricao": "ENTREGA",
+                    "latitude": "-25.0925192000",
+                    "longitude": "-50.1342357000",
+                    "raio": "500.00000",
+                    "area": null,
+                    "area_descricao": null
+                },
+                {
+                    "sequencia": 3,
+                    "descricao_local": "DESTINO DESCARGA",
+                    "tipo_local": 5,
+                    "tipo_local_descricao": "DESTINO",
+                    "latitude": "-21.5900000000",
+                    "longitude": "-42.5005555556",
+                    "raio": "500.00000",
+                    "area": null,
+                    "area_descricao": null
+                }
+            ]
+        }
+    ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="GETBuscarEventos" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Events</h2>
+                <p>Returns information about events generated on the Trafegus system.</p>
+
+                <span>Parameters to be informed in the query:    </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:red">YES</td><td>Last event id Received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Placa</td><td style="color:blue">NO</td><td>Vehicle License Plate</td></tr>
+                    <tr><td>CodViag</td><td style="color:blue">NO</td><td>Shipment ID</td></tr>
+                </table>
+
+
+                <span>Example to query the data of a specific Plate or Shipment: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/eventos?UltCodigo=1&Placa=PLA0001&CodViag=141</code></p>
+                <span>Example to query a event batch (100 Register):</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/eventos?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "eventos": [
+        {
+            "id_evento": 43457,
+            "tipo_evento": 113,
+            "descricao_tipo_evento": "EVENTO DE MACRO DE INICIO DE PERNOITE",
+            "descricao": "INICIO DE PERNOITE.",
+            "placa": 9,
+            "numero_terminal": "ONX0001",
+            "tecnologia": "ONIXSAT",
+            "data_cadastro": "2018-10-08 09:41:11",
+            "data_bordo": "2018-10-02 11:34:29",
+            "posicao": "0.600 KM DE PT. EXPRESSO CHAPECO -CHAPECO/SC",
+            "latitude": "-27.1125032348",
+            "longitude": "-52.5643014908",
+            "codigo_viagem": 9511
+        },
+        {
+            "id_evento": 43454,
+            "tipo_evento": 113,
+            "descricao_tipo_evento": "EVENTO DE MACRO DE INICIO DE PERNOITE",
+            "descricao": "INICIO DE PERNOITE.",
+            "placa": 9,
+            "numero_terminal": "ONX0001",
+            "tecnologia": "ONIXSAT",
+            "data_cadastro": "2018-10-08 09:37:19",
+            "data_bordo": "2018-10-02 11:34:29",
+            "posicao": "0.600 KM DE PT. EXPRESSO CHAPECO -CHAPECO/SC",
+            "latitude": "-27.1125032348",
+            "longitude": "-52.5643014908",
+            "codigo_viagem": 9511
+        }
+    ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+    <section id="GETBuscarNaoConformidade" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Non-Conformity</h2>
+                <p>Returns information about the Non-Conformity generated in the Trafegus system</p>
+
+                <span>Parameters to be informed in the query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:red">YES</td><td>Last Non-Conformity ID Received (to fetch later registers than this id).</td></tr>
+                    <tr><td>Placa</td><td style="color:blue">NO</td><td>Vehicle License Plate</td></tr>
+                    <tr><td>CodViag</td><td style="color:blue">NO</td><td>Shipment ID</td></tr>
+                </table>
+
+
+                <span>Example to query the data of a specific Plate or Shipment: </span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/naoconformidades?UltCodigo=1&Placa=PLA0001&CodViag=141</code></p>
+                <span>Example to query a Non-Conformity batch (100 Register):</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/naoconformidades?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Eventos": [
+        {
+            "idNC": 2,
+            "TipoNC": 13,
+            "DescricaoTipoNC": "NAO CONFORMIDADE DO SISTEMA",
+            "Placa": "ONX0002",
+            "Descricao": "VEÍCULO ONX0002 GEROU EVENTO DE BOTAO DE PANICO AS 05/02/2018 17:02:37 NAS PROXIMIDADES DE 0,043 KM DE P. XAXIM - XAXIM/SC :",
+            "DataCadastro": "2018-07-12 16:24:39",
+            "CodigoViagem": null
+        },
+        {
+            "idNC": 3,
+            "TipoNC": 7,
+            "DescricaoTipoNC": "NAO CONFORMIDADE DO SISTEMA",
+            "Placa": "ONX0002",
+            "Descricao": "VEÍCULO DESVIOU ROTA AS 05/02/2018 17:02:37 NAS PROXIMIDADES DE 0,043 KM DE P. XAXIM - XAXIM/SC :",
+            "DataCadastro": "2018-07-12 16:27:41",
+            "CodigoViagem": null
+        }
+    ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETeras" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Tracking Stations</h2>
+                <p>Return Tracking Station(s) Information </p>
+
+                <span>Example to query tracking stations:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/estacaoRastreamento</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "estacao_rastreamento": [
+        {
+            "codigo": 1,
+            "descricao": "CHP_01"
+        },
+        {
+            "codigo": 2,
+            "descricao": "CHP_02"
+        },
+        {
+            "codigo": 3,
+            "descricao": "CHP_03"
+        }}]
+}</Textarea>
+            </div>
+        </div>
+    </section>
+    <section id="GETpesq" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Research</h2>
+                <p>Returns Research(s) Information</p>
+
+                <span>Parameters to be informed in the query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:red">YES</td><td>Last Research id Received (to fetch the ones after this id).</td></tr>
+                    <tr><td>Documento</td><td style="color:blue">NO</td><td>Research Owner Document</td></tr>
+                    <tr><td>Objeto</td><td style="color:blue">NO</td><td>Research Object (License Plate/ID(CPF)/CNPJ)</td></tr>
+                    <tr><td>To search for a specific Object you must also enter the Research Owner Document</td></tr>
+                </table>
+
+
+
+                <span>Example for querying Research data</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/historico-pesquisa?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Pesquisas": [
+        {
+            "valido": "INVALIDA",
+            "codigo_pesquisa": 2670,
+            "data_validade": null,
+            "data_consulta": "20/12/2018 17:44:42",
+            "StatusDescricao": "OBJETO PERTENCE A BLACKList DA GERENCIADORA",
+            "Status": "BL",
+            "FornecedorPesquisa": "3",
+            "FornecedorDescricao": "TRAFEGUS PESQUISA",
+            "Objeto": "LUC0001",
+            "TipoObjeto": "MO",
+            "Documento": "48765269000195",
+            "DocumentoNome": "TRANS GABRIEL"
+        }
+    ]
+}</Textarea>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="GETlogistico" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Logistics Data</h2>
+                <p>Returns fleet data information</p>
+                <span style="color:red">Required:</span><br>
+                <span>To view shipments by a specific carrier, add the carrier document at the URL:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?Documento=08879885554</code></p>
+                <span>You need to enter the search filter type (UPOS = Last Position / INI = Shipment Start Date / END = Shipment End Date):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?Tipo=UPOS</code></p>
+
+                <span>Need to enter the Research start and end date (dd / mm / yyyy hh: nn: ss):</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?DataInicio=01/01/2019 00:00:00&DataFim=02/01/2019 00:00:00</code></p>
+
+                <span>Example of searching with required data:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?Documento=08879885554&Tipo=UPOS&DataInicio=01/01/2019 00:00:00&DataFim=02/01/2019 00:00:00</code></p>
+
+                <span style="color:green">Optional:</span><br>
+                <span>To see a specific shipment, add the shipment id at the URL:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?CodViag=123456</code></p>
+
+                <span>To query a specific License Plate, add the License Plate at the URL:</span>
+                <p>Ex: <code>[GET] http://customer.ip.address:port/ws_rest/public/api/frota?Placa=PLA0001</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="20" cols="100" readonly>
+{
+    "Frota": [
+        {
+            "viagem_codigo": 9803,
+            "placa": "LUC0001",
+            "frota": null,
+            "rota_codigo": 4058,
+            "rota_descricao": "TESTE VIAGEM FROTA",
+            "viagem_status": "EM VIAGEM",
+            "percentual_viagem": "100",
+            "previsao_fim_recalculada": null,
+            "previsao_proximo_ponto": null,
+            "horas_atraso": "",
+            "status_atraso": "",
+            "rota_distancia": "585.29",
+            "distancia_percorrida": "585.29",
+            "distancia_restante": 0,
+            "tempo_entrega_coleta": "0d 0h 0m 0s ",
+            "tempo_viagem": "0d 1h 14m 2s ",
+            "tempo_restante": "0d 0h 0m 0s ",
+            "tipo_veiculo": "CAVALO",
+            "origem": "SHOPPING PATIO CHAPECO",
+            "chegada_origem": null,
+            "saida_origem": null,
+            "tempo_origem": "0d 0h 0m 0s ",
+            "destino": "FLORIANOPOLIS-SC",
+            "chegada_destino": null,
+            "saida_destino": null,
+            "tempo_destino": "0d 0h 0m 0s ",
+            "motorista_nome": "DARLEI MENDONçA DOS REIS",
+            "motorista_contatos": null,
+            "carreta_placa": null,
+            "bitrem_placa": null,
+            "transportador_contratado": "TRANSORTADOR DA VIAGEM",
+            "previsao_status": "JA FINALIZOU A VIAGEM",
+            "tipo_viagem": "TRANSFERENCIA",
+            "entregas_Realizadas": "",
+            "quantidade_entregas": 2,
+            "ultimo_evento_viagem_recebido": "CHEGADA NO LOCAL",
+            "data_ultimo_evento": null,
+            "ultimo_local_viagem_recebido": "SHOPPING PATIO CHAPECO",
+            "local": "ORIGEM",
+            "veiculo_status": "MOVIMENTO",
+            "viagem_data_inicio": "16/01/2019 15:34:53 Qua",
+            "viagem_data_fim": "16/01/2019 16:48:55 Qua",
+            "viagem_previsao_inicio": "16/01/2019 15:34:53 Qua",
+            "viagem_previsao_fim": null,
+            "ultima_posicao": "manuealzao",
+            "ultima_posicao_data": "15/01/2019 19:31:00 Ter",
+            "velocidade": 20,
+            "terminal_numero": "LUC0001",
+            "transportador_viagem": "TRANS SUPINO",
+            "embarcador_viagem": null,
+            "tipo_operacao_veiculo": "",
+            "tipo_operacao_viagem": null,
+            "data_consolidacao_viagem": null,
+            "numero_pedido_manifesto": null,
+            "total_eventos_violacoes_temperatura": 0,
+            "temperatura_status": "controle_ausente",
+            "sensor_01": "N",
+            "sensor_02": "N",
+            "sensor_03": "N",
+            "viagem_cliente": null,
+            "embarques": null
+        }
+    ]
+}
+                        </Textarea>
+            </div>
+        </div>
+    </section>
+    <section id="POSTEnviarPesquisaCad" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Send Research TrafegusCAD</h2>
+            <p><code>[POST] http://customer.ip.address:port/ws_rest/public/api/pesquisa</code></p>
+            <p><b>Parameters to be sent:</b></p>
+            <ul>
+                <li>Sending Authentication in HTTP / HTTPS header.</li>
+            </ul>
+            <table>
+                <th>Parameter</th><td>Group</td><th width="150px">Type</th> <th>Required</th><th>Description</th>
+
+                <tr><td>TipoObjeto</td><td>1</td><td>Text (2)</td><td style="color:red">YES</td><td>Search Object Type (available in the documentation on the Search Object Type)</td></tr>
+                <tr><td>Documento</td><td>1</td><td>Text (50)</td><td style="color:red">YES</td><td>Research Owner Carrier Document</td></tr>
+                <tr><td>Objeto</td><td>1</td><td>Text (50)</td><td style="color:red">YES</td><td>Research Object (License Plate / ID(CPF) / CNPJ)</td></tr>
+                <tr><td>Renovacao</td><td>1</td><td>Text (1)</td><td style="color:red">YES</td><td>Research Renewal (Y / N)</td></tr>
+                <!--<tr><td>FornecedorPesquisa</td><td>1</td><td>Inteiro</td><td style="color:red">Sim</td><td>Fornecedor de Pesquisa (disponível na documentação no Fornecedor de Pesquisa)</td></tr>-->
+
+
+                <!--<tr><td>NumeroLiberacao</td><td>1</td><td>Texto (50)</td><td>Não</td><td>Descrição do Número da pesquisa</td></tr>-->
+                <!--<tr><td>DataValidade</td><td>1</td><td>Datetime (2018-10-02 11:34:29)</td><td>Não</td><td>Data de validade da pesquisa</td></tr>-->
+
+
+            </table>
+            <p><b>Request to Submit Research Data:</b></p>
+            <Textarea rows="10" cols="50" readonly>
+{
+"pesquisas":[
+    {
+        "TipoObjeto": "TR",
+        "Documento": "23412744000119",
+        "Objeto": "23412744000119",
+        "FornecedorPesquisa": "1",
+        "Status": "IN",
+        "NumeroLiberacao":"321333",
+        "DataValidade":"2018-10-02 11:34:29"
+    }
+    ]
+
+}
+                        </Textarea>
+            <br>
+
+        </div>
+        </div>
+    </section>
+    <section id="GETpesqCad" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Research TrafegusCad</h2>
+                <p>Returns Research(s) Information</p>
+
+                <span>Parameters to be informed in the query:    </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>Tipo</td><td style="color:red">YES</td><td>Search Object Type (available in the documentation on the Search Object Type)</td></tr>
+                    <tr><td>Documento</td><<td style="color:red">YES</td><td>Research Owner Document</td></tr>
+                    <tr><td>Objeto</td><td style="color:red">YES</td><td>Research Object (License Plate/ID(CPF)/CNPJ)</td></tr>
+
+                </table>
+
+
+
+                <span>Example for querying Research data</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/consulta?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "Pesquisas": [
+        {
+            "valido": "INVALIDA",
+            "codigo_pesquisa": 2670,
+            "data_validade": null,
+            "data_consulta": "20/12/2018 17:44:42",
+            "StatusDescricao": "OBJETO PERTENCE A BLACKList DA GERENCIADORA",
+            "Status": "BL",
+            "FornecedorPesquisa": "3",
+            "FornecedorDescricao": "TRAFEGUS PESQUISA",
+            "Objeto": "LUC0001",
+            "TipoObjeto": "MO",
+            "Documento": "48765269000195",
+            "DocumentoNome": "TRANS GABRIEL"
+        }
+    ]
+}</Textarea>
+            </div>
+        </div>
+    </section>
+    <section id="GETbaixaLocal" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search Place Status</h2>
+                <p>Returns Information about the Place Status.</p>
+
+                <span>Parameters to be informed in the query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>local</td><td style="color:blue">NO</td><td>Place Code</td></tr>
+                    <tr><td>viagem</td><td style="color:blue">NO</td><td>Shipment ID</td></tr>
+                </table>
+
+
+
+                <span>Example to query data</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/baixalocal?UltCodigo=1</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "locais": [
+        {
+            "codigo_local": 73382,
+            "descricao_local": "P. BONASSI - CHAPECO/SC",
+            "data_cadastro_local": "2019-02-18 11:22:10",
+            "codigo_viagem": 10083,
+            "codigo_externo_local": null,
+            "tipo_parada": "ORIGEM",
+            "tipo_parada_codigo": 4,
+            "eventos": [
+                {
+                    "codigo_evento": 7991,
+                    "tipo_evento": "CHEGADA NO LOCAL",
+                    "codigo_tipo_evento": 1,
+                    "data_evento": null,
+                    "data_cadastro_evento": "2019-02-18 11:32:22",
+                    "sequencia": 1
+                }
+            ]
+        },
+        {
+            "codigo_local": 73384,
+            "descricao_local": "CORDILHEIRA ALTA-SC",
+            "data_cadastro_local": "2019-02-18 11:22:10",
+            "codigo_viagem": 10083,
+            "codigo_externo_local": null,
+            "tipo_parada": "COLETA",
+            "tipo_parada_codigo": 2,
+            "eventos": [
+                {
+                    "codigo_evento": 7992,
+                    "tipo_evento": "CHEGADA NO LOCAL",
+                    "codigo_tipo_evento": 1,
+                    "data_evento": null,
+                    "data_cadastro_evento": "2019-02-18 11:32:22",
+                    "sequencia": 1
+                }
+            ]
+        },
+        {
+            "codigo_local": 73386,
+            "descricao_local": "P. XAXIM - XAXIM/SC",
+            "data_cadastro_local": "2019-02-18 11:22:10",
+            "codigo_viagem": 10083,
+            "codigo_externo_local": null,
+            "tipo_parada": "DESTINO",
+            "tipo_parada_codigo": 5,
+            "eventos": [
+                {
+                    "codigo_evento": 7993,
+                    "tipo_evento": "CHEGADA NO LOCAL",
+                    "codigo_tipo_evento": 1,
+                    "data_evento": null,
+                    "data_cadastro_evento": "2019-02-18 11:32:22",
+                    "sequencia": 1
+                }
+            ]
+        }
+    ]
+}
+</Textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETcheckList" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search CheckList</h2>
+                <p>Return CheckList(s) information</p>
+
+                <span>Parameters to be informed in the query:   </span>
+                <table>
+                    <th>Parameter</th><th>Required</th><th>Description</th>
+                    <tr><td>UltCodigo</td><td style="color:red">YES</td><td>Last Code to Be Send</td></tr>
+                    <tr><td>DataCadastroI</td><td style="color:blue">NO</td><td>Initial Registration Date</td></tr>
+                    <tr><td>DataCadastroF</td><td style="color:blue">NO</td><td>Final Registration Date</td></tr>
+                    <tr><td>veiculo</td><td style="color:blue">NO</td><td>Vehicle Code</td></tr>
+                    <tr><td>BuscarAlteracoes</td><td style="color:blue">NO</td><td>Instead of Filtering by CheckList Code, Filters by Change Code</td></tr>
+                    <tr><td>IncluirDetalhes</td><td style="color:blue">NO</td><td>Returns CheckList and Terminal Items</td></tr>
+                </table>
+
+
+
+                <span>Example to query data</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/checkList</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "checkList": [
+        {
+            "codigo": 310,
+            "event_id": 12824748,
+            "data_validade": "06/11/2019 11:34:55",
+            "data_cadastro": "06/11/2019 11:35:05",
+            "data_fim": null,
+            "aprovado": "SIM",
+            "ativo": "SIM",
+            "valido_viagem": "NAO",
+            "nome_responsavel": null,
+            "tipo": "ROTINA",
+            "motivo_recusa": null,
+            "usuario_adicionou": "ADMINISTRADOR",
+            "usuario_alterou": "ADMINISTRADOR",
+            "viagem_codigo": null,
+            "veiculo_codigo": 3085079,
+            "veiculo_placa": "ONX0001",
+            "veiculo_cor": "PRETO",
+            "veiculo_ano_modelo": "2019",
+            "veiculo_renavam": "11111111111111111111111111111111111",
+            "modelo_veiculo_descricao": "STRALISH",
+            "carreta_codigo": null,
+            "carreta_placa": null,
+            "terminal_codigo": 182,
+            "numero_terminal": "ONX0001",
+            "versao_tecnologia": "ONIXSAT EQ.6 ONIXSMART 4.00",
+            "motorista": "GILSON SANTOS PEREIRA",
+            "proprietario": "TRANS SUPINO",
+            "transportador": "TRANS SUPINO",
+            "solicitante": "TRANS SUPINO",
+            "documento_transportador": "54735256000176"
+        }
+    ]
+}
+</Textarea>
+            </div>
+        </div>
+    </section>
+
+    <section id="GETsistemaRegistro" class="wrapper style1">
+        <div class="inner">
+            <div class="features">
+                <h2>Search System Records</h2>
+                <p>Returns System Logs Information</p>
+
+                <span>Query Filters:   </span>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>sessao</td>
+                        <td style="color:blue">NO</td>
+                        <td>Session Code</td>
+                    </tr>
+                    <tr>
+                        <td>chave</td>
+                        <td style="color:blue">NO</td>
+                        <td>Key Code</td>
+                    </tr>
+                    <tr>
+                        <td>limit</td>
+                        <td style="color:blue">NO</td>
+                        <td>Maximum number of records to List</td>
+                    </tr>
+                    <tr>
+                        <td>offset</td>
+                        <td style="color:blue">NO</td>
+                        <td>Records offset from the first</td>
+                    </tr>
+                </table>
+
+                <span>Example to query data</span>
+                <p><code>[GET] http://customer.ip.address:port/ws_rest/public/api/sistemaregistro</code></p>
+
+                <p><b>JSON Return</b></p>
+                <Textarea rows="10" cols="50" readonly>
+{
+    "success": [
+        {
+            "sreg_sessao": "TRAFEGUS_WEB",
+            "sreg_chave": "TEMPO_ATT_FROTA",
+            "sreg_valor": "1",
+            "sreg_data_cadastro": null
+        }
+    ],
+    "error": []
+}
+</Textarea>
+            </div>
+        </div>
+    </section>
+    <!--------------------------------CONSTANTES DO SISTEMA-------------------------------------------->
+
+
+    <section id="paramTLOC" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Place Type</h2>
+
+            <p>Location type to associate with the Carrier, used in the tipo_local parameter</p>
+
+            <p><b>Parameters to be sent</b></p>
+            <table>
+                <th>Code</th><th>Description</th>
+                <tr><td>1</td><td>RISK AREA</td></tr>
+                <tr><td>2</td><td>ALLOWED POINT</td></tr>
+                <tr><td>3</td><td>PROHIBITED POINT</td></tr>
+                <tr><td>4</td><td>ORIGIN</td></tr>
+                <tr><td>5</td><td>DESTINATION</td></tr>
+                <tr><td>6</td><td>DELIVERY</td></tr>
+                <tr><td>7</td><td>COLLECT</td></tr>
+                <tr><td>8</td><td>SAFE PLACE</td></tr>
+                <tr><td>9</td><td>CRITICAL AREA</td></tr>
+                <tr><td>14</td><td>CUSTOMS</td></tr>
+            </table>
+        </div>
+        </div>
+    </section>
+    <section id="paramTPAR" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Break Type</h2>
+
+            <p>Stop type used at shipment locations, referenced in tipo_parada parameter</p>
+
+            <p><b>Parameters to be sent</b></p>
+            <table>
+               <th>Code</th><th>Description</th>
+                <tr><td>1</td><td>STOP</td></tr>
+                <tr><td>2</td><td>COLLECT</td></tr>
+                <tr><td>3</td><td>DELIVERY</td></tr>
+                <tr><td>4</td><td>ORIGIN</td></tr>
+                <tr><td>5</td><td>DESTINATION</td></tr>
+                <tr><td>6</td><td>MEAL</td></tr>
+                <tr><td>7</td><td>OVERNIGHT STAY</td></tr>
+                <tr><td>8</td><td>PASSAGE</td></tr>
+                <tr><td>9</td><td>CUSTOMS</td></tr>
+                <tr><td>10</td><td>MATRIX</td></tr>
+                <tr><td>11</td><td>MAINTENANCE</td></tr>
+                <tr><td>12</td><td>SUPPLY</td></tr>
+                <tr><td>13</td><td>SUPERVISION</td></tr>
+                <tr><td>14</td><td>POLICE</td></tr>
+                <tr><td>15</td><td>FERRY</td></tr>
+                <tr><td>16</td><td>PORT</td></tr>
+                <tr><td>17</td><td>Custom Waypoint</td></tr>
+                <tr><td>18</td><td>Invoice Exchange</td></tr>
+            </table>
+        </div>
+        </div>
+    </section>
+    <section id="paramTVEI" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Vehicle Type</h2>
+
+            <p>Vehicle Type Used in Vehicle Registration</p>
+
+            <p><b>Parameters to be sent</b></p>
+            <table>
+               <th>Code</th><th>Description</th>
+                <tr><td>1</td><td>Cart</td></tr>
+                <tr><td>2</td><td>Tractor Unit</td></tr>
+                <tr><td>3</td><td>TRUCK</td></tr>
+                <tr><td>4</td><td>Motorcycle</td></tr>
+                <tr><td>5</td><td>LOAD UTILITY</td></tr>
+                <tr><td>6</td><td>UTILITY TOUR</td></tr>
+            </table>
+        </div>
+        </div>
+    </section>
+    <section id="paramFPES" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Search Provider</h2>
+
+            <p><b>Constants Used for Research Providers</b></p>
+            <table>
+                <th>Code</th><th>Description</th>
+                <tr><td>1</td><td>OTNET</td></tr>
+                <tr><td>2</td><td>CENTURY</td></tr>
+                <tr><td>3</td><td>TRAFEGUS PESQUISA</td></tr>
+                <tr><td>4</td><td>TELECONSULT (BUONNY)</td></tr>
+                <tr><td>5</td><td>PROTEGEGR</td></tr>
+                <tr><td>6</td><td>GSAT</td></tr>
+                <tr><td>7</td><td>GLOBAL5</td></tr>
+                <tr><td>9</td><td>TRUST</td></tr>
+                <tr><td>10</td><td>GUEP</td></tr>
+                <tr><td>11</td><td>PAMCARY</td></tr>
+                <tr><td>12</td><td>SAFETY</td></tr>
+                <tr><td>13</td><td>ULTRACAD</td></tr>
+                <tr><td>14</td><td>REPENSE</td></tr>
+                <tr><td>8</td><td>OTHERS / NOT INTEGRATED</td></tr>
+
+            </table>
+        </div>
+        </div>
+    </section>
+    <section id="paramPSTS" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Search Status</h2>
+
+            <p><b>Constants used for Search Status</b></p>
+            <table>
+				<th>Code</th><th>Description</th>
+                <tr><td>IN</td><td>ACCORDING TO INSURANCE RULES</td></tr>
+                <tr><td>NI</td><td>DISAGREEING WITH INSURANCE RULES</td></tr>
+                <tr><td>PE</td><td>IN RESEARCH</td></tr>
+                <tr><td>DI</td><td>INCONSISTENT DATA</td></tr>
+                <tr><td>BL</td><td>OBJECT BELONGS TO MANAGER BLACKList</td></tr>
+
+            </table>
+        </div>
+        </div>
+    </section>
+    <section id="paramTOBJ" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Search Object Type</h2>
+
+            <p><b>Constants Used for Search Object Types</b></p>
+            <table>
+                <th>Code</th><th>Description</th>
+                <tr><td>MO</td><td>DRIVER</td></tr>
+                <tr><td>VC</td><td>REEL VEHICLE</td></tr>
+                <tr><td>VM</td><td>MOTOR VEHICLE</td></tr>
+                <tr><td>TR</td><td>CARRIER</td></tr>
+                <tr><td>AJ</td><td>ASSISTANT</td></tr>
+
+            </table>
+
+        </div>
+        </div>
+    </section>
+    <section id="paramTTRA" class="wrapper style1">
+        <div class="inner"><div class="features">
+            <h2>Shipment Transportation Type</h2>
+
+            <p><b>Constants Used for Shipment Types of Transportation</b></p>
+            <table>
+                <th>Code</th><th>Description</th>
+                <tr><td>1</td><td>TRANSFER</td></tr>
+                <tr><td>2</td><td>DISTRIBUTION</td></tr>
+                <tr><td>3</td><td>RAW MATERIAL</td></tr>
+                <tr><td>4</td><td>MIXED</td></tr>
+                <tr><td>5</td><td>REGRESS</td></tr>
+                <tr><td>6</td><td>NATIONAL</td></tr>
+                <tr><td>7</td><td>EXPORT</td></tr>
+                <tr><td>8</td><td>IMPORT</td></tr>
+                <tr><td>9</td><td>CIRCUIT</td></tr>
+            </table>
+        </div>
+        </div>
+    </section>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

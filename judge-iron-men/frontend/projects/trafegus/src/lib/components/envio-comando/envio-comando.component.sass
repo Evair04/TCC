@@ -1,0 +1,262 @@
+
+.fab-content
+  overflow-x: hidden
+
+.pagina
+  color: #353535
+  width: 380px
+  transition: visibility 1s
+  
+  .pagina__cabecalho
+    background-color: #51c6e0
+    padding: 20px 20px 30px
+
+  .pagina__titulo
+    font-size: 24px
+    // color: #566a74
+    color: #fbfbfb
+    font-weight: bold
+
+.detalhe
+  font-size: 17px
+  color: white
+  padding: 5px 0
+
+  .detalhe__titulo
+    display: inline-block
+    font-weight: bold
+    margin-right: 5px
+
+  &.detalhe--inline
+    display: inline-block
+    width: auto
+    margin-right: 10px
+
+.content
+  margin: -20px 20px 20px
+  padding: 20px 18px 22px 22px
+  background-color: white
+  box-shadow: 3px 3px 16px rgba(0, 0, 0, .69)
+
+.lista
+  overflow-y: auto
+  overflow-x: hidden
+  margin: 10px 0
+
+  &::-webkit-scrollbar
+    width: 2px
+
+  &::-webkit-scrollbar-track
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1)
+
+  &::-webkit-scrollbar-thumb
+    background-color: darkgrey
+    outline: 1px solid slategrey
+
+.lista
+  .mensagem
+    display: inline-block
+    margin: 0 5px
+    
+  .lista__item
+    text-transform: capitalize
+    white-space: normal
+    margin: 0 10px
+    user-select: none
+    padding: 8px 5px
+    font-size: 15px
+    border-bottom: 1px solid rgba(0, 0, 0, .125)
+
+  .lista__item__selecionado
+    border-color: #51a7bf
+    background-color: #50a7bf
+    color: #fff
+
+  .lista--selecionados
+    margin-bottom: 10px
+    padding-bottom: 15px
+    border-bottom: 1px solid #c9c9c9
+
+    .lista__item
+      margin: 5px 0
+
+.conteudo-titulo
+  font-size: 21px
+  margin-bottom: 18px
+
+  a
+    font-size: 18px
+    margin-left: auto
+    color: #51c6e0
+    float: right
+    margin-top: 5px
+
+    &:hover
+      text-decoration: none
+      color: #0e90d2
+
+.comando
+  display: flex
+  margin: 0 10px
+
+  .comando__titulo
+    flex: 1
+    font-size: 18px
+    white-space: normal
+    text-transform: capitalize
+
+  .comando__subtitulo
+    font-size: 14px
+    color: #acacac
+    font-weight: 300
+
+  .comando__status
+    font-size: 14px
+    text-transform: uppercase    
+    font-weight: lighter
+    line-height: 45px
+    margin: 0 10px
+
+    &.sucesso
+      color: #36bd01
+
+    &.erro
+      color: #af0000
+
+button
+  font-family: inherit
+  border: 1px solid #51c6e0
+  background-color: transparent
+  padding: 6px 13px
+  height: auto !important
+  font-size: 15px
+  border-radius: 20px
+  color: #51c6e0
+
+  &:disabled
+    border-color: #aaaaaa
+    color: #aaaaaa
+
+  &:focus
+    outline: 1px solid blue
+
+.pagina--seleciona-envio .pesquisa
+  width: 100%
+  font-size: 15px
+  padding: 10px 18px
+  height: 43px
+  line-height: 1.42857143
+  color: #000
+  background-color: #ffffff
+  background-image: none
+  border: 1px solid #cccccc
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+
+.pagina--enviar-comando 
+  .lista
+    .linha__comando
+      border-bottom: 1px solid black
+
+  .title
+    text-transform: capitalize
+    margin: 10px 0
+  
+  select
+    width: 100%
+    color: white
+    border-radius: 5px
+    background-color: #aaaaaa
+    margin: 10px 0
+
+.pagina--confirma
+  text-transform: capitalize
+  position: relative
+
+  .mesagem-erro
+    white-space: normal
+    color: red
+    text-transform: none
+    font-size: 12px
+
+  .loading
+    position: absolute
+    margin-left: 130px
+    margin-top: 60px
+
+  .title      
+      margin: 10px 0
+
+  button
+    width: 50%
+
+.pagina--historico-comando .content
+  height: 500px
+
+.pagina--seleciona-envio .content
+  height: 600px
+
+.pagina--confirma .content
+  height: 600px
+
+.pagina--historico-comando .lista
+  height: 370px
+
+.pagina--seleciona-envio .lista
+  height: 470px
+
+.pagina--enviar-comando .lista
+  height: 510px
+
+.pagina--confirma .lista
+  height: 510px
+
+@media screen and (max-height: 840px)
+  .pagina--historico-comando .content
+    height: 280px
+
+  .pagina--seleciona-envio .content
+    height: 400px
+
+  .pagina--enviar-comando .content
+    height: 400px
+
+  .pagina--confirma .content
+    height: 400px
+
+  .pagina--historico-comando .lista
+    height: 135px
+
+  .pagina--seleciona-envio .lista
+    height: 270px
+
+  .pagina--enviar-comando .lista
+    height: 305px
+
+  .pagina--confirma .lista
+    height: 305px
+
+
+
+.mensagem-sucesso  
+  position: absolute
+  top: 50%
+  width: 100%
+
+  color: green  
+  font-size: 42px  
+  text-align: center
+
+a.disabled
+  color: gray !important
+
+.girar
+  animation: spin 1s infinite
+  display: inline-block
+
+@keyframes spin
+  0%
+    transform: rotate(0)
+
+  100%
+    transform: rotate(360deg)
+    

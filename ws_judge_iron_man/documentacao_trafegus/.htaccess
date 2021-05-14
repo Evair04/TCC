@@ -1,0 +1,12 @@
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} \.php$
+
+Options All -Indexes
+
+RewriteEngine on
+
+IndexOptions +Charset=UTF-8
+
+AddDefaultCharset ISO-8859-1
+
+php_value default_charset "UTF-8"

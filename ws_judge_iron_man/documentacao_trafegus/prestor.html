@@ -1,0 +1,1472 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Documentação do WebService Trafegus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=8859-1">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css" />
+    <link rel="stylesheet" href="assets/css/desert.css" />
+    <style>
+        .grupo-top-box > td {
+            border-top: 1px solid white;
+        }
+        .grupo-middle-box > td:nth-child(1), .grupo-top-box > td:nth-child(1), .grupo-bottom-box > td:nth-child(1) {
+            border-left: 1px solid white;
+        }
+        .grupo-middle-box > td:nth-child(4), .grupo-top-box > td:nth-child(4), .grupo-bottom-box > td:nth-child(4) {
+            border-right: 1px solid white;
+        }
+        .grupo-bottom-box > td {
+            border-bottom: 1px solid white;
+        }
+
+        pre.prettyprint {
+            margin: 1em;
+            padding: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+        <div class="inner">
+            <nav>
+                <ul>
+                    <li><a href="#intro">Início</a></li>
+                    <li><a href="#GETservidor">/servidor [GET]</a></li>
+                    <li><a href="#GETusuario">/usuario [GET]</a></li>
+                    <li><a href="#POSTusuario">/usuario [POST]</a></li>
+                    <li><a href="#GETconfiguracao">/configuracao [GET]</a></li>
+                    <li><a href="#POSTconfiguracao">/configuracao[/id] [POST, PUT]</a></li>
+                    <li><a href="#DELETEconfiguracao">/configuracao[/id] [DELETE]</a></li>
+                    <li><a href="#POSTrecebimentoPosicao">/posicao [POST]</a></li>
+                    <li><a href="#POSTlistaPosicao">/listaPosicao [POST]</a></li>
+                    <li><a href="#POSTrecebimentoMensagem">/mensagemLivre [POST]</a></li>
+                    <li><a href="#POSTrecebimentoMacro">/macro [POST]</a></li>
+                    <li><a href="#GETrecebimentoMacro">/macro [GET]</a></li>
+                    <li><a href="#POSTrecebimentoPeriferico">/periferico [POST]</a></li>
+                    <li><a href="#GETviagemOpcoes">/viagem/opcoes [GET]</a></li>
+                    <li><a href="#POSTaparelho">/aparelho [POST]</a></li>
+                    <li><a href="#POSTveiculoTerminal">/veiculoTerminal [POST]</a></li>
+                    <li><a href="#GETcategoriasAnomalia">/categoriasAnomalia [GET]</a></li>
+                    <li><a href="#GETnotificacao">/notificacao [GET]</a></li>
+                    <li><a href="#POSTreferencia">/referencia [POST]</a></li>
+                    <li><a href="#GETreferenciaTipos">/referencia/tipos [GET]</a></li>
+                    <li><a href="#POSTEnviarArquivo">/uploadfile [POST]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Intro -->
+        <section id="intro" class="wrapper style1">
+            <div class="inner">
+                <h2>Documentação Webservice Prestor v0.9.3</h2>
+                <p>Orientações gerais: </p>
+
+                <ul>
+                    <li>
+                        Essa documentação é uma extensão da documentação do Webservice Trafegus.
+                        Os métodos descritos aqui foram desenvolvidos para utilização do Prestor e do Trafegus Web.
+                    </li>
+                    <li>Todos os envios e retornos deste webservice serão realizados em formato JSON.</li>
+                    <li>
+                        O método de autenticação é o mesmo do Webservice Trafegus.
+                    </li>
+                    <li>
+                        No geral os métodos tentam seguir o mesmo padrão do Webservice.
+
+                        Os métodos retornam sempre um json no formato:
+
+                        <pre class="prettyprint lang-json">{
+    success: [], // informações no caso de sucesso
+    error: [] // informações no caso de erro
+}</pre>
+
+                        Os métodos também podem retornar uma chave "mensagem", com avisos para o usuário.
+                    </li>
+                </ul>
+
+
+                <h3>Changelog</h3>
+                <ul>
+                    <li>
+                        v0.9.3
+                        <ul>
+                            <li>Adicionado tipo de macro no método POST /aparelho</li>
+                        </ul>
+                    </li>
+                    <li>
+                        v0.9.2
+                        <ul>
+                            <li>Adicionado o campo velocidade no método POST /posicao</li>
+                        </ul>
+                    </li>
+                    <li>
+                        v0.9.1
+                        <ul>
+                            <li>Removido campo "conta" do método POST /macro (o campo não é necessário)</li>
+                            <li>O método GET /macro agora retorna também mensagens livres</li>
+                            <li>Removido "tipo_macro" do retorno do método GET /macro</li>
+                            <li>Se o usuário que estiver se cadastrando pelo webservice não for autônomo (empresa do usuário é o próprio usuário) será necessário que a GR faça a ativação dele, vinculando uma empresa e grupo de visualização</li>
+                            <li>Adicionando campo "observacao" no cadastro dos usuários (para informar de qual empresa é o usuário)</li>
+                            <li>Os campos "codigo_grupo_visualizacao" e "documento_empresa" do método POST /usuario agora são opcionais</li>
+                            <li>No método POST /usuario, será criada uma empresa se o usuário for autônomo</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section id="GETservidor" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/servidor [GET]</h2>
+                    <p>
+                        Retorna o link de conexão para o servidor do aplicativo de uma determinada empresa.
+                        O aplicativo utiliza esse método para escolher o servidor de acesso quando o usuário não deseja se conectar no ambiente em núvem
+                    </p>
+
+                    <h3>Autenticação</h3>
+                    <p>Não autenticado</p>
+                    <h3>Parâmetros</h3>
+                    <ul>
+                        <li><b>cnpj</b>: documento da empresa</li>
+                    </ul>
+                    <h5>Exemplo de requisição</h5>
+                    <pre class="prettyprint">/servidor?cnpj=11222333444455</pre>
+                    <h3>Resposta</h3>
+                    <ul>
+                        <li><b>link_conexao</b>: URL para acesso ao servidor do aplicativo do cliente</li>
+                    </ul>
+                    <h5>Exemplo de resposta</h5>
+                    <pre class="prettyprint lang-json">{
+    "link_conexao": "http://app.cliente.com/ws_rest/api"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETusuario" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/usuario [GET]</h2>
+
+                    <p>Verifica o login e senha e retorna informações para o funcionamento básico do aplicativo</p>
+
+                    <h3>Auntenticaçãoo</h3>
+                    <p>Método não autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>login</b>: Login/CPF/CNPJ do usuário (O serviço aceita valores com ou sem formatação)</li>
+                        <li><b>senha</b>: Senha do usuário</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">/usuario?login=11222333444455&senha=senha01</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>email</b>: E-mail do usuário</li>
+                        <li><b>login</b>: Login do usuário</li>
+                        <li><b>nome</b>: Nome do usuário</li>
+                        <li><b>cpf</b>: CPF do usuário</li>
+                        <li><b>telefone</b>: Telefone de contato do usuário</li>
+                        <li><b>telefone_empresa</b>: Telefone de contato da empresa</li>
+                        <li><b>tipo</b>: Tipo da pessoa do usuário. O valor por ser: "mot", "tra", "gri" e "seg" (da tabela pessoa)</li>
+                        <li><b>tipo_efetivo</b>: Tipo do usuário. O valor por ser: "mot", "tra", "gri" e "seg" (conforme seria no TrafegusWeb)</li>
+                        <li><b>documento_empresa</b>: CPF/CNPJ da empresa do usuário</li>
+                        <li><b>empresa</b>: Código da empresa do usuário</li>
+                        <li><b>nome_empresa</b>: Nome da empresa do usuário</li>
+                        <li>
+                            <b>configuracao_perfil</b>: Informações do perfil do usuário
+                            <ul>
+                                <li><b>codigo</b>: Código do perfil</li>
+                                <li><b>descricao</b>: Descrição do perfil</li>
+                                <li>
+                                    <b>operacoes</b>: Operações permitidas no perfil
+                                    <ul>
+                                        <li><b>codigo</b>: Código da operação</li>
+                                        <li><b>descricao</b>: Descrição da operação</li>
+                                        <li><b>identificador</b>: Identificador da operação</li>
+                                        <li><b>codigo_sistema</b>: Código do sistema da operação</li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <b>configuracao_prestor</b>: Objeto com as configurações do aplicativo
+                            <ul>
+                                <li><b>codigo</b>: Código da configuração</li>
+                                <li><b>descricao</b>: Descrição da configuração</li>
+                                <li><b>tipo_sincronizacao</b>: "WIF" se o aplicativo deve se comunicar somente pela wi-fi ou "MOV" se o aplicativo pode utilizar dados móveis</li>
+                                <li><b>distancia_min_gps</b>: Distância mínima para gerar posicionamento GPS (em mêtros)</li>
+                                <li><b>intervalo_tempo_posicao_movimento</b>: Tempo de intervalo entre posições em movimento (em segundos)</li>
+                                <li><b>intervalo_tempo_posicao_parado</b>: Tempo de intervalo entre posições parado (em segundos)</li>
+                                <li><b>alta_precisao_gps</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve ou não usar alta precisão</li>
+                                <li><b>permitir_troca_veiculo</b>: "S" (Sim) ou "N" (Não) se permite troca de veículo</li>
+                                <li><b>qualificacao_local</b>: "OBR" (Obrigatório) se for obrigatório qualificar o local ou "OPC" (Opcional) caso contrário</li>
+                                <li><b>qtde_viagens_finalizadas</b>: Quantidade de viagens finalizadas para manter no aplicativo</li>
+                                <li><b>assinatura_canhoto</b>: "OBR" (Obrigatório), "OPC" (Opcional) ou "NSO" (Não Solicitar) a assinatura do canhoto</li>
+                                <li><b>baixa_locais</b>: "RAI" (Raio), "RDO" (Raio + Documento) ou "DOC" (Documento) método para dar baixa nos locais</li>
+                                <li><b>validar_codigo_barras</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve validar o código de barras</li>
+                                <li><b>obrigar_foto_canhoto</b>: "S" (Sim) ou "N" (Não) se a foto do canhoto é obrigatória</li>
+                                <li><b>obrigar_sequencia_locais</b>: "S" (Sim) ou "N" (Não) se a sequência de locais deve ser obrigatória</li>
+                                <li><b>ferramenta_mapa</b>: "0" para o Mapa do Google ou "1" para o Open Street Maps</li>
+                                <li><b>controlar_desvio_rota_app</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve controlar o desvio de rota</li>
+                                <li><b>distancia_desvio_rota</b>: Distância para gerar o desvio de rota (em metros)</li>
+                                <li><b>qtde_desvios_notificacao</b>: Quantidade de desvios para gerar notificação</li>
+                                <li><b>qtde_desvios_roteirizacao</b>: Quantidade de desvios para gerar roteirização</li>
+                                <li><b>efetivacao_viagem</b>: "S" (Sim) ou "N" (Não) se permite a efetivação de viagem</li>
+                                <li><b>qtde_ultimas_posicoes</b>: Quantidade de últimas posições para mostrar no app</li>
+                                <li><b>permite_alterar_configuracao</b>: "S" (Sim) ou "N" (Não) se o usuário pode alterar a configuração</li>
+                                <li><b>conta_tecnologia</b>: Código da conta de tecnologia para os terminais prestor</li>
+                                <li><b>qtde_checklist_finalizado</b>: Quantidade de checklists para visualização</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "email": "TESTE@TESTE,COM",
+    "login": "APRESENTACAO_WEB",
+    "nome": "TRAFEGUS APRESENTACAO",
+    "cpf": "778040050-67",
+    "telefone": null,
+    "telefone_empresa": "+55828992939",
+    "tipo": "mot",
+    "cnpj": "54735256000176",
+    "empresa": 2311,
+    "nome_empresa": "TRANS SUPINO",
+    "configuracao_perfil": [
+    {
+        "codigo": 1,
+        "descricao": "Perfil Completo",
+        "operacoes": [
+            {
+                "codigo": 1,
+                "descricao": "Operação de Cadastro",
+                "codigo_sistema": 2316,
+                "indetificador": "OP_CADASTRO",
+            }
+        ]
+    }
+    ],
+    "configuracao_prestor": {
+        "codigo": 1,
+        "descricao": "Configuração Padrão",
+        "tipo_sincronizacao": "WIF",
+        "distancia_min_gps": 100,
+        "intervalo_tempo_posicao_movimento": 180,
+        "intervalo_tempo_posicao_parado": 60,
+        "alta_precisao_gps": "N",
+        "permitir_troca_veiculo": "N",
+        "qualificacao_local": "OBR",
+        "qtde_viagens_finalizadas": 5,
+        "assinatura_canhoto": "OBR",
+        "baixa_locais": "RDO",
+        "validar_codigo_barras": "N",
+        "obrigar_foto_canhoto": "N",
+        "obrigar_sequencia_locais": "N",
+        "ferramenta_mapa": "1",
+        "controlar_desvio_rota_app": "N",
+        "distancia_desvio_rota": 10000,
+        "qtde_desvios_notificacao": 8,
+        "qtde_desvios_roteirizacao": 16,
+        "efetivacao_viagem": "N",
+        "qtde_ultimas_posicoes": 12,
+        "permite_alterar_configuracao": "S",
+        "conta_tecnologia": 5121,
+        "qtde_checklist_finalizado": 15
+    }
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTusuario" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/usuario [POST]</h2>
+
+                    <p>Esse método pode <b>CRIAR</b> ou <b>ALTERAR</b> um usuário.</p>
+
+                    <p>
+                        Caso já exista um usuário com o login informado o serviço irá atualizar o usuário existente ao invés de criar um novo
+                    </p>
+
+                    <p>
+                        Não é necessário estar autenticado para criar um novo usuário.
+                        Caso o usuário exista e não tenha sido informada
+                        autenticação ou o usuário autenticado não tenha permissão para alterar usuários, o retorno será um erro.
+                    </p>
+
+                    <p>
+                        A pessoa do usuário pode ser informada por código ou objeto.
+                        Se for informado um código ou no caso do envio de objeto o webservice encontrar uma pessoa com o mesmo documento cadastrado
+                        no banco de dados, o cadastro existente será atualizado (respeitando as regras abaixo).
+                        Caso o código informado não seja encontrado será retornado um erro de validação.
+                    </p>
+
+                    <p>
+                        Não é possível alterar a pessoa de um usuário já cadastrado nem informar pessoa que já está vinculada a outro usuário
+                    </p>
+
+                    <p>Se a pessoa informada for do tipo "motorista" a pessoa será cadastrada como motorista automaticamente.</p>
+
+                    <p>Se for informado um código de perfil esse perfil será vinculado, caso contrário será criado um novo perfil (e uma nova configuração) para usuário com base no perfil padrão do Prestor</p>
+
+                    <p>Se o usuário for autônomo o documento da empresa deve ser o próprio documento da pessoa. Nesse caso será verificado se o documento ainda não existe da base e será criada uma empresa transportadora para o usuário</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>login</b>: Documento do usuário</li>
+                        <li><b>senha</b>: Senha do usuário</li>
+                        <li><b>documento_empresa</b>: Documento da empresa do usuário</li>
+                        <li><b>codigo_perfil</b>: Código do perfil do usuário</li>
+                        <li><b>codigo_grupo_visualizacao</b>: Código do grupo de visualização</li>
+                        <li><b>email</b>: E-mail do usuário</li>
+                        <li><b>tempoSessaoWeb</b>: Tempo de expiração da sessão no Trafegus Web</li>
+                        <li><b>observacao</b>: Observação do usuário (informar em qual empresa deve ser vinculado)</li>
+                        <li>
+                            <b>pessoa</b>: Dados do usuário. É possível informar o Código de uma pessoa já existente ou informar os dados para que o sistema crie uma nova pessoa para o usuário.
+                            <ul>
+                                <li><b>nome</b>: Nome do usuário</li>
+                                <li><b>telefone</b>: Telefone do usuário</li>
+                                <li><b>tipo</b>: Tipo da pessoa do usuário: "emb", "mot", "tra", "seg" e "gri"</li>
+                                <li><b>documento</b>: Documento do usuário</li>
+                                <li><b>status</b>: Código de status da pessoa</li>
+                                <li><b>inscricaoEstadual</b>: Inscrição estadual (no caso de pessoa jurídica)</li>
+                                <li><b>razaoSocial</b>: Razão social (no caso de pessoa jurídica)</li>
+                                <li><b>site</b>: Site do usuário (no caso de pessoa jurídica)</li>
+                                <li><b>rg</b>: Número da identidade (no caso de pessoa física)</li>
+                                <li><b>orgaoEmissor</b>: Órgão emissor (no caso de pessoa física)</li>
+                                <li><b>estadoEmissorRg</b>: Código do estado emissor (no caso de pessoa física)</li>
+                                <li><b>sexo</b>: Gênero "M" ou "F" (no caso de pessoa física)</li>
+                                <li><b>dataNascimento</b>: Data de nascimento no formato d/m/Y (no caso de pessoa física)</li>
+                                <li><b>naturalidade</b>: Código da cidade de naturalidade (no caso de pessoa física)</li>
+                                <li><b>nomePai</b>: Nome do pai (no caso de pessoa física)</li>
+                                <li><b>nomeMae</b>: Nome da mãe (no caso de pessoa física)</li>
+
+                                <li><b>logradouro</b>: Código do logradouro</li>
+                                <li><b>numero</b>: Número do imóvel</li>
+                                <li><b>complemento</b>: Complemento do imóvel</li>
+                                <li><b>planoGr</b>: Código do plano de gerenciamento do usuário</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>eventos_supervisor</b>: Eventos do Supervisor
+                            <ul>
+                                <li><b>codigo_evento</b>: Código do evento</li>
+                                <li><b>gestao_risco</b>: "0" ou "1" se a getão de risco está ativa</li>
+                                <li><b>gestao_logistica</b>: "0" ou "1" se a getão de logistica está ativa</li>
+                                <li><b>gestao_administrativa</b>: "0" ou "1" se a getão administrativa está ativa</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b> eventos_supervisor_web</b>: Eventos do Supervisor
+                            <ul>
+                                <li><b>codigo_evento</b>: Código do evento</li>
+                                <li><b>gestao_risco</b>: "0" ou "1" se a getão de risco está ativa</li>
+                                <li><b>gestao_logistica</b>: "0" ou "1" se a getão de logistica está ativa</li>
+                                <li><b>gestao_administrativa</b>: "0" ou "1" se a getão administrativa está ativa</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>eventos_operador</b>: Eventos do Supervisor
+                            <ul>
+                                <li><b>codigo_evento</b>: Código do evento</li>
+                                <li><b> gestao_risco</b>: "0" ou "1" se a getão de risco está ativa</li>
+                                <li><b> gestao_logistica</b>: "0" ou "1" se a getão de logistica está ativa</li>
+                                <li><b> gestao_administrativa</b>: "0" ou "1" se a getão administrativa está ativa</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+    "login": "123.123.123-12",
+    "senha": "12312313",
+    "documento_empresa": "67945910000118",
+    "email": "joao@teste.com.br",
+    "pessoa": {
+        "nome": "João Teste",
+        "telefone": "49 99999 1122",
+        "tipo": "seg"
+    },
+    "codigo_perfil": 1,
+    "codigo_grupo_visualizacao": "6",
+    "eventos_supervisor": [
+        {
+            "codigo_evento": 1,
+            "gestao_risco": 1,
+            "gestao_logistica": 0,
+            "gestao_administrativa": 1
+        }
+    ],
+    "eventos_supervisor_web": [
+        {
+            "codigo_evento": 1,
+            "gestao_risco": 1,
+            "gestao_logistica": 0,
+            "gestao_administrativa": 1
+        }
+    ],
+    "eventos_operador": [
+        {
+            "codigo_evento": 1,
+            "gestao_risco": 1,
+            "gestao_logistica": 0,
+            "gestao_administrativa": 1
+        }
+    ]
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 3084927,
+    "status": "ok"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETconfiguracao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/configuracao [GET]</h2>
+
+                    <p>Busca os dados da configuração</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código da configuração</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">/configuracao/1234</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código da configuração</li>
+                        <li><b>descricao</b>: Descrição da configuração</li>
+                        <li><b>tipo_sincronizacao</b>: "WIF" se o aplicativo deve se comunicar somente pela wi-fi ou "MOV" se o aplicativo pode utilizar dados móveis</li>
+                        <li><b>distancia_min_gps</b>: Distância mínima para gerar posicionamento GPS (em metros)</li>
+                        <li><b>intervalo_tempo_posicao_movimento</b>: Tempo de intervalo entre posições em movimento (em segundos)</li>
+                        <li><b>intervalo_tempo_posicao_parado</b>: Tempo de intervalo entre posições parado (em segundos)</li>
+                        <li><b>alta_precisao_gps</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve ou Não usar alta precisão</li>
+                        <li><b>permitir_troca_veiculo</b>: "S" (Sim) ou "N" (Não) se permite troca de veículo</li>
+                        <li><b>qualificacao_local</b>: "OBR" (Obrigatório) se for Obrigatório qualificar o local ou "OPC" (Opcional) caso contrário</li>
+                        <li><b>qtde_viagens_finalizadas</b>: Quantidade de viagens finalizadas para manter no aplicativo</li>
+                        <li><b>assinatura_canhoto</b>: "OBR" (Obrigatório), "OPC" (Opcional) ou "NSO" (Não Solicitar) a assinatura do canhoto</li>
+                        <li><b>baixa_locais</b>: "RAI" (Raio), "RDO" (Raio + Documento) ou "DOC" (Documento) Método para dar baixa nos locais</li>
+                        <li><b>validar_codigo_barras</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve validar o Código de barras</li>
+                        <li><b>obrigar_foto_canhoto</b>: "S" (Sim) ou "N" (Não) se a foto do canhoto é obrigtória</li>
+                        <li><b>obrigar_sequencia_locais</b>: "S" (Sim) ou "N" (Não) se a sequência de locais deve ser obrigtória</li>
+                        <li><b>ferramenta_mapa</b>: "0" para o Mapa do Google ou "1" para o Open Street Maps</li>
+                        <li><b>controlar_desvio_rota_app</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve controlar o desvio de rota</li>
+                        <li><b>distancia_desvio_rota</b>: Distância para gerar o desvio de rota (em metros)</li>
+                        <li><b>qtde_desvios_notificacao</b>: Quantidade de desvios para gerar notificação</li>
+                        <li><b>qtde_desvios_roteirizacao</b>: Quantidade de desvios para gerar roteirização</li>
+                        <li><b>efetivacao_viagem</b>: "S" (Sim) ou "N" (Não) se permite a efetivação de viagem</li>
+                        <li><b>qtde_ultimas_posicoes</b>: Quantidade de posições para mostrar no app</li>
+                        <li><b>conta_tecnologia</b>: Código da conta de tecnologia para utilizar</li>
+                        <li><b>permite_alterar_configuracao</b>: "S" (Sim) ou "N" (Não) se o usuário pode alterar a configuração</li>
+                        <li><b>pessoa</b>: Código do proprietário da configuração</li>
+                        <li><b>qtde_checklist_finalizado</b>: Quantidade de checklists finalizados que o usuário pode visualizar</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 24,
+    "descricao": "2",
+    "tipo_sincronizacao": "MOV",
+    "distancia_min_gps": 50,
+    "intervalo_tempo_posicao_movimento": 2,
+    "intervalo_tempo_posicao_parado": 4,
+    "alta_precisao_gps": "S",
+    "permitir_troca_veiculo": "S",
+    "qualificacao_local": "OBR",
+    "qtde_viagens_finalizadas": 42,
+    "assinatura_canhoto": "OBR",
+    "baixa_locais": "RDO",
+    "validar_codigo_barras": "S",
+    "obrigar_foto_canhoto": "S",
+    "obrigar_sequencia_locais": "S",
+    "ferramenta_mapa": "1",
+    "controlar_desvio_rota_app": "S",
+    "distancia_desvio_rota": 106,
+    "qtde_desvios_notificacao": 6,
+    "qtde_desvios_roteirizacao": 11,
+    "efetivacao_viagem": "S",
+    "qtde_ultimas_posicoes": 7,
+    "conta_tecnologia": null,
+    "permite_alterar_configuracao": "S",
+    "pessoa": 7,
+    "qtde_checklist_finalizado": 9
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTconfiguracao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/configuracao[/id] [POST, PUT]</h2>
+
+                    <p>Registra ou altera uma configuração</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>pessoa</b>: Código do proprietário da configuração</li>
+                        <li><b>descricao</b>: Descrição da configuração</li>
+                        <li><b>tipo_sincronizacao</b>: "WIF" se o aplicativo deve se comunicar somente pela wi-fi ou "MOV" se o aplicativo pode utilizar dados móveis</li>
+                        <li><b>distancia_min_gps</b>: Distância mínima para gerar posicionamento GPS (em metros)</li>
+                        <li><b>intervalo_tempo_posicao_movimento</b>: Tempo de intervalo entre posições em movimento (em segundos)</li>
+                        <li><b>intervalo_tempo_posicao_parado</b>: Tempo de intervalo entre posições parado (em segundos)</li>
+                        <li><b>permite_alterar_configuracao</b>: "S" (Sim) ou "N" (Não) se o usuário pode alterar a configuração</li>
+                        <li><b>alta_precisao_gps</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve ou Não usar alta precisão</li>
+                        <li><b>permitir_troca_veiculo</b>: "S" (Sim) ou "N" (Não) se permite troca de veículo</li>
+                        <li><b>qualificacao_local</b>: "OBR" (Obrigatório) se for Obrigatório qualificar o local ou "OPC" (Opcional) caso contrário</li>
+                        <li><b>qtde_checklist_finalizado</b>: Quantidade de checklists finalizados que o usuário pode visualizar</li>
+                        <li><b>qtde_viagens_finalizadas</b>: Quantidade de viagens finalizadas para manter no aplicativo</li>
+                        <li><b>assinatura_canhoto</b>: "OBR" (Obrigatório), "OPC" (Opcional) ou "NSO" (Não Solicitar) a assinatura do canhoto</li>
+                        <li><b>baixa_locais</b>: "RAI" (Raio), "RDO" (Raio + Documento) ou "DOC" (Documento) Método para dar baixa nos locais</li>
+                        <li><b>validar_codigo_barras</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve validar o Código de barras</li>
+                        <li><b>obrigar_foto_canhoto</b>: "S" (Sim) ou "N" (Não) se a foto do canhoto é obrigtória</li>
+                        <li><b>obrigar_sequencia_locais</b>: "S" (Sim) ou "N" (Não) se a sequência de locais deve ser obrigtória</li>
+                        <li><b>ferramenta_mapa</b>: "0" para o Mapa do Google ou "1" para o Open Street Maps</li>
+                        <li><b>controlar_desvio_rota_app</b>: "S" (Sim) ou "N" (Não) se o aplicativo deve controlar o desvio de rota</li>
+                        <li><b>distancia_desvio_rota</b>: Distância para gerar o desvio de rota (em metros)</li>
+                        <li><b>qtde_desvios_notificacao</b>: Quantidade de desvios para gerar notificação</li>
+                        <li><b>qtde_desvios_roteirizacao</b>: Quantidade de desvios para gerar roteirização</li>
+                        <li><b>efetivacao_viagem</b>: "S" (Sim) ou "N" (Não) se permite a efetivação de viagem</li>
+                        <li><b>qtde_ultimas_posicoes</b>: Quantidade de posições para mostrar no app</li>
+                        <li><b>conta_tecnologia</b>: Código da conta de tecnologia para utilizar</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+    "descricao": "opa",
+    "tipo_sincronizacao": "WIF",
+    "distancia_min_gps": 1,
+    "intervalo_tempo_posicao_movimento": 1,
+    "intervalo_tempo_posicao_parado": 1,
+    "permite_alterar_configuracao": "N",
+    "alta_precisao_gps": "S",
+
+    "permitir_troca_veiculo": "N",
+    "qualificacao_local": "OPC",
+    "qtde_viagens_finalizadas": 1,
+    "assinatura_canhoto": "NSO",
+    "baixa_locais": "DOC",
+
+    "validar_codigo_barras": "S",
+    "obrigar_foto_canhoto": "N",
+    "obrigar_sequencia_locais": "N",
+    "ferramenta_mapa": "0",
+    "controlar_desvio_rota_app": "N",
+    "distancia_desvio_rota": 1,
+    "qtde_desvios_notificacao": 1,
+    "qtde_desvios_roteirizacao": 1,
+    "efetivacao_viagem": "S",
+    "qtde_ultimas_posicoes": 10,
+    "conta_tecnologia": 8,
+    "pessoa": 4
+
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código da configuração</li>
+                        <li><b>status</b>: Status da operação</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 19102,
+    "status": "ok"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="DELETEconfiguracao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/configuracao[/id] [DELETE]</h2>
+
+                    <p>Remove uma configuração (somente se ela não estiver vinculada a nenhum perfil)</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">
+/configuracao/1231
+                    </pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código da configuração</li>
+                        <li><b>status</b>: Status da operação</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 19102,
+    "status": "ok"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTrecebimentoPosicao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/posicao [POST]</h2>
+
+                    <p>Registra uma posição</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>terminal</b>: Terminal do equipamento</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>data_computador_bordo</b>: Data do computador de bordo no formato "yyyy-mm-dd hh:mm:ss"</li>
+                        <li><b>latitude</b>: Latitude da posição (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da posição (em formato decimal)</li>
+                        <li><b>prestor_online</b>: 1 se existia conexão no momento que a posição foi gerada ou 0 caso contrário</li>
+                        <li><b>velocidade</b>: Velocidade no momento da posição (campo inteiro e opcional)</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+    "terminal": "56985",
+    "versao_tecnologia": 8,
+    "data_computador_bordo": "2019-03-05 18:00:00",
+    "latitude": -27.0956344000,
+    "longitude": -52.6174508000,
+    "prestor_online": 1
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 3084927,
+    "status": "ok"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTlistaPosicao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/listaPosicao [POST]</h2>
+
+                    <p>Regista multiplas posições com a mesma requisição</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <p>Uma lista de objetos no formato:</p>
+
+                    <ul>
+                        <li><b>terminal</b>: Terminal do equipamento</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>data_computador_bordo</b>: Data do computador de bordo como um UNIX timestamp (em milisegundos)</li>
+                        <li><b>latitude</b>: Latitude da posição (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da posição (em formato decimal)</li>
+                        <li><b>prestor_online</b>: 1 se existia conexão no momento que a posição foi gerada ou 0 caso contrário</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">[
+    {
+        "terminal": "56985",
+        "versao_tecnologia": 8,
+        "data_computador_bordo": 1557954485901,
+        "latitude": -27.0956344000,
+        "longitude": -52.6174508000
+    }
+]</pre>
+
+                    <h3>Resposta</h3>
+
+                    <p>O retorno é em uma lista onde cada posição tem o retorno correspondente a posição no mesmo índice</p>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">[
+    {
+        "codigo": 3374491,
+        "status": "ok"
+    }
+]</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTrecebimentoMensagem" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/mensagemLivre [POST]</h2>
+
+                    <p>Registra uma mensagem</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>terminal</b>: Terminal do equipamento</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>texto</b>: Texto da mensagem (tamanho máximo 500)</li>
+                        <li><b>prestor_online</b>: 1 se existia conexão no momento que a mensagem foi enviada ou 0 caso contrário</li>
+                        <li><b>data_computador_bordo</b>: Data do computador de bordo no formato "yyyy-mm-dd hh:mm:ss"</li>
+                        <li><b>latitude</b>: Latitude da posição (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da posição (em formato decimal)</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+    "terminal": "56985",
+    "texto": "alou",
+    "versao_tecnologia": 8,
+    "data_computador_bordo": "2019-03-05 18:00:00",
+    "latitude": -25.495378,
+    "longitude": -49.161778,
+    "prestor_online": 1
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "codigo": 3084927,
+    "status": "ok"
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTrecebimentoMacro" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/macro [POST]</h2>
+
+                    <p>Registra uma macro</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>numero</b>: Número da macro</li>
+                        <li><b>texto</b>: Texto da macro</li>
+                        <li><b>numero_terminal</b>: Número do terminal de origem</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia do terminal de origem</li>
+                        <li><b>data_computador_bordo</b>: Data do computador de bordo no formato "yyyy-mm-dd hh:mm:ss"</li>
+                        <li><b>latitude</b>: Latitude da macro (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da macro (em formato decimal)</li>
+                        <li><b>prestor_online</b>: 1 se o terminal estava conctado ao servidor no momento que a macro foi enviada, 0 caso contrário</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+	"numero": 80,
+	"texto": "leo paga salgado",
+	"data_computador_bordo": "2019-03-05 18:00:00",
+	"numero_terminal": "31084",
+	"versao_tecnologia": 21,
+	"latitude": -27.0956344000,
+	"longitude": -52.6174508000
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "status": "ok",
+    "codigo": 3385591
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETrecebimentoMacro" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/macro [GET]</h2>
+
+                    <p>Busca as macros e mensagens livres enviadas pelo terminal para a central</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>data_ultima_posicao</b>: Se esse parâmetro for informado, só serão retornadas macros enviadas após essa data (no formato yyyy-mm-dd hh:mm-ss)</li>
+                        <li><b>numero_terminal</b>: Número do terminal de origem</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia do terminal de origem</li>
+                        <li><b>codigo_ultima_posicao</b>: Se for informado, só serão retornadas macros enviadas após a macro com esse código</li>
+                        <li><b>limit</b>: Quantidade máxima de registros retornados</li>
+                        <li><b>offset</b>: Registro inicial que será retornado</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">/macro?limit=10&numero_terminal=56985&versao_tecnologia=8</pre>
+
+                    <h3>Resposta</h3>
+
+                    <p>Um lista de objetos no formato</p>
+
+                    <ul>
+                        <li><b>numero</b>: Número da macro</li>
+                        <li><b>texto</b>: Texto da macro</li>
+                        <li><b>data_computador_bordo</b>: Data de envio da macro no formato yyyy-mm-dd hh:mm:ss</li>
+                        <li><b>latitude</b>: Latitude da macro (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da macro (em formato decimal)</li>
+                        <li><b>tipo_macro</b>: Código do tipo de macro reconhecida pelo WebService</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">[
+        {
+            "numero": "1",
+            "texto": "TESTE",
+            "data_computador_bordo": "2019-03-05 18:00:00",
+            "latitude": -27.0956344,
+            "longitude": -52.6174508,
+            "tipo_macro": null
+        },
+        ...
+]</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTrecebimentoPeriferico" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/periferico [POST]</h2>
+
+                    <p>Registra o recebimento de um periférico</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>terminal</b>: Terminal do equipamento</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>data_computador_bordo</b>: Data do computador de bordo no formato "yyyy-mm-dd hh:mm:ss"</li>
+                        <li><b>latitude</b>: Latitude da posição (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da posição (em formato decimal)</li>
+                        <li><b>periferico_padrao</b>: Código do periférico</li>
+                        <li><b>valor</b>: Valor do periférico</li>
+                        <li><b>prestor_online</b>: 1 se existia conexão no momento que a mensagem foi enviada ou 0 caso contrário</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint">{
+	"terminal": "56985",
+	"versao_tecnologia": 8,
+	"data_computador_bordo": "2019-03-05 18:00:00",
+	"latitude": -27.232,
+	"longitude": -42.2123,
+	"periferico_padrao": 1,
+	"valor": 1,
+	"prestor_online": 1
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do usuário criado</li>
+                        <li><b>status</b>: Mensagem de status</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "status": "ok",
+    "codigo": 3385591
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETviagemOpcoes" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/viagemOpcoes [POST]</h2>
+
+                    <p>Retorna valores para preenchimento dos campos da SM</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <p>Nenhum parâmetro necessário</p>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li>
+                            <b>veiculos</b>: Veículos disponíveis para criação de SM
+                            <ul>
+                                <li><b>codigo</b>: Código do veículo</li>
+                                <li><b>placa</b>: Placa do veículo</li>
+                                <li><b>frota</b>: Frota do veículo</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>motoristas</b>: Motoristas disponíveis para criação de SM
+                            <ul>
+                                <li><b>codigo</b>: Código do motorista</li>
+                                <li><b>nome</b>: Nome do motorista</li>
+                                <li><b>cpf</b>: CPF do motorista</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>planos_gerenciamento</b>: Planos de gerenciamento
+                            <ul>
+                                <li><b>codigo</b>: Código do plano de gerenciamento</li>
+                                <li><b>nome</b>: Nome do plano de gerenciamento</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>locais</b>: Locais de viagem
+                            <ul>
+                                <li><b>codigo</b>: Código do local</li>
+                                <li><b>nome</b>: Nome do local</li>
+                                <li><b>latitude</b>: Latitude do local</li>
+                                <li><b>longitude</b>: Longitude do local</li>
+                                <li><b>raio</b>: Raio do local</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>transportadores</b>: Transportadores disponíveis
+                            <ul>
+                                <li><b>codigo</b>: Código do transportador</li>
+                                <li><b>nome</b>: Nome do transportador</li>
+                                <li><b>documento</b>: Documento (CPF/CNPJ) do transportador</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>rotas</b>: Rotas disponíveis
+                            <ul>
+                                <li><b>codigo</b>: Código da rota</li>
+                                <li><b>nome</b>: Nome da rota</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>tipos_transporte</b>: Tipos de transporte
+                            <ul>
+                                <li><b>codigo</b>: Código do tipo de transporte</li>
+                                <li><b>descricao</b>: Descrição do tipo de transporte</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "veiculos": [
+        {
+            "codigo": 3085441,
+            "placa": "MIG0001",
+            "frota": "MIG0001"
+        },
+        ...
+    ],
+    "motoristas": [
+        {
+            "codigo": 3083236,
+            "nome": "JOAO DA LUZ",
+            "cpf": "89065481095"
+        },
+        ...
+    ],
+    "planos_gerenciamento": [
+        {
+            "codigo": 20,
+            "nome": "PGR SEM VALIDACAO - NOVO"
+        },
+        ...
+    ],
+    "locais": [
+        {
+            "codigo": 20,
+            "nome": "POSTO DO JOAO",
+            "latitude": -24.2973893,
+            "longitude": -42.183919,
+            "raio": 12329
+        },
+        ...
+    ],
+    "transportadores": [
+        {
+            "codigo": 18,
+            "nome": "TRANS FUTURA",
+            "documento": "06712436000190"
+        },
+        ...
+    ],
+    "rotas": [
+        {
+            "codigo": 231,
+            "descricao": "CHAPECÓ - XAXIM"
+        },
+        ...
+    ],
+    "tipos_transporte": [
+        {
+            "codigo": 12,
+            "descricao": "ESCOLTA"
+        },
+        ...
+    ]
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTaparelho" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/aparelho [POST]</h2>
+
+                    <p>Cadastra um terminal com o identificador do aparelho caso não exista cadastro</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>identificador</b>: Identificador único do aparelho</li>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>numero_terminal</b>: Se for informado, o terminal será cadastrado com esse número</li>
+                        <li><b>token</b>: Token para envio de notificação (OneSignal)</li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "identificador": "919919",
+    "versao_tecnologia": 8
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>status</b>: Status da requisição</li>
+                        <li><b>codigo</b>: Código do terminal</li>
+                        <li><b>numero_terminal</b>: Número do terminal (irá retornar o número gerado caso nenhum tenha sido informado)</li>
+                        <li>
+                            <b>veiculo</b>: Informações do veículo vinculado ao terminal (aparelho)
+                            <ul>
+                                <li><b>placa</b>: Placa do veículo</li>
+                                <li><b>frota</b>: Frota do veículo</li>
+                                <li><b>ano_fabricacao</b>: Ano de fabricação do veículo</li>
+                                <li><b>ano_modelo</b>: Ano do modelo do veículo</li>
+                                <li><b>renavam</b>: Renavam do veículo</li>
+                                <li><b>chassi</b>: Chassi do veículo</li>
+                                <li><b>cor</b>: Cor do veículo</li>
+                                <li>
+                                    <b>carretas</b>: Lista de carretas atreladas ao veículo
+                                    <ul>
+                                        <li><b>placa</b>: Placa do carreta</li>
+                                        <li><b>frota</b>: Frota do carreta</li>
+                                        <li><b>ano_fabricacao</b>: Ano de fabricação do carreta</li>
+                                        <li><b>ano_modelo</b>: Ano do modelo do carreta</li>
+                                        <li><b>renavam</b>: Renavam do carreta</li>
+                                        <li><b>chassi</b>: Chassi do carreta</li>
+                                        <li><b>cor</b>: Cor do carreta</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>macros</b>: Macros embarcadas no aparelho
+                            <ul>
+                                <li><b>numero</b>: Número da macro</li>
+                                <li><b>descricao</b>: Descrição da macro</li>
+                                <li><b>tipo</b>: Código do tipo da macro</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "status": "ok",
+    "codigo": 115266,
+    "numero_terminal": "91992-1",
+    "veiculo": null
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTveiculoTerminal" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/veiculoTerminal [POST]</h2>
+
+                    <p>Cadastra um veículo se ela não existir e associa ao terminal</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>numero_terminal</b>: Número do terminal</li>
+
+                        <li>
+                            <b>veiculo</b>: Veículo que será vinculado ao terminal
+                            <ul>
+                                <li><b>placa</b>: Placa do veículo</li>
+                                <li><b>frota</b>: Frota do veículo</li>
+                                <li><b>renavam</b>: Renavam do veículo</li>
+                                <li><b>chassi</b>: Chassi do veículo</li>
+                                <li><b>cor</b>: Cor do veículo</li>
+                                <li>
+                                    <b>carretas</b>: Lista de carretas
+                                    <ul>
+                                        <li><b>placa</b>: Placa da carreta</li>
+                                        <li><b>frota</b>: Frota da carreta</li>
+                                        <li><b>renavam</b>: Renavam da carreta</li>
+                                        <li><b>chassi</b>: Chassi da carreta</li>
+                                        <li><b>cor</b>: Cor da carreta</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h5>Exemplo de requisição</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "veiculo": {
+        "placa": "ZZZ-0012",
+        "frota": "1206",
+        "renavam": "AAAXXXZZZ",
+        "chassi": "77777888881111122",
+        "cor": "#ff09ab",
+        "carretas": [
+            {
+                "placa": "ZZZ-0014",
+                "frota": "1206",
+                "renavam": "AAAXXXZZZ",
+                "chassi": "77777888881111122",
+                "cor": "#ff09ab"
+            }
+        ]
+    },
+    "versao_tecnologia": 8,
+    "numero_terminal": "123321"
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do terminal</li>
+                        <li><b>status</b>: Status da requisição</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "status": "ok",
+    "codigo": 115266,
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETcategoriasAnomalia" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/categoriasAnomalia [GET]</h2>
+
+                    <p>Retorna as categorias de anomalia do usuário</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <p>Sem parâmetros</p>
+
+                    <h3>Resposta</h3>
+
+                    <p>Uma lista de categorias no formato:</p>
+
+                    <ul>
+                        <li><b>id</b>: Código da categoria</li>
+                        <li><b>descricao</b>: Descrição da categoria</li>
+                        <li><b>tipo</b>: Tipo da categoria</li>
+                        <li><b>areaAtuacao</b>: Status da requisição
+                            <ul>
+                                <li><b>descricao</b>: Descrição da área de atuação</li>
+                                <li><b>id</b>: Código da área de atuação</li>
+                            </ul>
+                        </li>
+                        <li><b>obrigaFoto</b>: "S" se foto é obrigatória ou "N"</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">[
+    {
+        "id": 10,
+        "descricao": "TESTE DE CADASTRO",
+        "tipo": "COL",
+        "areaAtuacao": {
+            "descricao": "GERENCIAMENTO DE RISCO",
+            "id": 2
+        },
+        "obrigaFoto": "S"
+    }
+]</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETnotificacao" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/notificacao [GET]</h2>
+
+                    <p>Retorna as notificações do terminal</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>versao_tecnologia</b>: Código da versão da tecnologia</li>
+                        <li><b>numero_terminal</b>: Número do terminal</li>
+                        <li><b>codigo_ultima_notificacao</b>: Retorna apenas notificações cadastradas após esse código</li>
+                        <li><b>limit</b>: Limite da quantidade de resultados</li>
+                        <li><b>offset</b>: Usado em conjunto com o limit para paginar os resutados (indica a partir de qual resultado retornar dados)</li>
+                    </ul>
+
+                    <pre class="prettyprint">/notificacao?versao_tecnologia=6604&numero_terminal=354059060427620</pre>
+
+                    <h3>Resposta</h3>
+
+                    <p>Uma lista de notificações no formato:</p>
+
+                    <ul>
+                        <li><b>codigo</b>: Código da notificação</li>
+                        <li><b>data</b>: Data da notificação no formato "yyyy-mm-dd hh:ii:ss"</li>
+                        <li><b>mensagem</b>: Texto da notificação</li>
+                        <li><b>remetente</b>: Login do usuário que enviou a notificação</li>
+                        <li><b>usuario</b>: Código do usuário autenticado</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">[
+    {
+        "codigo": 61,
+        "data": "2019-04-24 14:40:03",
+        "mensagem": "ASDASDASDSAD",
+        "remetente": "X9",
+        "usuario": 11186
+    },
+    ...
+]</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTreferencia" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/referencia [POST]</h2>
+
+                    <p>Cadastra uma referencia para o cliente</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <ul>
+                        <li><b>descricao</b>: Descrição da referência</li>
+                        <li><b>raio</b>: Raio (em metros)</li>
+                        <li><b>tipo_local</b>: Tipo do local Coleta, Entrega, Ponto Permitido...</li>
+                        <li><b>latitude</b>: Latitude da posição (em formato decimal)</li>
+                        <li><b>longitude</b>: Longitude da posição (em formato decimal)</li>
+                    </ul>
+
+                    <pre class="prettyprint">{
+	"descricao": "Teste de referência",
+	"latitude": -24.65522,
+	"longitude": -42.6565,
+	"raio": 100,
+	"tipo_local": 1
+}</pre>
+
+                    <h3>Resposta</h3>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do terminal</li>
+                        <li><b>status</b>: Status da requisição</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">{
+    "status": "ok",
+    "codigo": 115266,
+}</pre>
+                </div>
+            </div>
+        </section>
+        <section id="GETreferenciaTipos" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/referencia/tipos [GET]</h2>
+
+                    <p>Retorna os tipos de referências</p>
+
+                    <h3>Autenticação</h3>
+                    <p>Método autenticado</p>
+
+                    <h3>Parâmetros</h3>
+
+                    <p>Sem parâmetros</p>
+
+                    <h3>Resposta</h3>
+
+                    <p>Uma lista no formato</p>
+
+                    <ul>
+                        <li><b>codigo</b>: Código do tipo</li>
+                        <li><b>descricao</b>: Descrição do tipo</li>
+                    </ul>
+
+                    <h5>Exemplo de resposta</h5>
+
+                    <pre class="prettyprint lang-json">[
+    {
+        "codigo": 1,
+        "descricao": "AREA DE RISCO"
+    },
+    ...
+]</pre>
+                </div>
+            </div>
+        </section>
+        <section id="POSTEnviarArquivo" class="wrapper style1">
+            <div class="inner">
+                <div class="features">
+                    <h2>/uploadfile [POST]</h2>
+
+                    <p><b>Parâmetros a serem enviados:</b></p>
+                    <ul>
+                        <li>Envio de Autenticação no cabeçalho HTTP / HTTPS.</li>
+                    </ul>
+                    <table>
+                        <th>Parâmetro</th><td>Grupo</td><th width="150px">Tipo</th> <th>Obrigatório</th><th>Descrição</th>
+
+                        <tr><td>%stringIdentificacao%</td><td>1</td><td>file</td><td style="color:red">Sim</td><td>Arquivo para upload podendo ser imagem ou vídeo, sendo aceitos os formatos: ['gif', 'bmp', 'jpeg', 'png'] e ['mp4', 'mov', 'mpeg' e 'mkv'], sendo o tamanho máximo de 5MB e 50MB, respectivamente.</td></tr>
+                        <tr><td>%stringIdentificacao%<br>(o mesmo identificador do arquivo)</td><td>1</td><td>texto (10)</td><td>Não</td><td>Uma string simples dizendo o tipo do arquivo 'img' ou 'video'. Se não for informado, será considerado uma imagem.</td></tr>
+                    </table>
+
+                    <p><b>Observações:</b></p>
+                    <ul>
+                        <li>O tipo da requisição deve ser: 'multipart/form-data'.</li>
+                        <li>É permitido o envio de multiplos arquivos.</li>
+                        <li>Qualquer string ou inteiro será aceito como identificador.</li>
+                        <li>O tamanho total de uploads não pode ser superior a 300MB.</li>
+                        <li>O arquivo será salvo com um hash gerado pelo sistema.</li>
+                        <li>O retorno será o caminho do arquivo no servidor.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+
+
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

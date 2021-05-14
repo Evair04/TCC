@@ -1,0 +1,45 @@
+
+.monitor__container
+    display: flex
+    flex-direction: column
+    height: 100%
+    min-height: 480px !important
+
+    .monitor__cabecalho, .monitor__rodape
+        height: 50px
+
+    .monitor__conteudo
+        flex-grow: 1    
+
+.painel
+    height: 100%
+    width: 100%    
+    display: flex
+    flex-direction: column
+
+    .painel__cabecalho
+        display: flex
+        justify-content: flex-end
+
+        .abas        
+            flex: 1            
+            white-space: nowrap
+
+            .abas_item   
+                padding: 2px             
+                display: inline-block
+                background-color: #c9c9c9
+
+                .aba__icone
+                    padding: 0 2px
+
+                .aba__icone, .aba__rotulo
+                    display: inline-block
+
+            .abas__item--selected
+                background-color: #fff
+        .acoes
+            .acoes_item                
+                display: inline-block
+    .painel__content
+        flex: 1

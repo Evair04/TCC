@@ -1,0 +1,164 @@
+<?php $sessao = new Zend\Session\Container('Session') ?>
+
+<!doctype html>
+<html lang="<?= LANGUAGE ?>">
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <meta name="resource-type" content="document">
+    <meta name="classification" content="Internet">
+    <meta name="distribution" content="Global">
+    <meta name="language" content="<?= LANGUAGE ?>">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-language" content="<?= LANGUAGE ?>">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta name="MSSmartTagsPreventParsing" content="TRUE">
+    <meta name="robots" content="ALL">
+    <meta name="revisit-after" content="1 days">
+    <meta name="author" content="CHP Soluções">
+
+    <title>Trafegus</title>
+
+    <script type="text/javascript">
+        WINDOW_OPEN = false;
+        PUBLIC_URL = "<?= PUBLIC_URL ?>";
+        LANGUAGE = "<?= LANGUAGE ?>";
+        D = JSON.parse('<?= json_encode(include './module/Base/language/'.LANGUAGE.'/language.php') ?>');
+        TIPO_BASE_MAPA = "osm";
+        AGRUPAR_VEICULOS = "<?= $sessao->offsetGet('agruparVeiculos') ?>";
+        URL_MAPA_OSM = "<?= $sessao->offsetGet('linkServidorOpenstreetMaps') ?>";
+        URL_NOMINATIM = "<?= $sessao->offsetGet('linkOpenstreetMapsEnderecos') ?>";
+        TIPO_EMPRESA = "<?= $sessao->offsetGet('tipoEmpresa') ?>";
+        URL_ROTAS = "<?= $sessao->offsetGet('linkOpenstreetMapsRotas') ?>";
+
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/monitor-funil.min.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fontawesome-markers-master/fontawesome-markers.min.js"></script>
+
+
+    <!--Bibloteca de graficos-->
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/highstock.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/highcharts-more.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/exporting.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/data.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/drilldown.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/funnel.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/chart.min.js"></script>
+
+    <!-- Utils -->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/utils.js" ></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL?>js/lib/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/loading.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.redirect-master/jquery.redirect.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/moment.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootbox.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-alert.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-treeview-master/src/js/bootstrap-treeview.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-validator.min.js" ></script>
+
+    <!--Configuração de Tabelas-->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/application/configuracaogrid/configuracaogrid.js"></script>
+
+
+    <!-- REQUIRE JS -->
+<!--    <script type="text/javascript" src="http://186.250.92.150:8089/eficiente/plugin/pentaho-cdf-dd/api/renderer/cde-embed.js?userid=SUPORTE&password=CHP@0479"></script>-->
+
+    <script>
+
+        var array_dash=[];
+        function sendParam(param,valor){
+            for (i = 0; i < array_dash.length; i++) {
+                array_dash[i].fireChange(''+param,''+valor);
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div id="wrapper">
+<!--    <div class="conteudo menu">-->
+<!--        <div class="container-fluid">-->
+<!--            <div class="row">-->
+<!--                <div class="bg-1">-->
+<!--                    <a id="monitor-menu-button" class="menu-icon m-t-0"></i></a>-->
+<!--                    <img src="--><?//= PUBLIC_URL ?><!--img/logo-inverso.png" class="img-responsive"  alt="">-->
+<!--                </div>-->
+<!--                <div class="pull-left p-l-10">-->
+<!--                    <ul class="breadcrumb">-->
+<!--                        --><?//= $this->navigation()->breadcrumbs()->render() ?>
+<!--                    </ul>-->
+<!--                </div>-->
+<!--                <div id="monitor-div-botoes" class="pull-right acesso-rapido text-right">-->
+<!--                    <a id="monitor-btn-full-screen" data-toggle="tooltip" data-placement="bottom" class="btn btn-default" title="--><?//= EXIBIR_TELA_CHEIA ?><!--"><i class="fas fa-expand-arrows-alt"></i></a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="clearfix">	</div>-->
+    <div class="container-fluid">
+
+        <?= $this->content;?>
+
+    </div>
+    <div id="container-popovers"></div>
+    <div id="container-modals"></div>
+    <div id="container-select2"></div>
+    <div id="container-alerts">
+        <?php
+        $messenger = new Zend\Session\Container('messenger');
+        if ($messenger && $messenger->erro) { ?>
+            <div class="alert-center alert alert-danger alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Atenção!</strong> <?= $messenger->erro; $messenger->erro = null ?>
+            </div>
+        <?php }
+        if ($messenger && $messenger->warn) { ?>
+            <div class="alert-center alert alert-warning alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Atenção!</strong> <?= $messenger->warn; $messenger->warn = null ?>
+            </div>
+        <?php }
+        if($messenger && $messenger->msg){ ?>
+            <div class="alert-center alert alert-success alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <?= $messenger->msg; $messenger->msg = null ?>
+            </div>
+        <?php } ?>
+    </div>
+<!--    <div class="container-rodape">-->
+<!--        <div class="conteudo rodape m-t-40">-->
+<!--            <div class="container-rodape">-->
+<!--                <a><img src="--><?//= PUBLIC_URL ?><!--img/icon-marca.png" alt=""></a>-->
+<!--                <span>Chapecó Soluções  --><?//= date('Y') ?><!-- - Todos os direitos reservados</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+<div id="mainLoadingScreen" class="load-screen">
+    <div class="load-container">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

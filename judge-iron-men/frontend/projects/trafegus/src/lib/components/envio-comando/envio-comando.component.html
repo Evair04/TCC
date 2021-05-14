@@ -1,0 +1,176 @@
+<fab *ngIf="state$ | async as state; else emptyContent" [disabled]="state.statusEnvio == 'LOADING'" [showing]="true" [open]="state.open" (iconClicked)="toggle()">
+  <swipe width="380" [page]="state.pagina">
+    <div class="pagina pagina--historico-comando">
+      <div class="pagina__cabecalho" *ngIf="state.veiculo as veiculo">
+        <div class="pagina__titulo">Terminal de envios</div>
+
+        <div class="detalhe detalhe--inline">
+          <div class="detalhe__titulo">Identificador</div>
+          {{ veiculo.placa }}
+        </div>
+
+        <div class="detalhe detalhe--inline">
+          <div class="detalhe__titulo">Terminal</div>
+          {{ veiculo.numeroTerminal }}
+        </div>
+
+        <div class="detalhe">
+          <div class="detalhe__titulo">Tecnologia</div>
+          {{ veiculo.descricaoTecnologia }}
+        </div>
+
+        <div class="detalhe">
+          <div class="detalhe__titulo">Versão</div>
+          {{ veiculo.descricaoVersao }}
+        </div>
+      </div>
+      <div class="content">
+        <div class="conteudo-titulo">
+          Últimos comandos <a href="#" (click)="state.envios.status != 'LOADING' && atualizarHistorico()" [class.disabled]="state.envios.status == 'LOADING'" [class.girar]="state.envios.status == 'LOADING'"><i class="fa fa-refresh"></i></a>
+        </div>
+
+        <div class="lista">
+          <div *ngIf="state.envios.status == 'OK'">
+
+            <div *ngIf="state.envios.data.length; else emptyEnvios">
+              <div *ngFor="let envio of state.envios.data">
+                <div class="comando">
+                  <div class="comando__titulo">
+                    {{ envio.descricao | lowercase }}
+                    <div class="comando__subtitulo">
+                      {{ envio.dataCadastro }}
+                    </div>
+                  </div>
+    
+                  <div class="comando__status" [class.erro]="isErro(envio.status)" [class.sucesso]="isSucesso(envio.status)">{{ getDescricaoStatus(envio.status) }}</div>
+                </div>
+                <hr/>
+              </div>
+            </div>
+            <ng-template #emptyEnvios>Nenhum envio</ng-template>
+            
+          </div>
+          <div *ngIf="state.envios.status == 'LOADING'">
+            Carregando...
+          </div>        
+          <div *ngIf="state.envios.status == 'ERROR'">
+            Erro ao carregar histórico
+          </div>
+        </div>
+
+        <button (click)="gotoSelecionarEnvio()"><i class="fa fa-paper-plane"></i> Novo comando</button>
+      </div>
+    </div>
+    <div class="pagina pagina--seleciona-envio">
+      <div class="pagina__cabecalho">
+        <div class="pagina__titulo"><i class="fa fa-arrow-left" (click)="gotoHistorico()"></i> Envio de comandos</div>
+      </div>
+      <div class="content">
+        <input #pesquisa type="text" class="pesquisa" [value]="state.comandos.pesquisa" (keyup)="onPesquisaChange($event)">
+
+        <div class="lista">
+          <div >
+            <div *ngIf="state.comandos.status == 'OK'">
+              <div class="lista--selecionados" *ngIf="state.selecionados.length">
+                <div class="lista__item lista__item__selecionado"
+                     (click)="selecionar(state.comandos.data[id])"
+                     *ngFor="let id of state.selecionados">
+                  {{ state.comandos.data[id].descricao | lowercase }}
+                </div>
+              </div>
+
+              <div *ngIf="state.comandos.indice.length; else emptyComandos">
+                <div class="lista__item"
+                     [class.lista__item__selecionado]="state.selecionados.indexOf(id) > -1"
+                     (click)="selecionar(state.comandos.data[id])"
+                     *ngFor="let id of state.comandos.indice">
+
+                  {{ state.comandos.data[id].descricao | lowercase }}
+                </div>
+              </div>
+              <ng-template #emptyComandos>Nenhum comando encontrado</ng-template>
+            </div>
+            <div *ngIf="state.comandos.status == 'LOADING'" class="mensagem">
+              Carregando...
+            </div>
+            <div *ngIf="state.comandos.status == 'ERROR'" class="mensagem">
+              Erro ao carregar comandos.
+            </div>
+            <a *ngIf="state.comandos.status != 'OK'" href="#" (click)="state.comandos.status != 'LOADING' && atualizarComandos()" [class.girar]="state.comandos.status == 'LOADING'" [class.disabled]="state.comandos.status == 'LOADING'"><i class="fa fa-refresh"></i></a>
+          </div>
+        </div>
+        <button [disabled]="state.selecionados.length === 0" (click)="gotoConfigurarParametro()"><i class="fa fa-paper-plane"></i> Enviar comandos</button>
+      </div>
+    </div>
+    <div class="pagina pagina--enviar-comando">
+      <div class="pagina__cabecalho">
+        <div class="pagina__titulo"><i class="fa fa-arrow-left" (click)="gotoSelecionarEnvio()"></i> Configure os parâmetros</div>
+      </div>
+      <div class="content">
+        <div class="lista">
+          <div *ngFor="let id of state.selecionados">
+
+            <div *ngIf="state.comandos.data[id] as comando">  
+              <div *ngIf="comando.parametros.length">
+                <div class="title">{{ comando.descricao | lowercase}}</div>
+
+                <div *ngFor="let parametro of comando.parametros">
+                  <select (change)="selectValor(comando, parametro, $event.target.value)">
+                    <option value="" disabled selected>{{ parametro.descricao }}</option>
+                    <option *ngFor="let valor of parametro.valores" [value]="valor.id">{{ valor.descricao | lowercase }}</option>
+                  </select>
+                </div>
+              </div>  
+            </div>          
+
+          </div>
+        </div>
+        <button [disabled]="!state.valido" (click)="gotoConfirmar()"><i class="fa fa-paper-plane"></i> Enviar</button>
+      </div>
+    </div>
+    <div class="pagina pagina--confirma">
+      <div class="pagina__cabecalho">
+        <div class="pagina__titulo"><i class="fa fa-arrow-left" [class.disabled]="state.statusEnvio == 'LOADING'" (click)="state.statusEnvio != 'LOADING' && gotoConfigurarParametro()"></i> Confirmar envio</div>
+      </div>
+      <div class="content">
+        <div class="lista">          
+          <div [hidden]="state.statusEnvio != 'ERROR'" class="mesagem-erro">Ocorreu um erro ao enviar o comando, tente novamente</div>
+          <div *ngIf="state.statusEnvio == 'OK'" class="mensagem-sucesso">
+            <i class="fa fa-check"></i>
+          </div>
+
+          <div *ngIf="state.statusEnvio == 'LOADING'">
+            <div class="loading">
+              <div class="sk-folding-cube">
+                  <div class="sk-cube1 sk-cube"></div>
+                  <div class="sk-cube2 sk-cube"></div>
+                  <div class="sk-cube4 sk-cube"></div>
+                  <div class="sk-cube3 sk-cube"></div>
+              </div>
+          </div>
+          </div>
+
+          <div class="linha__comando" *ngFor="let id of state.selecionados">
+            <div *ngIf="state.comandos.data[id] as comando">                
+              <div class="title">{{ comando.descricao | lowercase}}</div>
+
+              <ul>
+                <li *ngFor="let parametro of comando.parametros">
+                  {{ parametro.descricao | lowercase }}
+                  <div *ngIf="state.valores[id] && state.valores[id][parametro.id]">
+                    {{ state.valores[id][parametro.id].descricao | lowercase }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>          
+        </div>
+        <button (click)="enviar()" [disabled]="!state.valido || state.statusEnvio == 'LOADING'">Sim</button>
+        <button (click)="cancelar()" [disabled]="state.statusEnvio == 'LOADING'">Cancelar</button>
+      </div>
+    </div>
+  </swipe>
+</fab>
+<ng-template #emptyContent>
+  <div class="content">Carregando...</div>
+</ng-template>

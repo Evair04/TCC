@@ -1,0 +1,23 @@
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-signin .form-signin-logo-head {
+  width: 240px;
+}
+
+.form-signin .login-header {
+  margin-bottom: 40px;
+  color: #45606b;
+}
+
+.form-signin #usua_login {
+  margin-bottom: 10px;
+}
+
+.form-signin #usua_senha {
+  margin-bottom: 30px;
+}

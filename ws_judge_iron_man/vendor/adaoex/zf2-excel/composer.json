@@ -1,0 +1,27 @@
+{
+    "name": "adaoex/zf2-excel",
+    "description": "Módulo de ZF2Excel: PHPExcel - OpenXML - ler, escrever e criar documentos do Excel em PHP",
+    "license": "BSD-3-Clause",
+    "keywords": ["framework","zf2","excel","grid","phpexcel","openxml"],
+    "homepage": "https://github.com/adaoex/zf2-excel/",
+    "authors": [
+        {
+            "name": "Adão Gonçalves",
+            "email": "adao@adao.eti.br",
+            "homepage": "http://www.adao.eti.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.17",
+        "zendframework/zendframework": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "ZF2Excel": "src"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

@@ -1,0 +1,286 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "envio-comando": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/envio-comando",
+      "sourceRoot": "projects/envio-comando/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "../public/js/dist/",
+            "index": "projects/envio-comando/src/index.html",
+            "main": "projects/envio-comando/src/main.ts",
+            "polyfills": "projects/envio-comando/src/polyfills.ts",
+            "tsConfig": "projects/envio-comando/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/envio-comando/src/favicon.ico",
+              "projects/envio-comando/src/assets"
+            ],
+            "styles": [
+              "projects/envio-comando/src/styles.sass"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/envio-comando/src/environments/environment.ts",
+                  "with": "projects/envio-comando/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "envio-comando:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "envio-comando:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "envio-comando:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/envio-comando/src/test.ts",
+            "polyfills": "projects/envio-comando/src/polyfills.ts",
+            "tsConfig": "projects/envio-comando/tsconfig.spec.json",
+            "karmaConfig": "projects/envio-comando/karma.conf.js",
+            "assets": [
+              "projects/envio-comando/src/favicon.ico",
+              "projects/envio-comando/src/assets"
+            ],
+            "styles": [
+              "projects/envio-comando/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/envio-comando/tsconfig.app.json",
+              "projects/envio-comando/tsconfig.spec.json",
+              "projects/envio-comando/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/envio-comando/e2e/protractor.conf.js",
+            "devServerTarget": "envio-comando:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "envio-comando:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "trafegus": {
+      "projectType": "library",
+      "root": "projects/trafegus",
+      "sourceRoot": "projects/trafegus/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/trafegus/tsconfig.lib.json",
+            "project": "projects/trafegus/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/trafegus/src/test.ts",
+            "tsConfig": "projects/trafegus/tsconfig.spec.json",
+            "karmaConfig": "projects/trafegus/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/trafegus/tsconfig.lib.json",
+              "projects/trafegus/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "monitor-gr": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "root": "projects/monitor-gr",
+      "sourceRoot": "projects/monitor-gr/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "../public/js/monitor-gr/",
+            "index": "projects/monitor-gr/src/index.html",
+            "main": "projects/monitor-gr/src/main.ts",
+            "polyfills": "projects/monitor-gr/src/polyfills.ts",
+            "tsConfig": "projects/monitor-gr/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/monitor-gr/src/favicon.ico",
+              "projects/monitor-gr/src/assets"
+            ],
+            "styles": [
+              "projects/monitor-gr/src/styles.sass"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/monitor-gr/src/environments/environment.ts",
+                  "with": "projects/monitor-gr/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "monitor-gr:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "monitor-gr:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "monitor-gr:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/monitor-gr/src/test.ts",
+            "polyfills": "projects/monitor-gr/src/polyfills.ts",
+            "tsConfig": "projects/monitor-gr/tsconfig.spec.json",
+            "karmaConfig": "projects/monitor-gr/karma.conf.js",
+            "assets": [
+              "projects/monitor-gr/src/favicon.ico",
+              "projects/monitor-gr/src/assets"
+            ],
+            "styles": [
+              "projects/monitor-gr/src/styles.sass"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/monitor-gr/tsconfig.app.json",
+              "projects/monitor-gr/tsconfig.spec.json",
+              "projects/monitor-gr/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/monitor-gr/e2e/protractor.conf.js",
+            "devServerTarget": "monitor-gr:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "monitor-gr:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "monitor-gr"
+}

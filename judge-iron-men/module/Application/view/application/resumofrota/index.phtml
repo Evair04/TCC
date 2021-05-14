@@ -1,0 +1,30 @@
+<script type="text/javascript" src="<?php echo PUBLIC_URL; ?>js/application/resumofrota/index.js"></script>
+
+<?php
+
+echo $this->RenderView()
+    ->getHeader(
+        $this->modal,
+        'lista-competidores',
+        'fa fa-home',
+        mb_strtoupper('Tabela com Resultado dos competidores'),
+        'Tabela com Resultado dos competidores'
+    );
+
+?>
+
+<div class="panel-body p-0"
+        <div id="resumoTab" class="tab-pane active">
+            <table class="display nowrap table tabela-datatable-responsive table-hover table-pointer" width="100%" id="tabelaResumoFrota"></table>
+        </div>
+
+</div>
+
+<?php
+echo $this->RenderView()->getFooter($this->modal);
+?>
+
+
+
+
+

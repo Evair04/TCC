@@ -1,0 +1,263 @@
+<?php $sessao = new Zend\Session\Container('Session') ?>
+
+<!doctype html>
+<html lang="<?= LANGUAGE ?>">
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <meta name="resource-type" content="document">
+    <meta name="classification" content="Internet">
+    <meta name="distribution" content="Global">
+    <meta name="language" content="<?= LANGUAGE ?>">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-language" content="<?= LANGUAGE ?>">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta name="MSSmartTagsPreventParsing" content="TRUE">
+    <meta name="robots" content="ALL">
+    <meta name="revisit-after" content="1 days">
+    <meta name="author" content="CHP Soluções">
+
+    <title>Trafegus</title>
+
+    <script type="text/javascript">
+        WINDOW_OPEN = false;
+        PUBLIC_URL = "<?= PUBLIC_URL ?>";
+        LANGUAGE = "<?= LANGUAGE ?>";
+        D = JSON.parse('<?= json_encode(include './module/Base/language/'.LANGUAGE.'/language.php') ?>');
+        API_KEY_MAPBOX = "<?= $sessao->offsetGet('mapBoxApiKey') ?>";
+        TIPO_BASE_MAPA = "osm";
+        AGRUPAR_VEICULOS = "<?= $sessao->offsetGet('agruparVeiculos') ?>";
+        URL_MAPA_OSM = "<?= $sessao->offsetGet('linkServidorOpenstreetMaps') ?>";
+        URL_NOMINATIM = "<?= $sessao->offsetGet('linkOpenstreetMapsEnderecos') ?>";
+        TIPO_EMPRESA = "<?= $sessao->offsetGet('tipoEmpresa') ?>";
+        URL_ROTAS = "<?= $sessao->offsetGet('linkOpenstreetMapsRotas') ?>";
+
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/estilo.buttons.dataTable.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/estilo.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/gridstack0.2.6.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/fixedColumns.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/fixedColumns.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>css/fixedColumns.semanticui.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>js/lib/colorpicker-btp/spectrum.css">
+    <link rel="stylesheet" type="text/css" href="<?= PUBLIC_URL ?>js/lib/bootstrap-treeview-master/src/css/bootstrap-treeview.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fontawesome-markers-master/fontawesome-markers.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/loading.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.redirect-master/jquery.redirect.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/moment.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootbox.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-alert.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-treeview-master/src/js/bootstrap-treeview.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/bootstrap-validator.min.js" ></script>
+
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/ripples.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/material.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/modernizr2.6.2.min.js" ></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.tablesorter.widgets.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.tablesorter.pager.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/colorpicker-btp/spectrum.js"></script>
+
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/table-widgets/widget-columnSelector.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/table-widgets/widget-pager.min.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/dataTables.colReorder1.3.3.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fixedColumns.bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fixedColumns.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fixedColumns.foundation.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fixedColumns.jqueryui.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/fixedColumns.semanticui.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jszip.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/pdfmake.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/vfs_fonts.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.dataTables.rowReordering.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/dataTables.rowReorder.js"></script>
+
+    <!--Bibloteca de graficos-->
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/highstock.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/highcharts-more.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/exporting.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/data.js"></script>
+    <script type="text/javascript"  src="<?= BASE_URL ?>js/lib/Highcharts/code/modules/drilldown.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/select2.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/select2Language.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/chart.min.js"></script>
+
+    <!-- BASE DE MAPAS -->
+    <?php if($sessao->offsetGet('tipoBaseMapa') == 'osm'){ ?>
+
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/dist/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/dist/MarkerCluster.css">
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/leaflet/draw/leaflet.draw.css">
+        <link rel="stylesheet" href="<?= PUBLIC_URL ?>js/lib/Leaflet.iconlabel-master/Icon.Label.css">
+
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/leaflet/draw/leaflet.draw-src.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/leaflet/draw/Leaflet.Editable.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/leaflet/draw/L.Path.Drag-src.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/MarkerCluster.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/MarkerClusterGroup.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/MarkerCluster.QuickHull.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/DistanceGrid.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/MarkerOpacity.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/copyright.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.markercluster-master/src/MarkerCluster.Spiderfier.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/Leaflet.iconlabel-master/Icon.Label.js"></script>
+
+    <?php } else{?>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?language=<?= LANGUAGE ?>&key=<?= $sessao->offsetGet('googleMapsApiKey') ?>&libraries=places,drawing"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/googlemap/maplabel.js"></script>
+        <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/googlemap/markerclusterer.js"></script>
+    <?php } ?>
+
+    <!-- Biblioteca de graficos Google -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['timeline'], language:'<?= LANGUAGE ?>'}]}"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.multilevelpushmenu.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/lodash3.5.0.min.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery-ui1.11.0.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/gridstack.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/gridstack.jQueryUI.js"></script>
+
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.mask.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.bootstrap.wizard.min.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/jquery.i18n.js"></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL; ?>js/lib/jquery.resize.js"></script>
+
+
+    <!-- Utils -->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/lib/utils.js" ></script>
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/layout/monitor.js" ></script>
+
+    <!--Configuração de Tabelas-->
+    <script type="text/javascript" src="<?= PUBLIC_URL ?>js/application/configuracaogrid/configuracaogrid.js"></script>
+
+
+    <!-- REQUIRE JS -->
+    <script type="text/javascript" src="http://186.250.92.150:8089/eficiente/plugin/pentaho-cdf-dd/api/renderer/cde-embed.js?userid=SUPORTE&password=CHP@0479"></script>
+
+    <script>
+
+        var array_dash=[];
+        function sendParam(param,valor){
+            for (i = 0; i < array_dash.length; i++) {
+                array_dash[i].fireChange(''+param,''+valor);
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div id="wrapper">
+    <div class="conteudo menu">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="bg-1">
+                    <a id="monitor-menu-button" class="menu-icon m-t-0"><i class="fas fa-bars"></i></a>
+                    <img class="p-b-2" src='<?=$sessao->offsetGet('logoMenu')['path']?>' width="<?=$sessao->offsetGet('logoMenu')['width']?>px" height="<?=$sessao->offsetGet('logoMenu')['height']?>px" class="img-responsive">
+                </div>
+                <div class="pull-left p-l-10">
+                    <ul class="breadcrumb">
+                        <?= $this->navigation()->breadcrumbs()->render() ?>
+                    </ul>
+                </div>
+                <div id="monitor-div-botoes" class="pull-right acesso-rapido text-right">
+                    <a id="monitor-btn-full-screen" data-toggle="tooltip" data-placement="bottom" class="btn btn-default" title="<?= EXIBIR_TELA_CHEIA ?>"><i class="fas fa-expand-arrows-alt"></i></a>
+                </div>
+                <div class="pull-left p-l-5 acesso-rapido text-left">
+                    <label class="color-white"><?= sprintf(BEM_VINDO, ucwords(mb_strtolower($sessao->offsetGet('userName')))) ?></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">	</div>
+    <div class="container-fluid">
+
+        <?= $this->content;?>
+
+    </div>
+    <div id="container-popovers"></div>
+    <div id="container-modals"></div>
+    <div id="container-select2"></div>
+    <div id="container-alerts">
+        <?php
+        $messenger = new Zend\Session\Container('messenger');
+        if ($messenger && $messenger->erro) { ?>
+            <div class="alert-center alert alert-danger alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Atenção!</strong> <?= $messenger->erro; $messenger->erro = null ?>
+            </div>
+        <?php }
+        if ($messenger && $messenger->warn) { ?>
+            <div class="alert-center alert alert-warning alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Atenção!</strong> <?= $messenger->warn; $messenger->warn = null ?>
+            </div>
+        <?php }
+        if($messenger && $messenger->msg){ ?>
+            <div class="alert-center alert alert-success alert-dismissable fade in" role="alert">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <?= $messenger->msg; $messenger->msg = null ?>
+            </div>
+        <?php } ?>
+    </div>
+    <div class="container-rodape">
+        <div class="conteudo rodape m-t-20">
+            <div class="container-rodape">
+                <a><img src="<?= PUBLIC_URL ?>img/icon-marca.png" alt=""></a>
+                <a>INFORMAÇÕES</a>
+                <a>LINKS ÚTEIS</a>
+                <a>REPORTAR ERRO</a>
+                <span>Chapecó Soluções  <?= date('Y') ?> - Todos os direitos reservados</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="mainLoadingScreen" class="load-screen">
+    <div class="load-container">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

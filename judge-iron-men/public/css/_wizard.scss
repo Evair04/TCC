@@ -1,0 +1,56 @@
+.wizard
+{
+  padding-left: 0;
+}
+
+
+.wizard-container > .steps > ul
+{
+  list-style: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.wizard-container > .steps > ul > li
+{
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+
+.wizard-container > .steps a,
+.wizard-container > .steps a:hover,
+.wizard-container > .steps a:active
+{
+  display: block;
+  width: auto;
+  margin: 0 0.5em 0.5em;
+  padding: 1em 1em;
+  text-decoration: none;
+}
+
+.wizard-container > .steps .disabled a,
+.wizard-container > .steps .disabled a:hover,
+.wizard-container > .steps .disabled a:active
+{
+  background: #eee;
+  color: #aaa;
+  cursor: default;
+}
+
+.wizard-container > .steps .active a,
+.wizard-container > .steps .active a:hover,
+.wizard-container > .steps .active a:active
+{
+  background: $cor2;
+  color: $corFonteInversa;
+  cursor: default;
+}
+
+.wizard-container > .steps a,
+.wizard-container > .steps a:hover,
+.wizard-container > .steps a:active
+{
+  background: lighten($cor2, 20%);
+  color: $corFonteInversa;
+}

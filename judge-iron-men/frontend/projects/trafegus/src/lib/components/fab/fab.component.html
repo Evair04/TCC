@@ -1,0 +1,9 @@
+<div class="fab-container" [class.fab-open]="open" [class.fab-showing]="showing">
+    <div class="fab-content">
+        <ng-content></ng-content>
+    </div>
+    <div class="fab-icon" [class.disabled]="disabled" (click)="!disabled && onIconClicked($event)">
+        <span>×</span>
+    </div>
+    <!-- {{ open ? '×' : '+' }} -->
+</div>

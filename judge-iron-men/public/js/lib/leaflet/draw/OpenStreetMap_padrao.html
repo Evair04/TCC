@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>LeafLet - Open Street Maps</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<style type="text/css">
+		* {
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		html, body {
+			height: 100%;
+		}
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		#map-canvas {
+			position: relative;
+			height: 100%;
+			width: 100%;
+		}
+		.labelRegua {
+			color: black !important;
+			/*background-color: gold !important;*/
+			font-family: "Lucida Grande", "Arial", sans-serif;
+			font-size: x-large;
+			text-align: center;
+			white-space: nowrap !important;
+			opacity: 0.85 !important;
+			box-shadow: 5px 5px 3px #888888 !important;
+			border: none !important;
+			padding: 0 !important;
+		}
+		.labelRegua .leaflet-popup-content {
+			margin: 0 !important;
+		}
+		.labelRegua .leaflet-popup-close-button {
+			display: none;
+		}
+		.leaflet-draw-tooltip {
+			display: none;
+		}
+		.leaflet-routing-container {
+			display: none;
+		}
+		.leaflet-popup {
+			bottom: 18px !important;
+		}
+		.labelCaminhao {
+			margin-top: -30px !important;
+			padding: 0 !important;
+		}
+		.labelCaminhao:before {
+			display: none !important;
+		}
+		.leaflet-vertex-icon {
+			margin-left: -4px !important;
+			margin-top: -4px !important;
+			width: 8px !important;
+			height: 8px !important;
+			color: red !important;
+		}
+		.leaflet-middle-icon {
+			margin-left: -4px !important;
+			margin-top: -4px !important;
+			width: 8px !important;
+			height: 8px !important;
+			color: red !important;
+		}
+	</style>
+	<link href="leaflet.css"                 type="text/css" rel="stylesheet">
+	<link href="L.Control.ZoomBox.css"       type="text/css" rel="stylesheet">
+	<link href="leaflet.draw.css"            type="text/css" rel="stylesheet">
+	<link href="leaflet-routing-machine.css" type="text/css" rel="stylesheet">
+	<!-- <libs externas> -->
+	<script src="leaflet-src.js"             type="text/javascript"></script>
+	<script src="leaflet-routing-machine.js" type="text/javascript"></script>
+	<script src="L.Control.ZoomBox.js"       type="text/javascript"></script>
+	<!-- Alterado nome da classe L.Tooltip para L.Draw.Tooltip -->
+	<!-- devido a esta classe ter sido criada no Leaflet base depois -->
+	<!-- Ao atualizar essa lib levar isso em consideração -->
+	<script src="leaflet.draw-src.js"        type="text/javascript"></script>
+	<script src="Leaflet.Editable.js"        type="text/javascript"></script>
+	<script src="L.Path.Drag-src.js"         type="text/javascript"></script>
+	<!-- <libs internas> -->
+	<script src="../MapasUtils.js"                  type="text/javascript"></script>
+	<script src="OpenStreetMap.js"                  type="text/javascript"></script>
+	<script src="OpenStreetMapMarcadores.js"        type="text/javascript"></script>
+	<script src="OpenStreetMapCirculos.js"          type="text/javascript"></script>
+	<script src="OpenStreetMapPoligonos.js"         type="text/javascript"></script>
+	<script src="OpenStreetMapRotas.js"             type="text/javascript"></script>
+	<script src="OpenStreetMapSimulador.js"         type="text/javascript"></script>
+	<script src="OpenStreetMapRotasPorHistorico.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="map-canvas"></div>
+	<script type="text/javascript">
+		inicializaMapa(LINK_SERVIDOR_OSM, LINK_SERVIDOR_ROTEIRIZACAO_OSM, LINK_SERVIDOR_ENDERECOS_OSM);
+	</script>
+</body>
+</html>

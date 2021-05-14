@@ -1,0 +1,70 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #eee;
+}
+
+.alert-center{
+    position: fixed ;
+    right: 50%;
+    top: 20px;
+    width: 350px;
+    margin-right: -175px;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #61899b;
+    border-color: #61899b;
+}
+
+.btn-primary:focus {
+    color: #fff;
+    background-color: #61899b;
+    border-color: #61899b;
+}
+
+.btn-primary:active {
+    color: #fff;
+    background-color: #61899b;
+    border-color: #61899b;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #6a9aad;
+    border-color: #6a9aad;
+}
+
+.form-control:focus {
+    border-color: #6b868e;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgb(107, 134, 142);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgb(107, 134, 142);
+}
+
+.form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-control:focus {
+  z-index: 2;
+}
+
+.navbar-brand {
+    color: #6b868e;
+}
+
+.navbar-brand img{
+    width: 30px;
+    float: left;
+}

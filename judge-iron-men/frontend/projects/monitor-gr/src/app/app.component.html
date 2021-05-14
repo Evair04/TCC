@@ -1,0 +1,51 @@
+<div class="monitor__container">
+  <div class="monitor__cabecalho">
+    <ng-select [items]="estacoes$ | async"
+      [multiple]="true"
+      bindLabel="descricao"
+      bindValue="id"
+      (change)="onEstacaoChange()"
+      [(ngModel)]="estacoes">
+    </ng-select>
+  </div>
+    
+  <gridster #gridster [options]="options" class="monitor__conteudo">
+    <gridster-item [item]="item" *ngFor="let item of items">
+      <div class="painel">
+        <div class="painel__cabecalho">
+          <div class="abas" *ngIf="item.children.length > 1">
+            <div class="abas_item" *ngFor="let painel of item.children; let i = index" (dragend)="onDragEnd($event, item, i)" (dragstart)="dragStartItem($event,painel.type)" draggable="true" [class.abas__item--selected]="i == item.selectedItem">
+              <div [ngSwitch]="painel.type">
+                <div *ngSwitchCase="'BORGES'">
+                  <div class="aba__icone">B</div>
+                  <div class="aba__rotulo">Evito</div>
+                </div>
+                <div *ngSwitchCase="'GRID'">
+                  <div class="aba__icone">G</div>
+                  <div class="aba__rotulo">Grid</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="acoes">
+            <div class="acoes_item">&times;</div>
+          </div>          
+        </div>
+        <div class="painel__content">
+          <ng-container [ngSwitch]="item.children[item.selectedItem].type">      
+            <monitor-viagem *ngSwitchCase="'GRID'"></monitor-viagem>        
+            <div *ngSwitchCase="'BORGES'">
+              Evito Bogis
+            </div>
+          </ng-container>
+        </div>
+      </div>      
+    </gridster-item>
+  </gridster>
+
+  <div class="monitor__rodape">
+  
+  </div>
+</div>
+

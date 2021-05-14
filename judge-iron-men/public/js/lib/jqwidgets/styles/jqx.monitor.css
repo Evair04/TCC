@@ -1,0 +1,221 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/*applied to the columns.*/
+.jqx-grid-column-header-monitor {
+    border-style: solid;
+    border-width: 0px 1px 0px 0px;
+    border-color: transparent;
+    white-space: nowrap;
+    border-style: solid;
+    font-weight: normal;
+    overflow: hidden;
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+.jqx-grid-column-header-monitor span{
+    background-image: url('images/pontogrupo.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 10px;
+}
+#groupsheaderjqxgrid{
+    background-image: url('images/group.png');
+    background-repeat: no-repeat;
+    background-position-x: 50px;
+    background-position: 50px;
+    background-color: #A9CBD6;
+}
+.jqx-fill-state-hover-monitor{border-color:#999; background: #D3DCE9;}
+
+/*applied to the calendar's row header. This header displays the week numbers.*/
+.jqx-calendar-column-header-monitor
+{
+    font-size: 10px;
+    outline: none;
+    text-align: right;
+    padding: 3;
+    border-top: none;
+    border-bottom: 1px solid transparent;
+    border-left: none;
+    border-right: none;
+    margin: 0 0 0 0;
+    cursor: default;
+}
+/*jqxCalendar Style*/
+.jqx-calendar-monitor
+{
+    border: 1px solid transparent;
+    -webkit-appearance: none;
+    overflow: hidden;
+    outline: none;
+    padding: 0px;
+    margin: 0 0 0 0;
+    cursor: default;
+    border-collapse: collapse;
+}
+/*applied to the calendar's navigation title.*/
+.jqx-calendar-title-header-monitor
+{
+    font-size: 11px ;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 0 0 0 0;
+}
+
+/*applied to the calendar's cell area element.*/
+.jqx-calendar-view-monitor
+{
+    font-size: 12px;
+    -webkit-appearance: none;
+    outline: none;
+    padding: 0px;
+    border: 0px solid #FFFFFF;
+    margin: 0 0 0 0;
+    cursor: default;
+    border-collapse: collapse;
+}
+.jqx-grid-groups-header-monitor > div{
+    margin-left: 50px ;
+}
+
+
+html, body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.topfilter{
+    margin: 4px;
+    margin-right: 5px;
+    float: left;
+    color: black;
+}
+.downfilter{
+    margin: 4px;
+    margin-right: 5px;
+    float: left;
+}
+.midFilter{
+    margin: 4px;
+    margin-left: 10px;
+}
+input {
+    text-align: left !important;
+}
+#downdivmenu{
+    border-width: thin;
+    border-style: solid;
+    border-color: #9DC9D2;
+    min-width:415px;
+    float: left;
+}
+#topdivmenu{
+    border-width: thin;
+    border-style: solid;
+    border-color: #9DC9D2;
+    min-width:850px;
+    float: left;
+    height: 34px;
+}
+#menuright{
+    float: right;
+    height: 22px;
+    margin-top: 6px;
+}
+#menuMid{
+    border-width: thin;
+    border-style: solid;
+    border-color: #aaa;
+    float: right;
+    height: 34px;
+    width: 141px;
+    /*margin-top: -36px;*/
+    /*margin-left: -1px;*/
+    background-color: #D3DCE9;
+}
+.border-filters{
+    border-width: thin;
+    border-style: solid;
+    border-color: #9DC9D2;
+    float: left;
+    height: 34px;
+}
+.filter-select{
+    width: 275px;
+}
+
+#refiltro{
+    margin-top:3px;
+    height: 50%;
+    float: left;
+    /*left: 4px;*/
+    width: 99.8%;
+}
+.placeholder {
+    color: #aaa;
+}
+.divAndamentoTransitTime{
+    position: relative;
+    width: 98%;
+    height: 10px;
+    border: 1.5px solid black;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -goog-ms-border-radius: 3px;
+    border-radius: 3px;
+}
+.divLocalTransitTime{
+    z-index: 100;
+    position: absolute;
+    width:3px;
+    height: 9.5px;
+    margin-top: -10.5px;
+    margin-top: -11px\9;
+    border: 1.5px solid black;
+    background: #FFFAFA;
+}
+.divTotalConcluidaEmViagemTransitTime{
+    position: relative;
+    height: 9.2px;
+    margin-top: 0.3px;
+    margin-top: 0.55px\9;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -goog-ms-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+
+@media screen and (-webkit-min-device-pixel-ratio:0){
+    .divTotalConcluidaEmViagemTransitTime{
+        position: relative;
+        height: 10px;
+        margin-top: 0px;
+    }
+    .divLocalTransitTime{
+        z-index: 2;
+        position: absolute;
+        width: 3px;
+        height: 9.5px;
+        background: #FFFAFA;
+        border: 1px solid black;
+    }
+    .divAndamentoTransitTime{
+        width: 98%;
+        height: 10px;
+        position: relative;
+        border: 1px solid black;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -goog-ms-border-radius: 3px;
+        border-radius: 3px;
+    }
+}
